@@ -1,173 +1,118 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock extra_css %}
+
 {% block content %}
 
 <section class="eco-profile">
     <div class="eco-profile__inner">
-
-        <!-- ============ Page heading ============ -->
-        <div class="eco-profile__head">
-            <h1 class="eco-profile__title">{% block page_title %}My account{% endblock %}</h1>
-            <p class="eco-profile__sub">{% block page_sub %}{% endblock %}</p>
-        </div>
+        <!-- Page header -->
+        <header class="eco-profile__head">
+            <div>
+                <h1 class="eco-profile__title">{% block page_title %}My Account{% endblock %}</h1>
+                <p class="eco-profile__sub">{% block page_sub %}{% endblock %}</p>
+            </div>
+        </header>
 
         <div class="eco-profile__grid">
-
-            <!-- ============ LEFT: sidebar ============ -->
+            <!-- Sidebar -->
             <aside class="eco-profile__side">
+                <!-- User card -->
                 <div class="eco-card eco-me">
-                    <span class="eco-me__avatar">{{ user.first_name|slice:":1"|upper }}</span>
-                    <span class="eco-me__name">{{ user.first_name }} {{ user.last_name }}</span>
-                    <span class="eco-me__email">{{ user.email }}</span>
+                    <div class="eco-me__avatar"> {{ user.first_name|slice:":1"|upper }} </div>
+                    <div class="eco-me__name"> {{ user.first_name }} {{ user.last_name }}</div>
+                    <div class="eco-me__email"> {{ user.email }}</div>
                 </div>
 
-                <nav class="eco-card eco-nav" aria-label="Account menu">
-                    <a href="{% url 'profile' %}" class="eco-nav__link {% if request.resolver_match.url_name == 'profile' %}is-active{% endif %}">
-                        <svg viewBox="0 0 22 22"><circle cx="11" cy="7.5" r="3.5" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M4 19c1.2-3.5 4-5.3 7-5.3s5.8 1.8 7 5.3" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
-                        Overview
+                <!-- Navigation -->
+                <nav class="eco-card eco-nav" aria-label="Account navigation">
+                    <a
+                        href="{% url 'profile' %}"
+                        class="eco-nav__link
+                        {% if request.resolver_match.url_name == 'profile' %}
+                            is-active
+                        {% endif %}"
+                    >
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="1.8" />
+                            <path d="M4 21c1.5-4.5 4.2-6.5 8-6.5s6.5 2 8 6.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                        </svg>
+                        <span>Overview</span>
                     </a>
-                    <a href="{% url 'my_orders' %}" class="eco-nav__link {% if request.resolver_match.url_name == 'my_orders' or request.resolver_match.url_name == 'order_detail' %}is-active{% endif %}">
-                        <svg viewBox="0 0 22 22"><path d="M4 7l7-4 7 4v8l-7 4-7-4z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/><path d="M4 7l7 4 7-4M11 11v8" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>
-                        Order history
+
+                    <a href="{% url 'my_orders' %}" class="eco-nav__link {% if request.resolver_match.url_name == 'my_orders' or request.resolver_match.url_name == 'order_detail' %} is-active
+                        {% endif %}" >
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M4 7h16v13H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"  />
+                            <path d="M8 7a4 4 0 018 0" fill="none" stroke="currentColor" stroke-width="1.8" />
+                        </svg>
+
+                        <span>Order history</span>
                     </a>
-                    <a href="{% url 'address_list' %}" class="eco-nav__link {% if request.resolver_match.url_name == 'address_list' or request.resolver_match.url_name == 'add_address' or request.resolver_match.url_name == 'edit_address' %}is-active{% endif %}">
-                        <svg viewBox="0 0 22 22"><path d="M11 20s6-5.2 6-10a6 6 0 10-12 0c0 4.8 6 10 6 10z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/><circle cx="11" cy="10" r="2.2" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
-                        Saved addresses
+
+                    <a href="{% url 'address_list' %}" class="eco-nav__link {% if request.resolver_match.url_name == 'address_list' %} is-active {% endif %}" >
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M12 21s7-6.2 7-12a7 7 0 10-14 0c0 5.8 7 12 7 12z" fill="none" stroke="currentColor" stroke-width="1.8" />
+                            <circle cx="12" cy="9" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8" />
+                        </svg>
+                        <span>Saved addresses</span>
                     </a>
-                    <a href="{% url 'edit_profile' %}" class="eco-nav__link {% if request.resolver_match.url_name == 'edit_profile' %}is-active{% endif %}">
-                        <svg viewBox="0 0 22 22"><path d="M4 18l1-4L15 4l3 3L8 17z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>
-                        Edit profile
+
+                    <a href="{% url 'edit_profile' %}" class="eco-nav__link {% if request.resolver_match.url_name == 'edit_profile' %} is-active
+                        {% endif %}" >
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M4 20h4L19 9l-4-4L4 16v4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+                            <path d="M13 6l4 4" fill="none" stroke="currentColor" stroke-width="1.8" />
+                        </svg>
+
+                        <span>Edit profile</span>
                     </a>
-                    <a href="{% url 'change_password' %}" class="eco-nav__link {% if request.resolver_match.url_name == 'change_password' %}is-active{% endif %}">
-                        <svg viewBox="0 0 22 22"><rect x="4" y="10" width="14" height="9" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M7 10V7a4 4 0 118 0v3" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
-                        Change password
+
+
+                    <a href="{% url 'change_password' %}" class="eco-nav__link {% if request.resolver_match.url_name == 'change_password' %} is-active
+                        {% endif %}" >
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <rect x="5" y="10" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.8" />
+                            <path d="M8 10V7a4 4 0 018 0v3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                        </svg>
+
+                        <span>Change password</span>
                     </a>
-                    <a href="{% url 'logout' %}" class="eco-nav__link eco-nav__link--danger">
-                        <svg viewBox="0 0 22 22"><path d="M9 4H5v14h4M14 7l4 4-4 4M18 11H9" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        Sign out
+
+                    <a
+                        href="{% url 'logout' %}"
+                        class="eco-nav__link eco-nav__link--danger"
+                    >
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M10 4H5v16h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+
+                            <path d="M14 8l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+
+                            <path d="M18 12H9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                        </svg>
+
+                        <span>Sign out</span>
                     </a>
                 </nav>
             </aside>
 
-            <!-- ============ RIGHT: page content ============ -->
+            <!-- Main content -->
             <main class="eco-profile__main">
-
                 {% if messages %}
-                {% for message in messages %}
-                <div class="eco-alert eco-alert--{{ message.tags }}">{{ message }}</div>
-                {% endfor %}
+                    {% for message in messages %}
+                        <div class="eco-alert eco-alert--{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
                 {% endif %}
 
-                {% block profile_content %}{% endblock %}
-
+                {% block profile_content %}
+                {% endblock profile_content %}
             </main>
         </div>
     </div>
 </section>
-
-<style>
-    /* Same tokens as the header (--eco-*). Fallbacks are used if the header is not loaded. */
-    .eco-profile {
-        --c-primary: var(--eco-primary, #1B2A6B);
-        --c-primary-dark: var(--eco-primary-dark, #10193F);
-        --c-accent: var(--eco-accent, #FF9F1C);
-        --c-bg: var(--eco-bg, #F5F7FB);
-        --c-text: var(--eco-charcoal, #1B222E);
-        --c-border: var(--eco-border, #E2E6F0);
-        --c-muted: var(--eco-muted, #6C7690);
-
-        font-family: 'Manrope', -apple-system, 'Segoe UI', sans-serif;
-        color: var(--c-text);
-        background: var(--c-bg);
-        padding: 32px 0 56px;
-    }
-    .eco-profile *, .eco-profile *::before, .eco-profile *::after { box-sizing: border-box; }
-    .eco-profile a { text-decoration: none; }
-    .eco-profile__inner { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
-
-    /* ---------- heading + layout ---------- */
-    .eco-profile__head { margin-bottom: 24px; }
-    .eco-profile__title { margin: 0; font-size: 1.9rem; font-weight: 800; letter-spacing: -.02em; color: var(--c-primary); }
-    .eco-profile__sub { margin: 4px 0 0; font-size: .92rem; color: var(--c-muted); }
-    .eco-profile__grid { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 24px; align-items: start; }
-    .eco-profile__side { display: flex; flex-direction: column; gap: 16px; position: sticky; top: 16px; }
-    .eco-profile__main { display: flex; flex-direction: column; gap: 18px; }
-
-    /* ---------- cards / panels ---------- */
-    .eco-card, .eco-panel { background: #fff; border: 1px solid var(--c-border); border-radius: 14px; }
-    .eco-panel { padding: 22px 24px 24px; }
-    .eco-panel__head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; }
-    .eco-panel__title { margin: 0; font-size: 1.05rem; font-weight: 800; color: var(--c-primary); }
-    .eco-link { font-size: .84rem; font-weight: 700; color: var(--c-primary); text-decoration: underline !important; }
-
-    /* ---------- sidebar ---------- */
-    .eco-me { display: flex; flex-direction: column; align-items: center; padding: 24px 20px; text-align: center; }
-    .eco-me__avatar { width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; background: var(--c-accent); color: var(--c-primary-dark); font-size: 1.5rem; font-weight: 800; }
-    .eco-me__name { font-weight: 800; }
-    .eco-me__email { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .8rem; color: var(--c-muted); }
-
-    .eco-nav { padding: 8px; display: flex; flex-direction: column; gap: 2px; }
-    .eco-nav__link { display: flex; align-items: center; gap: 12px; padding: 11px 12px; border-radius: 10px; font-size: .88rem; font-weight: 700; color: var(--c-text); }
-    .eco-nav__link svg { width: 18px; height: 18px; color: var(--c-muted); }
-    .eco-nav__link:hover { background: var(--c-bg); }
-    .eco-nav__link.is-active { background: var(--c-primary); color: #fff; }
-    .eco-nav__link.is-active svg { color: #fff; }
-    .eco-nav__link--danger, .eco-nav__link--danger svg { color: #D64545; }
-
-    /* ---------- messages ---------- */
-    .eco-alert { padding: 12px 16px; border-radius: 10px; font-size: .88rem; font-weight: 600; background: #EAF1FF; color: var(--c-primary); }
-    .eco-alert--success { background: #E7F7EE; color: #1E7B4B; }
-    .eco-alert--error, .eco-alert--danger { background: #FDECEC; color: #B03030; }
-
-    /* ---------- buttons ---------- */
-    .eco-btn { display: inline-flex; align-items: center; justify-content: center; font: inherit; font-size: .9rem; font-weight: 800; border-radius: 10px; padding: 11px 20px; cursor: pointer; border: none; transition: filter .15s ease, background-color .15s ease; }
-    .eco-btn--accent { background: var(--c-accent); color: var(--c-primary-dark); }
-    .eco-btn--accent:hover { filter: brightness(1.06); }
-    .eco-btn--ghost { background: transparent; color: var(--c-primary); border: 1.5px solid var(--c-border); }
-    .eco-btn--ghost:hover { background: var(--c-bg); }
-    .eco-btn--danger { background: transparent; color: #D64545; border: 1.5px solid #F3C6C6; }
-    .eco-btn--danger:hover { background: #FDECEC; }
-    .eco-btn--sm { padding: 7px 14px; font-size: .8rem; }
-    .eco-btn:focus-visible { outline: 3px solid rgba(27, 42, 107, .35); outline-offset: 2px; }
-    .eco-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
-
-    /* ---------- forms ---------- */
-    .eco-fields { display: flex; flex-direction: column; gap: 16px; max-width: 560px; }
-    .eco-field { display: flex; flex-direction: column; gap: 6px; }
-    .eco-field label { font-size: .8rem; font-weight: 700; }
-    .eco-field input, .eco-field select, .eco-field textarea {
-        width: 100%; font: inherit; font-size: .92rem; color: var(--c-text);
-        background: var(--c-bg); border: 1.5px solid var(--c-border); border-radius: 10px; padding: 11px 14px;
-    }
-    .eco-field input:focus, .eco-field select:focus, .eco-field textarea:focus { outline: none; border-color: var(--c-primary); background: #fff; box-shadow: 0 0 0 3px rgba(27, 42, 107, .15); }
-    .eco-field input[type="checkbox"] { width: auto; }
-    .eco-field__check { flex-direction: row; align-items: center; gap: 10px; }
-    .eco-field__help { font-size: .76rem; color: var(--c-muted); }
-    .eco-field__error { font-size: .78rem; font-weight: 600; color: #D64545; }
-
-    /* ---------- badges ---------- */
-    .eco-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: .74rem; font-weight: 800; background: var(--c-border); color: var(--c-muted); }
-    .eco-badge--new { background: #EAF1FF; color: var(--c-primary); }
-    .eco-badge--accepted { background: #FFF1DC; color: #B36B00; }
-    .eco-badge--completed { background: #E7F7EE; color: #1E7B4B; }
-    .eco-badge--cancelled { background: #FDECEC; color: #B03030; }
-
-    /* ---------- empty state ---------- */
-    .eco-empty { padding: 36px 16px; text-align: center; color: var(--c-muted); }
-    .eco-empty p { margin: 0 0 16px; }
-
-    /* ---------- responsive ---------- */
-    @media (max-width: 992px) {
-        .eco-profile__grid { grid-template-columns: 1fr; }
-        .eco-profile__side { position: static; }
-    }
-    @media (max-width: 640px) {
-        .eco-profile { padding: 20px 0 40px; }
-        .eco-profile__inner { padding: 0 16px; }
-        .eco-profile__title { font-size: 1.5rem; }
-        .eco-panel { padding: 18px 16px 20px; }
-    }
-</style>
-
-{% endblock %}
+{% endblock content %}

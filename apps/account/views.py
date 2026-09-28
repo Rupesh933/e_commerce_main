@@ -97,8 +97,12 @@ def signout(request):
     auth.logout(request)
     messages.success(request, 'You have been logged out successfully.')
     return redirect('home')
+    
+def change_password(request): pass
 
 def edit_profile():pass
 
-def forgotPassword(request): pass
-def profile(request): pass
+
+@login_required(login_url="login")
+def profile(request): 
+    return render(request, "profile/profile.html")

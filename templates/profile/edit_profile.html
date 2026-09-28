@@ -1,4 +1,4 @@
-{% extends "profile/base_profile.html" %}
+{% include "profile/form.html" %}
 
 {% block page_title %}Edit profile{% endblock %}
 {% block page_sub %}Update your name and contact details.{% endblock %}
@@ -11,7 +11,7 @@
 
         {% include "profile/_form_fields.html" %}
 
-        <div class="eco-actions">
+        <div class="eco-profile__actions">
             <button type="submit" class="eco-btn eco-btn--accent">Save changes</button>
             <a href="{% url 'profile' %}" class="eco-btn eco-btn--ghost">Cancel</a>
         </div>
