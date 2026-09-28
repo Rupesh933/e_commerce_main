@@ -1,0 +1,29 @@
+{# Renders every field of "form" with its label, help text and errors #}
+
+{% if form.non_field_errors %}
+<div class="eco-alert eco-alert--error">{{ form.non_field_errors }}</div>
+{% endif %}
+
+<div class="eco-fields">
+    {% for field in form %}
+    <div class="eco-field {% if field.field.widget.input_type == 'checkbox' %}eco-field__check{% endif %}">
+
+        {% if field.field.widget.input_type == 'checkbox' %}
+            {{ field }}
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {% else %}
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+        {% endif %}
+
+        {% if field.help_text %}
+        <span class="eco-field__help">{{ field.help_text|safe }}</span>
+        {% endif %}
+
+        {% for error in field.errors %}
+        <span class="eco-field__error">{{ error }}</span>
+        {% endfor %}
+
+    </div>
+    {% endfor %}
+</div>

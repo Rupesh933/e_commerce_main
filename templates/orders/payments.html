@@ -1,0 +1,269 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<section class="eco-checkout">
+    <div class="eco-checkout__inner">
+
+        <!-- ============ Page heading + progress ============ -->
+        <div class="eco-checkout__head">
+            <div>
+                <h1 class="eco-checkout__title">Payment</h1>
+                <p class="eco-checkout__sub">Order #{{ order.order_number }} &middot; choose how you would like to pay.</p>
+            </div>
+            <ol class="eco-steps" aria-label="Checkout progress">
+                <li class="eco-steps__item is-done"><span class="eco-steps__dot">1</span> Cart</li>
+                <li class="eco-steps__item is-done"><span class="eco-steps__dot">2</span> Delivery details</li>
+                <li class="eco-steps__item is-current" aria-current="step"><span class="eco-steps__dot">3</span> Payment</li>
+            </ol>
+        </div>
+
+        <form action="{% url 'confirm_payment' order.order_number %}" method="POST" class="eco-checkout__grid">
+            {% csrf_token %}
+
+            <!-- ============ LEFT: address + payment method ============ -->
+            <div class="eco-checkout__main">
+
+                <!-- Delivery address (read only) -->
+                <div class="eco-panel">
+                    <div class="eco-panel__head">
+                        <h2 class="eco-panel__title">Delivering to</h2>
+                        <a href="{% url 'checkout' %}" class="eco-link">Change</a>
+                    </div>
+                    <p class="eco-address">
+                        <strong>{{ order.full_name }}</strong><br>
+                        {{ order.address_line_1 }}{% if order.address_line_2 %}, {{ order.address_line_2 }}{% endif %}<br>
+                        {{ order.city }}, {{ order.state }}, {{ order.country }}<br>
+                        {{ order.phone_number }} &middot; {{ order.email }}
+                    </p>
+                    {% if order.order_note %}
+                    <p class="eco-address__note"><strong>Note:</strong> {{ order.order_note }}</p>
+                    {% endif %}
+                </div>
+
+                <!-- Payment method -->
+                <div class="eco-panel">
+                    <h2 class="eco-panel__title">Payment method</h2>
+
+                    <div class="eco-methods">
+
+                        <!-- Cash on delivery -->
+                        <label class="eco-method">
+                            <input type="radio" name="payment_method" value="cod" checked>
+                            <span class="eco-method__box">
+                                <span class="eco-method__radio"></span>
+                                <span class="eco-method__icon">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="11" rx="2" stroke="currentColor" stroke-width="1.6" fill="none"/><circle cx="12" cy="12.5" r="2.4" stroke="currentColor" stroke-width="1.6" fill="none"/></svg>
+                                </span>
+                                <span class="eco-method__text">
+                                    <span class="eco-method__name">Cash on delivery</span>
+                                    <span class="eco-method__desc">Pay in cash when your order arrives.</span>
+                                </span>
+                            </span>
+                        </label>
+
+                        <!-- Online payment (disabled until a payment gateway is connected) -->
+                        <label class="eco-method is-disabled">
+                            <input type="radio" name="payment_method" value="online" disabled>
+                            <span class="eco-method__box">
+                                <span class="eco-method__radio"></span>
+                                <span class="eco-method__icon">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M3 10h18" stroke="currentColor" stroke-width="1.6"/></svg>
+                                </span>
+                                <span class="eco-method__text">
+                                    <span class="eco-method__name">UPI, Cards &amp; Net banking <span class="eco-tag">Coming soon</span></span>
+                                    <span class="eco-method__desc">You will be redirected to a secure payment page.</span>
+                                </span>
+                            </span>
+                        </label>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ============ RIGHT: summary ============ -->
+            <aside class="eco-checkout__side">
+                <div class="eco-summary">
+                    <h2 class="eco-summary__title">
+                        Order summary
+                        <span class="eco-summary__count">{{ quantity }} item{{ quantity|pluralize }}</span>
+                    </h2>
+
+                    <ul class="eco-summary__items">
+                        {% for cart_item in cart_items %}
+                        <li class="eco-line">
+                            <span class="eco-line__thumb">
+                                {% if cart_item.product.images %}
+                                <img src="{{ cart_item.product.images.url }}" alt="{{ cart_item.product.product_name }}">
+                                {% endif %}
+                                <span class="eco-line__qty">{{ cart_item.quantity }}</span>
+                            </span>
+                            <span class="eco-line__info">
+                                <span class="eco-line__name">{{ cart_item.product.product_name|truncatechars:34 }}</span>
+                                <span class="eco-line__meta">${{ cart_item.product.price }} each</span>
+                            </span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+
+                    <dl class="eco-totals">
+                        <div class="eco-totals__row">
+                            <dt>Subtotal</dt>
+                            <dd>${{ total|floatformat:2 }}</dd>
+                        </div>
+                        <div class="eco-totals__row">
+                            <dt>Tax {{ tax }}%</dt>
+                            <dd>${{ tax|floatformat:2 }}</dd>
+                        </div>
+                        <div class="eco-totals__row eco-totals__row--grand">
+                            <dt>Total</dt>
+                            <dd>${{ grand_total|floatformat:2 }}</dd>
+                        </div>
+                    </dl>
+
+                    <button type="submit" class="eco-btn eco-btn--accent">Confirm order</button>
+                    <a href="{% url 'checkout' %}" class="eco-btn eco-btn--ghost">Back to delivery details</a>
+
+                    <ul class="eco-assure">
+                        <li>
+                            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2l6 2.5v5c0 4-2.6 7-6 8.5-3.4-1.5-6-4.5-6-8.5v-5z" stroke="currentColor" stroke-width="1.3" fill="none"/></svg>
+                            Your order details are safe with us
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10a6 6 0 1011.3-3" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"/><path d="M4 5v4h4" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Easy 7-day returns
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+
+        </form>
+    </div>
+</section>
+
+<style>
+    /* Same tokens as the checkout page (--eco-*). Fallbacks are used if the header is not loaded. */
+    .eco-checkout {
+        --c-primary: var(--eco-primary, #1B2A6B);
+        --c-primary-dark: var(--eco-primary-dark, #10193F);
+        --c-accent: var(--eco-accent, #FF9F1C);
+        --c-bg: var(--eco-bg, #F5F7FB);
+        --c-text: var(--eco-charcoal, #1B222E);
+        --c-border: var(--eco-border, #E2E6F0);
+        --c-muted: var(--eco-muted, #6C7690);
+
+        font-family: 'Manrope', -apple-system, 'Segoe UI', sans-serif;
+        color: var(--c-text);
+        background: var(--c-bg);
+        padding: 32px 0 56px;
+    }
+    .eco-checkout *, .eco-checkout *::before, .eco-checkout *::after { box-sizing: border-box; }
+    .eco-checkout a { text-decoration: none; }
+    .eco-checkout__inner { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+
+    /* ---------- heading + steps ---------- */
+    .eco-checkout__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-bottom: 24px; }
+    .eco-checkout__title { margin: 0; font-size: 1.9rem; font-weight: 800; letter-spacing: -.02em; color: var(--c-primary); }
+    .eco-checkout__sub { margin: 4px 0 0; font-size: .92rem; color: var(--c-muted); }
+
+    .eco-steps { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: 18px; font-size: .84rem; font-weight: 700; color: var(--c-muted); }
+    .eco-steps__item { display: flex; align-items: center; gap: 8px; }
+    .eco-steps__item + .eco-steps__item::before { content: ""; width: 26px; height: 2px; background: var(--c-border); margin-right: 10px; }
+    .eco-steps__dot { width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: .74rem; background: var(--c-border); color: var(--c-muted); }
+    .eco-steps__item.is-done { color: var(--c-primary); }
+    .eco-steps__item.is-done .eco-steps__dot { background: var(--c-primary); color: #fff; }
+    .eco-steps__item.is-current { color: var(--c-text); }
+    .eco-steps__item.is-current .eco-steps__dot { background: var(--c-accent); color: var(--c-primary-dark); }
+
+    /* ---------- layout ---------- */
+    .eco-checkout__grid { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 24px; align-items: start; }
+    .eco-checkout__main { display: flex; flex-direction: column; gap: 18px; }
+    .eco-checkout__side { position: sticky; top: 16px; }
+
+    /* ---------- panels ---------- */
+    .eco-panel { background: #fff; border: 1px solid var(--c-border); border-radius: 14px; padding: 22px 24px 24px; }
+    .eco-panel__head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; }
+    .eco-panel__head .eco-panel__title { margin: 0; }
+    .eco-panel__title { margin: 0 0 16px; font-size: 1.05rem; font-weight: 800; color: var(--c-primary); }
+    .eco-link { font-size: .84rem; font-weight: 700; color: var(--c-primary); text-decoration: underline !important; }
+
+    .eco-address { margin: 0; font-size: .92rem; line-height: 1.7; }
+    .eco-address__note { margin: 12px 0 0; padding-top: 12px; border-top: 1px dashed var(--c-border); font-size: .85rem; color: var(--c-muted); }
+
+    /* ---------- payment methods (pure CSS, no JavaScript) ---------- */
+    .eco-methods { display: flex; flex-direction: column; gap: 12px; }
+    .eco-method { display: block; cursor: pointer; }
+    .eco-method input { position: absolute; opacity: 0; pointer-events: none; }
+    .eco-method__box { display: flex; align-items: center; gap: 14px; padding: 16px 18px; background: var(--c-bg); border: 1.5px solid var(--c-border); border-radius: 12px; transition: border-color .15s ease, background-color .15s ease; }
+    .eco-method:hover .eco-method__box { border-color: var(--c-primary); }
+    .eco-method__radio { width: 18px; height: 18px; flex-shrink: 0; border: 2px solid var(--c-border); border-radius: 50%; background: #fff; transition: all .15s ease; }
+    .eco-method__icon { width: 40px; height: 40px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 10px; background: #fff; border: 1px solid var(--c-border); color: var(--c-primary); }
+    .eco-method__icon svg { width: 22px; height: 22px; }
+    .eco-method__text { display: flex; flex-direction: column; gap: 2px; }
+    .eco-method__name { font-size: .92rem; font-weight: 800; }
+    .eco-method__desc { font-size: .8rem; color: var(--c-muted); }
+    .eco-tag { margin-left: 6px; padding: 2px 8px; border-radius: 20px; background: var(--c-border); color: var(--c-muted); font-size: .68rem; font-weight: 700; }
+
+    /* selected state */
+    .eco-method input:checked + .eco-method__box { border-color: var(--c-primary); background: #fff; box-shadow: 0 0 0 3px rgba(27, 42, 107, .1); }
+    .eco-method input:checked + .eco-method__box .eco-method__radio { border-color: var(--c-primary); background: radial-gradient(circle, var(--c-primary) 45%, #fff 50%); }
+    .eco-method input:focus-visible + .eco-method__box { outline: 3px solid rgba(27, 42, 107, .35); outline-offset: 2px; }
+    /* disabled state */
+    .eco-method.is-disabled { cursor: not-allowed; }
+    .eco-method.is-disabled .eco-method__box { opacity: .6; }
+    .eco-method.is-disabled:hover .eco-method__box { border-color: var(--c-border); }
+
+    /* ---------- summary ---------- */
+    .eco-summary { background: #fff; border: 1px solid var(--c-border); border-radius: 14px; padding: 22px 22px 20px; }
+    .eco-summary__title { margin: 0 0 16px; display: flex; align-items: baseline; justify-content: space-between; font-size: 1.05rem; font-weight: 800; color: var(--c-primary); }
+    .eco-summary__count { font-size: .78rem; font-weight: 600; color: var(--c-muted); }
+    .eco-summary__items { list-style: none; margin: 0 0 4px; padding: 0 4px 0 0; display: flex; flex-direction: column; gap: 14px; max-height: 300px; overflow-y: auto; }
+    .eco-line { display: flex; align-items: center; gap: 12px; }
+    .eco-line__thumb { position: relative; width: 56px; height: 56px; flex-shrink: 0; border-radius: 10px; background: var(--c-bg); border: 1px solid var(--c-border); }
+    .eco-line__thumb img { width: 100%; height: 100%; object-fit: cover; border-radius: 9px; display: block; }
+    .eco-line__qty { position: absolute; top: -7px; right: -7px; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; background: var(--c-accent); color: var(--c-primary-dark); font-size: .68rem; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+    .eco-line__info { display: flex; flex-direction: column; min-width: 0; line-height: 1.3; }
+    .eco-line__name { font-size: .88rem; font-weight: 700; }
+    .eco-line__meta { font-size: .78rem; color: var(--c-muted); }
+
+    .eco-totals { margin: 18px 0; padding: 16px 0 0; border-top: 1px solid var(--c-border); display: flex; flex-direction: column; gap: 10px; }
+    .eco-totals__row { display: flex; justify-content: space-between; font-size: .9rem; }
+    .eco-totals__row dt { color: var(--c-muted); font-weight: 600; }
+    .eco-totals__row dd { margin: 0; font-weight: 700; }
+    .eco-totals__row--grand { margin-top: 4px; padding-top: 12px; border-top: 1px dashed var(--c-border); font-size: 1.1rem; }
+    .eco-totals__row--grand dt { color: var(--c-text); font-weight: 800; }
+    .eco-totals__row--grand dd { color: var(--c-primary); font-weight: 800; }
+
+    /* ---------- buttons ---------- */
+    .eco-btn { display: flex; align-items: center; justify-content: center; width: 100%; font: inherit; font-size: .92rem; font-weight: 800; border-radius: 10px; padding: 13px 18px; cursor: pointer; border: none; transition: filter .15s ease, background-color .15s ease; }
+    .eco-btn--accent { background: var(--c-accent); color: var(--c-primary-dark); }
+    .eco-btn--accent:hover { filter: brightness(1.06); }
+    .eco-btn--ghost { margin-top: 10px; background: transparent; color: var(--c-primary); border: 1.5px solid var(--c-border); }
+    .eco-btn--ghost:hover { background: var(--c-bg); }
+    .eco-btn:focus-visible { outline: 3px solid rgba(27, 42, 107, .35); outline-offset: 2px; }
+
+    .eco-assure { list-style: none; margin: 18px 0 0; padding: 14px 0 0; border-top: 1px solid var(--c-border); display: flex; flex-direction: column; gap: 8px; }
+    .eco-assure li { display: flex; align-items: center; gap: 8px; font-size: .78rem; font-weight: 600; color: var(--c-muted); }
+    .eco-assure svg { width: 16px; height: 16px; color: var(--c-primary); flex-shrink: 0; }
+
+    /* ---------- responsive ---------- */
+    @media (max-width: 992px) {
+        .eco-checkout__grid { grid-template-columns: 1fr; }
+        .eco-checkout__side { position: static; }
+    }
+    @media (max-width: 640px) {
+        .eco-checkout { padding: 20px 0 40px; }
+        .eco-checkout__inner { padding: 0 16px; }
+        .eco-checkout__title { font-size: 1.5rem; }
+        .eco-steps { gap: 10px; font-size: .78rem; }
+        .eco-steps__item + .eco-steps__item::before { width: 12px; margin-right: 4px; }
+        .eco-panel { padding: 18px 16px 20px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .eco-method__box, .eco-method__radio, .eco-btn { transition: none; }
+    }
+</style>
+
+{% endblock %}

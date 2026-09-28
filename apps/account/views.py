@@ -101,4 +101,4 @@ def signout(request):
 def edit_profile():pass
 
 def forgotPassword(request): pass
-def dashboard(request): pass
+def profile(request): pass

@@ -159,22 +159,60 @@
                 </a>
 
                 {% if user.is_authenticated %}
-                <a href="{% url 'dashboard' %}" class="eco-action">
-                    <span class="eco-action__icon">
-                        <svg viewBox="0 0 22 22"><circle cx="11" cy="7.5" r="3.5" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M4 19c1.2-3.5 4-5.3 7-5.3s5.8 1.8 7 5.3" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
-                    </span>
-                    <span class="eco-action__label">{{ user.first_name }}</span>
-                </a>
-                {% else %}
-                <div class="eco-actions__guest">
-                    <span class="eco-actions__hello">Welcome, guest</span>
-                    <span class="eco-actions__links">
-                        <a href="{% url 'login' %}">Sign in</a>
-                        <span class="eco-actions__sep">·</span>
-                        <a href="{% url 'register' %}">Register</a>
-                    </span>
-                </div>
-                {% endif %}
+                    <details class="eco-user" id="ecoUserMenu">
+
+                        <!-- The button that the user clicks -->
+                        <summary class="eco-action">
+                            <span class="eco-action__icon">
+                                <svg viewBox="0 0 22 22"><circle cx="11" cy="7.5" r="3.5" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M4 19c1.2-3.5 4-5.3 7-5.3s5.8 1.8 7 5.3" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+                            </span>
+                            <span class="eco-action__label">{{ user.first_name|default:"Account" }}</span>
+                            <svg class="eco-user__caret" viewBox="0 0 12 12"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </summary>
+
+                        <!-- The dropdown menu -->
+                        <div class="eco-user__menu">
+
+                            <div class="eco-user__head">
+                                <span class="eco-user__avatar">{{ user.first_name|slice:":1"|upper }}</span>
+                                <span class="eco-user__who">
+                                    <strong>{{ user.first_name }} {{ user.last_name }}</strong>
+                                    <small>{{ user.email }}</small>
+                                </span>
+                            </div>
+
+                            <a href="{% url 'profile' %}" class="eco-user__link">
+                                <svg viewBox="0 0 22 22"><circle cx="11" cy="7.5" r="3.5" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M4 19c1.2-3.5 4-5.3 7-5.3s5.8 1.8 7 5.3" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+                                My profile
+                            </a>
+
+                            <a href="{% url 'my_orders' %}" class="eco-user__link">
+                                <svg viewBox="0 0 22 22"><path d="M4 7l7-4 7 4v8l-7 4-7-4z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/><path d="M4 7l7 4 7-4M11 11v8" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>
+                                Order history
+                            </a>
+
+                            <a href="{% url 'address_list' %}" class="eco-user__link">
+                                <svg viewBox="0 0 22 22"><path d="M11 20s6-5.2 6-10a6 6 0 10-12 0c0 4.8 6 10 6 10z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/><circle cx="11" cy="10" r="2.2" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+                                Saved addresses
+                            </a>
+
+                            <a href="{% url 'logout' %}" class="eco-user__link eco-user__link--danger">
+                                <svg viewBox="0 0 22 22"><path d="M9 4H5v14h4M14 7l4 4-4 4M18 11H9" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                Sign out
+                            </a>
+
+                        </div>
+                    </details>
+                    {% else %}
+                        <div class="eco-actions__guest">
+                            <span class="eco-actions__hello">Welcome, guest</span>
+                            <span class="eco-actions__links">
+                                <a href="{% url 'login' %}">Sign in</a>
+                                <span class="eco-actions__sep">·</span>
+                                <a href="{% url 'register' %}">Register</a>
+                            </span>
+                        </div>
+                    {% endif %}
 
             </div>
 
@@ -217,205 +255,8 @@
 
 </header>
 
-<style>
-    :root {
-        --eco-primary: #1B2A6B;
-        --eco-primary-dark: #10193F;
-        --eco-accent: #FF9F1C;
-        --eco-bg: #F5F7FB;
-        --eco-charcoal: #1B222E;
-        --eco-border: #E2E6F0;
-        --eco-white: #FFFFFF;
-        --eco-muted: #6C7690;
-    }
 
-    .eco-header { font-family: 'Manrope', -apple-system, 'Segoe UI', sans-serif; color: var(--eco-charcoal); background: var(--eco-white); }
-    .eco-header * { box-sizing: border-box; }
-    .eco-header a { text-decoration: none; color: inherit; }
-    .eco-icon { width: 15px; height: 15px; flex-shrink: 0; }
-    .d-none { display: none !important; }
 
-    /* utility strip */
-    .eco-header__utility { background: var(--eco-primary); color: #E7EAF7; }
-    .eco-header__utility-inner { max-width: 1240px; margin: 0 auto; padding: 6px 24px; display: flex; align-items: center; justify-content: space-between; font-size: .78rem; }
-    .eco-locale { display: flex; align-items: center; gap: 10px; }
-    .eco-locale__divider { opacity: .3; }
-    .eco-dropdown { position: relative; }
-    .eco-dropdown__trigger { display: flex; align-items: center; gap: 6px; background: none; border: none; color: inherit; font: inherit; padding: 4px 6px; border-radius: 6px; cursor: pointer; }
-    .eco-dropdown__trigger:hover { background: rgba(255,255,255,.08); }
-    .eco-dropdown__flag { font-size: .95rem; }
-    .eco-dropdown__muted { opacity: .7; }
-    .eco-icon--chev { width: 11px; height: 11px; opacity: .7; }
-    .eco-dropdown__menu { display: none; position: absolute; top: calc(100% + 6px); left: 0; background: var(--eco-white); color: var(--eco-charcoal); min-width: 190px; border-radius: 10px; padding: 6px 0; box-shadow: 0 14px 30px rgba(16,25,63,.18); border: 1px solid var(--eco-border); z-index: 1050; font-size: .85rem; }
-    .eco-dropdown__menu--wide { min-width: 230px; }
-    .eco-dropdown.show .eco-dropdown__menu { display: block; }
-    .eco-dropdown__heading { display: block; padding: 4px 14px 8px; font-size: .68rem; text-transform: uppercase; letter-spacing: .04em; color: var(--eco-accent); font-weight: 700; }
-    .eco-dropdown__item { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 14px; color: var(--eco-charcoal); }
-    .eco-dropdown__item:hover { background: var(--eco-bg); }
-    .eco-dropdown__item.active { color: var(--eco-primary); font-weight: 700; }
-    .eco-icon--check { color: var(--eco-primary); }
-    .eco-contact { display: flex; align-items: center; gap: 16px; }
-    .eco-contact__link { display: flex; align-items: center; gap: 5px; opacity: .9; }
-    .eco-contact__link:hover { opacity: 1; }
 
-    /* main row */
-    .eco-header__main { border-bottom: 1px solid var(--eco-border); }
-    .eco-header__main-inner { max-width: 1240px; margin: 0 auto; padding: 16px 24px; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
-
-    .eco-brand { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-    .eco-brand__mark { width: 42px; height: 42px; border-radius: 12px; background: linear-gradient(150deg, var(--eco-primary), var(--eco-primary-dark)); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .eco-brand__text { display: flex; flex-direction: column; line-height: 1.1; }
-    .eco-brand__name { font-size: 1.4rem; font-weight: 800; color: var(--eco-primary); letter-spacing: -.02em; }
-    .eco-brand__tag { font-size: .66rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--eco-accent); }
-
-    .eco-deliver { display: flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 9px; flex-shrink: 0; max-width: 190px; }
-    .eco-deliver:hover { background: var(--eco-bg); }
-    .eco-deliver__pin { width: 18px; height: 18px; color: var(--eco-primary); flex-shrink: 0; }
-    .eco-deliver__text { display: flex; flex-direction: column; line-height: 1.2; min-width: 0; }
-    .eco-deliver__label { font-size: .68rem; color: var(--eco-muted); }
-    .eco-deliver__value { font-size: .82rem; font-weight: 700; color: var(--eco-charcoal); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-    .eco-navtoggle { display: none; align-items: center; gap: 6px; background: var(--eco-bg); border: 1px solid var(--eco-border); color: var(--eco-primary); font: inherit; font-weight: 700; font-size: .82rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; }
-
-    .eco-search { flex: 1 1 300px; min-width: 200px; display: flex; align-items: center; background: var(--eco-bg); border: 1.5px solid var(--eco-border); border-radius: 10px; padding: 4px 4px 4px 14px; gap: 8px; }
-    .eco-search:focus-within { border-color: var(--eco-primary); }
-    .eco-search__icon { width: 16px; height: 16px; color: var(--eco-muted); flex-shrink: 0; }
-    .eco-search__input { flex: 1; border: none; background: none; font: inherit; font-size: .92rem; padding: 8px 0; color: var(--eco-charcoal); min-width: 0; }
-    .eco-search__input:focus { outline: none; }
-    .eco-search__input::placeholder { color: #97A0BA; }
-    .eco-search__btn { background: var(--eco-accent); color: var(--eco-primary-dark); border: none; font: inherit; font-weight: 800; font-size: .85rem; padding: 9px 18px; border-radius: 7px; cursor: pointer; flex-shrink: 0; }
-    .eco-search__btn:hover { filter: brightness(1.05); }
-
-    .eco-actions { display: flex; align-items: center; gap: 20px; flex-shrink: 0; }
-    .eco-actions__guest { display: flex; flex-direction: column; align-items: flex-end; font-size: .82rem; line-height: 1.4; }
-    .eco-actions__hello { color: var(--eco-muted); font-size: .74rem; }
-    .eco-actions__links a { font-weight: 700; color: var(--eco-primary); }
-    .eco-actions__links a:hover { text-decoration: underline; }
-    .eco-actions__sep { color: var(--eco-border); margin: 0 4px; }
-    .eco-action { display: flex; align-items: center; gap: 8px; }
-    .eco-action__icon { position: relative; width: 34px; height: 34px; border-radius: 9px; background: var(--eco-bg); display: flex; align-items: center; justify-content: center; color: var(--eco-primary); }
-    .eco-action__icon svg { width: 19px; height: 19px; }
-    .eco-action:hover .eco-action__icon { background: var(--eco-primary); color: var(--eco-white); }
-    .eco-action__badge { position: absolute; top: -6px; right: -6px; background: var(--eco-accent); color: var(--eco-primary-dark); font-size: .66rem; font-weight: 800; min-width: 17px; height: 17px; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 0 3px; }
-    .eco-action__label { font-size: .82rem; font-weight: 700; color: var(--eco-charcoal); }
-
-    /* rail */
-    .eco-header__rail { background: var(--eco-bg); border-bottom: 1px solid var(--eco-border); }
-    .eco-header__rail-inner { max-width: 1240px; margin: 0 auto; padding: 0 24px; display: flex; align-items: stretch; justify-content: space-between; gap: 12px; overflow-x: auto; }
-    .eco-rail__left { display: flex; align-items: stretch; }
-    .eco-dropdown--rail { display: flex; align-items: stretch; }
-    .eco-rail__all { display: flex; align-items: center; gap: 7px; background: var(--eco-primary); color: var(--eco-white); border: none; font: inherit; font-weight: 700; font-size: .84rem; padding: 11px 16px; cursor: pointer; white-space: nowrap; }
-    .eco-rail__link { display: flex; align-items: center; padding: 11px 14px; font-size: .84rem; font-weight: 600; color: var(--eco-charcoal); white-space: nowrap; border-bottom: 2px solid transparent; }
-    .eco-rail__link:hover { color: var(--eco-primary); border-bottom-color: var(--eco-accent); }
-    .eco-rail__link--store { font-weight: 800; color: var(--eco-primary); }
-    .eco-rail__perks { display: flex; align-items: center; gap: 18px; flex-shrink: 0; }
-    .eco-perk { display: flex; align-items: center; gap: 6px; font-size: .78rem; font-weight: 600; color: var(--eco-muted); white-space: nowrap; }
-    .eco-perk .eco-icon { color: var(--eco-primary); }
-
-    .eco-header__rail.collapse:not(.show) { display: none; }
-    @media (min-width: 769px) { .eco-header__rail.collapse { display: block !important; } }
-
-    .eco-toast { position: fixed; bottom: 24px; right: 24px; z-index: 9999; background: var(--eco-primary-dark); color: var(--eco-white); padding: 12px 20px; border-radius: 10px; font-size: .88rem; font-weight: 700; box-shadow: 0 10px 30px rgba(0,0,0,.25); display: none; align-items: center; gap: 10px; transition: opacity .3s ease, transform .3s ease; opacity: 0; transform: translateY(10px); }
-
-    @media (max-width: 992px) { .eco-rail__perks { display: none; } }
-    @media (max-width: 768px) {
-        .eco-header__utility-inner { font-size: .72rem; padding: 6px 16px; }
-        .eco-contact__link span { display: none; }
-        .eco-header__main-inner { padding: 12px 16px; gap: 10px; }
-        .eco-deliver { display: none; }
-        .eco-navtoggle { display: flex; order: 3; }
-        .eco-search { order: 5; flex-basis: 100%; }
-        .eco-actions { order: 4; margin-left: auto; }
-        .eco-actions__guest { align-items: flex-start; }
-        .eco-action__label { display: none; }
-        .eco-header__rail-inner { padding: 0 16px; }
-    }
-</style>
-
-<script>
-    (function () {
-        function showNotification(icon, message) {
-            var toast = document.getElementById('quickToast');
-            if (!toast) return;
-            document.getElementById('quickToastIcon').textContent = icon;
-            document.getElementById('quickToastMsg').textContent = message;
-            toast.style.display = 'flex';
-            setTimeout(function () { toast.style.opacity = '1'; toast.style.transform = 'translateY(0)'; }, 10);
-            clearTimeout(window.__toastTimeout);
-            window.__toastTimeout = setTimeout(function () {
-                toast.style.opacity = '0'; toast.style.transform = 'translateY(10px)';
-                setTimeout(function () { toast.style.display = 'none'; }, 300);
-            }, 2200);
-        }
-
-        function setLanguage(lang, name, flag, notify) {
-            document.getElementById('selectedLangFlag').textContent = flag || '🌐';
-            document.getElementById('selectedLangName').textContent = name || 'English';
-            document.querySelectorAll('.lang-option').forEach(function (el) {
-                var isMatch = el.getAttribute('data-lang') === lang;
-                el.classList.toggle('active', isMatch);
-                var check = el.querySelector('.check-icon');
-                if (check) check.classList.toggle('d-none', !isMatch);
-            });
-            localStorage.setItem('ecomart_lang', JSON.stringify({ lang: lang, name: name, flag: flag }));
-            if (notify) showNotification(flag || '🌐', 'Language set to ' + name);
-        }
-
-        function setCurrency(code, symbol, flag, country, rate, notify) {
-            document.getElementById('selectedCurrencyFlag').textContent = flag || '🇺🇸';
-            document.getElementById('selectedCurrencyCode').textContent = code || 'USD';
-            document.getElementById('selectedCurrencySymbol').textContent = '(' + (symbol || '$') + ')';
-            document.querySelectorAll('.currency-option').forEach(function (el) {
-                var isMatch = el.getAttribute('data-code') === code;
-                el.classList.toggle('active', isMatch);
-                var check = el.querySelector('.check-icon');
-                if (check) check.classList.toggle('d-none', !isMatch);
-            });
-            localStorage.setItem('ecomart_currency', JSON.stringify({ code: code, symbol: symbol, flag: flag, country: country, rate: rate }));
-            if (notify) showNotification(flag || '💵', 'Currency set to ' + code + ' (' + symbol + ')');
-        }
-
-        document.addEventListener('DOMContentLoaded', function () {
-            try {
-                var savedLang = JSON.parse(localStorage.getItem('ecomart_lang'));
-                if (savedLang && savedLang.lang) setLanguage(savedLang.lang, savedLang.name, savedLang.flag, false);
-            } catch (e) {}
-            try {
-                var savedCurr = JSON.parse(localStorage.getItem('ecomart_currency'));
-                if (savedCurr && savedCurr.code) setCurrency(savedCurr.code, savedCurr.symbol, savedCurr.flag, savedCurr.country, savedCurr.rate, false);
-            } catch (e) {}
-
-            document.querySelectorAll('.lang-option').forEach(function (item) {
-                item.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    setLanguage(this.getAttribute('data-lang'), this.getAttribute('data-name'), this.getAttribute('data-flag'), true);
-                });
-            });
-            document.querySelectorAll('.currency-option').forEach(function (item) {
-                item.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    setCurrency(this.getAttribute('data-code'), this.getAttribute('data-symbol'), this.getAttribute('data-flag'), this.getAttribute('data-country'), this.getAttribute('data-rate'), true);
-                });
-            });
-
-            document.querySelectorAll('.eco-dropdown__trigger, .eco-rail__all').forEach(function (btn) {
-                btn.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                    var parent = this.closest('.eco-dropdown');
-                    var isOpen = parent.classList.contains('show');
-                    document.querySelectorAll('.eco-dropdown.show').forEach(function (d) { d.classList.remove('show'); });
-                    if (!isOpen) parent.classList.add('show');
-                });
-            });
-            document.addEventListener('click', function () {
-                document.querySelectorAll('.eco-dropdown.show').forEach(function (d) { d.classList.remove('show'); });
-            });
-
-            var navToggle = document.querySelector('.eco-navtoggle');
-            var rail = document.getElementById('ecoNavRail');
-            if (navToggle && rail) navToggle.addEventListener('click', function () { rail.classList.toggle('show'); });
-        });
-    })();
-</script>
 
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">

@@ -1,0 +1,89 @@
+{% extends "profile/base_profile.html" %}
+
+{% block page_title %}Order #{{ order.order_number }}{% endblock %}
+{% block page_sub %}Placed on {{ order.created_at|date:"d M Y, h:i A" }}{% endblock %}
+
+{% block profile_content %}
+
+<!-- Status -->
+<div class="eco-panel eco-od-status">
+    <div>
+        <span class="eco-od-label">Status</span>
+        <span class="eco-badge eco-badge--{{ order.status|lower }}">{{ order.status }}</span>
+    </div>
+    <div>
+        <span class="eco-od-label">Payment</span>
+        <strong>{{ order.payment.payment_method|default:"Pending" }}</strong>
+    </div>
+    <a href="{% url 'my_orders' %}" class="eco-btn eco-btn--ghost eco-btn--sm">Back to orders</a>
+</div>
+
+<!-- Items -->
+<div class="eco-panel">
+    <h2 class="eco-panel__title" style="margin-bottom:16px;">Items</h2>
+    <ul class="eco-od-items">
+        {% for item in order_products %}
+        <li class="eco-od-item">
+            <span class="eco-od-item__thumb">
+                {% if item.product.images %}
+                <img src="{{ item.product.images.url }}" alt="{{ item.product.product_name }}">
+                {% endif %}
+            </span>
+            <span class="eco-od-item__name">{{ item.product.product_name }}</span>
+            <span class="eco-od-item__price">{{ item.quantity }} &times; ${{ item.product_price }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <dl class="eco-od-totals">
+        <div><dt>Subtotal</dt><dd>${{ subtotal|floatformat:2 }}</dd></div>
+        <div><dt>Tax</dt><dd>${{ order.tax|floatformat:2 }}</dd></div>
+        <div class="is-grand"><dt>Total</dt><dd>${{ order.order_total|floatformat:2 }}</dd></div>
+    </dl>
+</div>
+
+<!-- Delivery -->
+<div class="eco-panel">
+    <h2 class="eco-panel__title" style="margin-bottom:12px;">Delivery address</h2>
+    <p class="eco-od-address">
+        <strong>{{ order.full_name }}</strong><br>
+        {{ order.address_line_1 }}{% if order.address_line_2 %}, {{ order.address_line_2 }}{% endif %}<br>
+        {{ order.city }}, {{ order.state }}, {{ order.country }}<br>
+        {{ order.phone_number }} &middot; {{ order.email }}
+    </p>
+    {% if order.order_note %}
+    <p class="eco-od-note"><strong>Note:</strong> {{ order.order_note }}</p>
+    {% endif %}
+</div>
+
+<style>
+    .eco-od-status { display: flex; align-items: center; flex-wrap: wrap; gap: 32px; }
+    .eco-od-status > div { display: flex; flex-direction: column; gap: 4px; align-items: flex-start; }
+    .eco-od-status .eco-btn { margin-left: auto; }
+    .eco-od-label { font-size: .74rem; font-weight: 700; color: var(--c-muted); }
+
+    .eco-od-items { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+    .eco-od-item { display: flex; align-items: center; gap: 14px; }
+    .eco-od-item__thumb { width: 56px; height: 56px; flex-shrink: 0; border-radius: 10px; background: var(--c-bg); border: 1px solid var(--c-border); }
+    .eco-od-item__thumb img { width: 100%; height: 100%; object-fit: cover; border-radius: 9px; display: block; }
+    .eco-od-item__name { flex: 1; min-width: 0; font-size: .9rem; font-weight: 700; }
+    .eco-od-item__price { font-size: .86rem; font-weight: 700; color: var(--c-muted); white-space: nowrap; }
+
+    .eco-od-totals { margin: 18px 0 0; padding-top: 16px; border-top: 1px solid var(--c-border); display: flex; flex-direction: column; gap: 10px; max-width: 320px; margin-left: auto; }
+    .eco-od-totals div { display: flex; justify-content: space-between; font-size: .9rem; }
+    .eco-od-totals dt { color: var(--c-muted); font-weight: 600; }
+    .eco-od-totals dd { margin: 0; font-weight: 700; }
+    .eco-od-totals .is-grand { padding-top: 12px; border-top: 1px dashed var(--c-border); font-size: 1.1rem; }
+    .eco-od-totals .is-grand dt { color: var(--c-text); font-weight: 800; }
+    .eco-od-totals .is-grand dd { color: var(--c-primary); font-weight: 800; }
+
+    .eco-od-address { margin: 0; font-size: .92rem; line-height: 1.7; }
+    .eco-od-note { margin: 12px 0 0; padding-top: 12px; border-top: 1px dashed var(--c-border); font-size: .85rem; color: var(--c-muted); }
+
+    @media (max-width: 640px) {
+        .eco-od-status .eco-btn { margin-left: 0; }
+        .eco-od-totals { max-width: none; }
+    }
+</style>
+
+{% endblock %}

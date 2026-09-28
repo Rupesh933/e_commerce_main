@@ -1,0 +1,88 @@
+{% extends "profile/base_profile.html" %}
+
+{% block page_title %}Hello, {{ user.first_name|default:"there" }}{% endblock %}
+{% block page_sub %}Manage your orders, addresses and account details.{% endblock %}
+
+{% block profile_content %}
+
+<!-- Quick numbers -->
+<div class="eco-stats">
+    <div class="eco-stat">
+        <span class="eco-stat__num">{{ orders_count }}</span>
+        <span class="eco-stat__label">Total orders</span>
+    </div>
+    <div class="eco-stat">
+        <span class="eco-stat__num">{{ address_count }}</span>
+        <span class="eco-stat__label">Saved addresses</span>
+    </div>
+    <div class="eco-stat">
+        <span class="eco-stat__num">{{ user.date_joined|date:"M Y" }}</span>
+        <span class="eco-stat__label">Member since</span>
+    </div>
+</div>
+
+<!-- Account details -->
+<div class="eco-panel">
+    <div class="eco-panel__head">
+        <h2 class="eco-panel__title">Account details</h2>
+        <a href="{% url 'edit_profile' %}" class="eco-link">Edit</a>
+    </div>
+    <dl class="eco-details">
+        <div><dt>Name</dt><dd>{{ user.first_name }} {{ user.last_name }}</dd></div>
+        <div><dt>Email</dt><dd>{{ user.email }}</dd></div>
+        <div><dt>Phone</dt><dd>{{ user.phone_number|default:"Not added" }}</dd></div>
+    </dl>
+</div>
+
+<!-- Recent orders -->
+<div class="eco-panel">
+    <div class="eco-panel__head">
+        <h2 class="eco-panel__title">Recent orders</h2>
+        <a href="{% url 'my_orders' %}" class="eco-link">View all</a>
+    </div>
+
+    {% if recent_orders %}
+    <ul class="eco-rows">
+        {% for order in recent_orders %}
+        <li class="eco-row">
+            <div class="eco-row__main">
+                <a href="{% url 'order_detail' order.order_number %}" class="eco-row__title">#{{ order.order_number }}</a>
+                <span class="eco-row__meta">{{ order.created_at|date:"d M Y" }}</span>
+            </div>
+            <span class="eco-badge eco-badge--{{ order.status|lower }}">{{ order.status }}</span>
+            <span class="eco-row__amount">${{ order.order_total|floatformat:2 }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <div class="eco-empty">
+        <p>You have not placed any orders yet.</p>
+        <a href="{% url 'store' %}" class="eco-btn eco-btn--accent">Start shopping</a>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .eco-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .eco-stat { display: flex; flex-direction: column; gap: 4px; padding: 20px; background: #fff; border: 1px solid var(--c-border); border-radius: 14px; }
+    .eco-stat__num { font-size: 1.5rem; font-weight: 800; color: var(--c-primary); }
+    .eco-stat__label { font-size: .8rem; font-weight: 600; color: var(--c-muted); }
+
+    .eco-details { margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .eco-details dt { font-size: .76rem; font-weight: 700; color: var(--c-muted); }
+    .eco-details dd { margin: 2px 0 0; font-size: .92rem; font-weight: 700; word-break: break-word; }
+
+    .eco-rows { list-style: none; margin: 0; padding: 0; }
+    .eco-row { display: flex; align-items: center; gap: 16px; padding: 14px 0; border-top: 1px solid var(--c-border); }
+    .eco-row:first-child { border-top: none; padding-top: 0; }
+    .eco-row__main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+    .eco-row__title { font-weight: 800; color: var(--c-primary); }
+    .eco-row__meta { font-size: .78rem; color: var(--c-muted); }
+    .eco-row__amount { min-width: 80px; text-align: right; font-weight: 800; }
+
+    @media (max-width: 640px) {
+        .eco-stats, .eco-details { grid-template-columns: 1fr; }
+    }
+</style>
+
+{% endblock %}

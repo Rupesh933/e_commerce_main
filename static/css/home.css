@@ -1,0 +1,129 @@
+/* ---------- 1) Ticker ---------- */
+    .ticker { background: linear-gradient(90deg, #0f3460, #1a1a2e); overflow: hidden; padding: 8px 0; }
+    .ticker__content { display: inline-block; white-space: nowrap; color: #fff; font-size: .84rem; animation: ticker-scroll 30s linear infinite; }
+    .ticker__content span { margin: 0 50px; }
+    .ticker__content i { color: #ffd700; margin-right: 5px; }
+
+    @keyframes ticker-scroll {
+        from { transform: translateX(100%); }
+        to   { transform: translateX(-100%); }
+    }
+
+    /* ---------- 2) Banner slider (no Bootstrap JS needed) ---------- */
+    .banner { position: relative; height: 420px; border-radius: 12px; overflow: hidden; background: #f4f7fc; }
+    .banner__slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 1s ease; }
+    .banner__slide.active { opacity: 1; }
+    .banner__slide img { width: 100%; height: 100%; object-fit: cover; }
+    .banner__empty { height: 100%; display: flex; align-items: center; justify-content: center; color: #6c757d; }
+
+    .banner__arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border: none; border-radius: 50%; background: rgba(0, 0, 0, .4); color: #fff; cursor: pointer; }
+    .banner__arrow:hover { background: rgba(0, 0, 0, .7); }
+    .banner__arrow--prev { left: 14px; }
+    .banner__arrow--next { right: 14px; }
+
+    .banner__dots { position: absolute; bottom: 14px; left: 0; width: 100%; text-align: center; }
+    .banner__dot { width: 9px; height: 9px; margin: 0 4px; padding: 0; border: none; border-radius: 50%; background: rgba(255, 255, 255, .6); cursor: pointer; transition: all .3s ease; }
+    .banner__dot.active { width: 26px; border-radius: 5px; background: #ffd700; }
+
+    /* ---------- 3) Sections (shared) ---------- */
+    .section { padding: 40px 0; }
+    .section--light { background: #f9faff; }
+    .section--white { background: #fff; }
+    .section-title { font-weight: 800; color: #1a1a2e; font-size: 1.5rem; margin-bottom: 4px; }
+    .section-title span { color: #0f3460; }
+    .section-sub { color: #6c757d; font-size: .88rem; margin-bottom: 0; }
+
+    /* ---------- 4) Cards ---------- */
+    /* Feature cards */
+    .feature-card { height: 100%; padding: 28px 20px; text-align: center; border-radius: 14px; background: linear-gradient(135deg, #f8faff, #eef2ff); transition: transform .3s, box-shadow .3s; }
+    .feature-card:hover { transform: translateY(-8px); box-shadow: 0 16px 40px rgba(0, 0, 0, .13); }
+    .feature-card h6 { font-weight: 700; color: #1a202c; }
+    .feature-card p { margin: 0; color: #6c757d; font-size: .83rem; }
+    .feature-icon { width: 62px; height: 62px; margin: 0 auto 14px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; }
+    .icon-blue   { background: #e0f2ff; color: #0f3460; }
+    .icon-orange { background: #fff0e0; color: #e67e22; }
+    .icon-green  { background: #e8f8f5; color: #27ae60; }
+    .icon-purple { background: #fdf0ff; color: #8e44ad; }
+
+    /* Category pills */
+    .cat-list { display: flex; flex-wrap: wrap; gap: 12px; }
+    .cat-pill { display: inline-flex; align-items: center; gap: 10px; padding: 8px 18px 8px 8px; background: #f4f7fc; border: 1.5px solid #dce4f0; border-radius: 50px; text-decoration: none !important; transition: all .25s ease; }
+    .cat-pill:hover { background: #0f3460; border-color: #0f3460; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(15, 52, 96, .22); }
+    .cat-pill__icon { width: 38px; height: 38px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; color: #0f3460; }
+    .cat-pill__icon img { width: 100%; height: 100%; object-fit: cover; }
+    .cat-pill__title { font-size: .88rem; font-weight: 600; color: #2d3748; white-space: nowrap; }
+    .cat-pill__arrow { color: #a0aec0; font-size: .82rem; }
+    .cat-pill:hover .cat-pill__title,
+    .cat-pill:hover .cat-pill__arrow { color: #fff; }
+
+    /* Product cards */
+    .product-card { border-radius: 14px; overflow: hidden; background: #fff; box-shadow: 0 2px 12px rgba(0, 0, 0, .07); transition: transform .3s, box-shadow .3s; }
+    .product-card:hover { transform: translateY(-6px); box-shadow: 0 16px 36px rgba(0, 0, 0, .14); }
+    .product-card__image { display: block; height: 190px; overflow: hidden; }
+    .product-card__image img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
+    .product-card:hover .product-card__image img { transform: scale(1.08); }
+    .product-card__noimage { height: 100%; display: flex; align-items: center; justify-content: center; color: #6c757d; }
+    .product-card__info { padding: 14px 16px 16px; }
+    .product-card__name { display: block; margin-bottom: 6px; font-weight: 600; font-size: .92rem; color: #1a202c; text-decoration: none; }
+    .product-card__name:hover { color: #0f3460; }
+    .product-card__price { font-weight: 700; font-size: 1rem; color: #0f3460; }
+    .stars { color: #ffd700; font-size: .9rem; }
+
+    /* Stats strip */
+    .stats { padding: 40px 0; background: linear-gradient(135deg, #0f3460, #1a1a2e); color: #fff; text-align: center; }
+    .stats__number { display: block; font-size: 2rem; font-weight: 800; color: #ffd700; }
+    .stats__label { font-size: .82rem; opacity: .8; letter-spacing: .5px; }
+
+    /* ---------- 5) Deal of the day ---------- */
+    .deal { padding: 30px; border-radius: 16px; background: linear-gradient(135deg, #fff5f5, #fff0f6); }
+    .deal__badge { display: inline-block; margin-bottom: 14px; padding: 8px 16px; border-radius: 20px; font-size: .8rem; animation: pulse 1.6s ease-in-out infinite; }
+    .deal__title { font-weight: 800; color: #1a1a2e; margin-bottom: 8px; }
+    .deal__title span { color: #e74c3c; }
+    .deal__circle { width: 180px; height: 180px; margin: 0 auto; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; background: linear-gradient(135deg, #e74c3c, #c0392b); box-shadow: 0 12px 40px rgba(231, 76, 60, .4); }
+    .deal__circle strong { font-size: 3rem; font-weight: 900; line-height: 1; }
+    .deal__circle small { font-size: .85rem; letter-spacing: 2px; }
+
+    .countdown { margin-bottom: 20px; }
+    .countdown__box { display: inline-block; min-width: 60px; margin-right: 6px; padding: 8px 12px; border-radius: 8px; background: #0f3460; color: #fff; text-align: center; }
+    .countdown__box span { display: block; font-size: 1.5rem; font-weight: 800; }
+    .countdown__box small { font-size: .6rem; letter-spacing: 1px; opacity: .8; }
+
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50%      { transform: scale(1.1); }
+    }
+
+    /* ---------- 6) Promo cards ---------- */
+    .promo-card { position: relative; min-height: 160px; padding: 30px; border-radius: 16px; overflow: hidden; }
+    .promo-card--blue  { background: linear-gradient(135deg, #0f3460, #16213e); }
+    .promo-card--green { background: linear-gradient(135deg, #27ae60, #1e8449); }
+    .promo-card h4 { margin: 8px 0; color: #fff; font-weight: 800; }
+    .promo-card p { margin-bottom: 16px; color: #d5e0ea; font-size: .85rem; }
+    .promo-card__text { position: relative; z-index: 2; }
+    .promo-card__bg-icon { position: absolute; right: -10px; bottom: -10px; font-size: 7rem; color: #fff; opacity: .12; }
+
+    /* ---------- 7) Reviews ---------- */
+    .review-card { height: 100%; padding: 24px; border-radius: 14px; background: #fff; box-shadow: 0 4px 20px rgba(0, 0, 0, .07); transition: transform .3s; }
+    .review-card:hover { transform: translateY(-4px); }
+    .review-card__text { margin: 10px 0 16px; font-size: .88rem; color: #4a5568; }
+    .review-card__user { display: flex; align-items: center; }
+    .review-card__avatar { width: 40px; height: 40px; margin-right: 10px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; }
+    .avatar--blue   { background: #0f3460; }
+    .avatar--green  { background: #27ae60; }
+    .avatar--purple { background: #8e44ad; }
+    .review-card__name { font-weight: 700; font-size: .88rem; color: #1a202c; }
+    .review-card__city { font-size: .78rem; color: #a0aec0; }
+
+    /* ---------- 8) Scroll animation ----------
+       Elements with class "reveal" start hidden.
+       JavaScript adds the class "show" when they come into view. */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.show { opacity: 1; transform: translateY(0); }
+    .delay-1 { transition-delay: .1s; }
+    .delay-2 { transition-delay: .2s; }
+    .delay-3 { transition-delay: .3s; }
+    .delay-4 { transition-delay: .4s; }
+
+    @media (max-width: 576px) {
+        .banner { height: 220px; }
+    }
