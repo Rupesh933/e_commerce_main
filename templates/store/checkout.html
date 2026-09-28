@@ -1,0 +1,276 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<section class="eco-checkout">
+    <div class="eco-checkout__inner">
+
+        <!-- ============ Page heading + progress ============ -->
+        <div class="eco-checkout__head">
+            <div>
+                <h1 class="eco-checkout__title">Checkout</h1>
+                <p class="eco-checkout__sub">Confirm where we should deliver your order.</p>
+            </div>
+            <ol class="eco-steps" aria-label="Checkout progress">
+                <li class="eco-steps__item is-done"><span class="eco-steps__dot">1</span> Cart</li>
+                <li class="eco-steps__item is-current" aria-current="step"><span class="eco-steps__dot">2</span> Delivery details</li>
+                <li class="eco-steps__item"><span class="eco-steps__dot">3</span> Payment</li>
+            </ol>
+        </div>
+
+        <form action="{% url 'place_order' %}" method="POST" class="eco-checkout__grid">
+            {% csrf_token %}
+
+            <!-- ============ LEFT: details ============ -->
+            <div class="eco-checkout__main">
+
+                <!-- Contact -->
+                <div class="eco-panel">
+                    <h2 class="eco-panel__title">Contact</h2>
+                    <div class="eco-fields">
+                        <div class="eco-field">
+                            <label for="first_name">First name <span class="eco-req">*</span></label>
+                            <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}" autocomplete="given-name" required>
+                        </div>
+                        <div class="eco-field">
+                            <label for="last_name">Last name <span class="eco-req">*</span></label>
+                            <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}" autocomplete="family-name" required>
+                        </div>
+                        <div class="eco-field">
+                            <label for="email">Email <span class="eco-req">*</span></label>
+                            <input type="email" id="email" name="email" value="{{ user.email }}" autocomplete="email" required>
+                        </div>
+                        <div class="eco-field">
+                            <label for="phone_number">Phone number <span class="eco-req">*</span></label>
+                            <input type="tel" id="phone_number" name="phone_number" value="{{ user.phone_number|default:'' }}" autocomplete="tel" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Address -->
+                <div class="eco-panel">
+                    <h2 class="eco-panel__title">Delivery address</h2>
+                    <div class="eco-fields">
+                        <div class="eco-field eco-field--full">
+                            <label for="address_line_1">Address line 1 <span class="eco-req">*</span></label>
+                            <input type="text" id="address_line_1" name="address_line_1" placeholder="House number, street" autocomplete="address-line1" required>
+                        </div>
+                        <div class="eco-field eco-field--full">
+                            <label for="address_line_2">Address line 2 <span class="eco-opt">(optional)</span></label>
+                            <input type="text" id="address_line_2" name="address_line_2" placeholder="Apartment, landmark" autocomplete="address-line2">
+                        </div>
+                        <div class="eco-field eco-field--third">
+                            <label for="city">City <span class="eco-req">*</span></label>
+                            <input type="text" id="city" name="city" autocomplete="address-level2" required>
+                        </div>
+                        <div class="eco-field eco-field--third">
+                            <label for="state">State <span class="eco-req">*</span></label>
+                            <input type="text" id="state" name="state" autocomplete="address-level1" required>
+                        </div>
+                        <div class="eco-field eco-field--third">
+                            <label for="country">Country <span class="eco-req">*</span></label>
+                            <input type="text" id="country" name="country" autocomplete="country-name" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Note -->
+                <div class="eco-panel">
+                    <h2 class="eco-panel__title">Order note <span class="eco-opt">(optional)</span></h2>
+                    <div class="eco-field eco-field--full">
+                        <label for="order_note" class="eco-sr">Order note</label>
+                        <textarea id="order_note" name="order_note" rows="3" placeholder="Anything the courier should know, like a gate code or preferred time."></textarea>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ============ RIGHT: summary ============ -->
+            <aside class="eco-checkout__side">
+                <div class="eco-summary">
+                    <h2 class="eco-summary__title">
+                        Order summary
+                        <span class="eco-summary__count">{{ quantity }} item{{ quantity|pluralize }}</span>
+                    </h2>
+
+                    {% if cart_items %}
+                    <ul class="eco-summary__items">
+                        {% for cart_item in cart_items %}
+                        <li class="eco-line">
+                            <span class="eco-line__thumb">
+                                {% if cart_item.product.images %}
+                                <img src="{{ cart_item.product.images.url }}" alt="{{ cart_item.product.product_name }}">
+                                {% endif %}
+                                <span class="eco-line__qty">{{ cart_item.quantity }}</span>
+                            </span>
+                            <span class="eco-line__info">
+                                <span class="eco-line__name">{{ cart_item.product.product_name|truncatechars:34 }}</span>
+                                <span class="eco-line__meta">${{ cart_item.product.price }} each</span>
+                            </span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="eco-summary__empty">
+                        Your cart is empty. <a href="{% url 'store' %}">Browse the store</a> to add products.
+                    </p>
+                    {% endif %}
+
+                    <dl class="eco-totals">
+                        <div class="eco-totals__row">
+                            <dt>Subtotal</dt>
+                            <dd>${{ total|floatformat:2 }}</dd>
+                        </div>
+                        <div class="eco-totals__row">
+                            <dt>Tax (2%)</dt>
+                            <dd>${{ tax|floatformat:2 }}</dd>
+                        </div>
+                        <div class="eco-totals__row eco-totals__row--grand">
+                            <dt>Total</dt>
+                            <dd>${{ grand_total|floatformat:2 }}</dd>
+                        </div>
+                    </dl>
+
+                    <button type="submit" class="eco-btn eco-btn--accent" {% if not cart_items %}disabled{% endif %}>
+                        Place order
+                    </button>
+                    <a href="{% url 'cart' %}" class="eco-btn eco-btn--ghost">Back to cart</a>
+
+                    <ul class="eco-assure">
+                        <li>
+                            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 6h9v7H2z" stroke="currentColor" stroke-width="1.3" fill="none"/><path d="M11 9h4l3 3v1h-7z" stroke="currentColor" stroke-width="1.3" fill="none"/><circle cx="6" cy="15" r="1.4" fill="currentColor"/><circle cx="14" cy="15" r="1.4" fill="currentColor"/></svg>
+                            Free shipping over $50
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10a6 6 0 1011.3-3" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"/><path d="M4 5v4h4" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Easy 7-day returns
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+
+        </form>
+    </div>
+</section>
+
+<style>
+    /* Uses the same tokens as the header (--eco-*). Fallbacks keep it safe if the header isn't loaded. */
+    .eco-checkout {
+        --c-primary: var(--eco-primary, #1B2A6B);
+        --c-primary-dark: var(--eco-primary-dark, #10193F);
+        --c-accent: var(--eco-accent, #FF9F1C);
+        --c-bg: var(--eco-bg, #F5F7FB);
+        --c-text: var(--eco-charcoal, #1B222E);
+        --c-border: var(--eco-border, #E2E6F0);
+        --c-muted: var(--eco-muted, #6C7690);
+
+        font-family: 'Manrope', -apple-system, 'Segoe UI', sans-serif;
+        color: var(--c-text);
+        background: var(--c-bg);
+        padding: 32px 0 56px;
+    }
+    .eco-checkout *, .eco-checkout *::before, .eco-checkout *::after { box-sizing: border-box; }
+    .eco-checkout a { text-decoration: none; }
+    .eco-checkout__inner { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+
+    /* heading */
+    .eco-checkout__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-bottom: 24px; }
+    .eco-checkout__title { margin: 0; font-size: 1.9rem; font-weight: 800; letter-spacing: -.02em; color: var(--c-primary); }
+    .eco-checkout__sub { margin: 4px 0 0; font-size: .92rem; color: var(--c-muted); }
+
+    .eco-steps { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: 18px; font-size: .84rem; font-weight: 700; color: var(--c-muted); }
+    .eco-steps__item { display: flex; align-items: center; gap: 8px; }
+    .eco-steps__item + .eco-steps__item::before { content: ""; width: 26px; height: 2px; background: var(--c-border); margin-right: 10px; }
+    .eco-steps__dot { width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: .74rem; background: var(--c-border); color: var(--c-muted); }
+    .eco-steps__item.is-done { color: var(--c-primary); }
+    .eco-steps__item.is-done .eco-steps__dot { background: var(--c-primary); color: #fff; }
+    .eco-steps__item.is-current { color: var(--c-charcoal, var(--c-text)); }
+    .eco-steps__item.is-current .eco-steps__dot { background: var(--c-accent); color: var(--c-primary-dark); }
+
+    /* layout */
+    .eco-checkout__grid { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 24px; align-items: start; }
+    .eco-checkout__main { display: flex; flex-direction: column; gap: 18px; }
+    .eco-checkout__side { position: sticky; top: 16px; }
+
+    /* panels */
+    .eco-panel { background: #fff; border: 1px solid var(--c-border); border-radius: 14px; padding: 22px 24px 24px; }
+    .eco-panel__title { margin: 0 0 16px; font-size: 1.05rem; font-weight: 800; color: var(--c-primary); }
+
+    /* fields */
+    .eco-fields { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+    .eco-field { grid-column: span 3; display: flex; flex-direction: column; gap: 6px; }
+    .eco-field--full { grid-column: 1 / -1; }
+    .eco-field--third { grid-column: span 2; }
+    .eco-field label { font-size: .8rem; font-weight: 700; color: var(--c-text); }
+    .eco-req { color: #D64545; }
+    .eco-opt { font-weight: 500; color: var(--c-muted); font-size: .8rem; }
+    .eco-field input, .eco-field textarea {
+        width: 100%; font: inherit; font-size: .92rem; color: var(--c-text);
+        background: var(--c-bg); border: 1.5px solid var(--c-border); border-radius: 10px;
+        padding: 11px 14px; transition: border-color .15s ease, background-color .15s ease;
+    }
+    .eco-field textarea { resize: vertical; min-height: 84px; }
+    .eco-field input::placeholder, .eco-field textarea::placeholder { color: #97A0BA; }
+    .eco-field input:focus, .eco-field textarea:focus { outline: none; border-color: var(--c-primary); background: #fff; }
+    .eco-field input:focus-visible, .eco-field textarea:focus-visible { box-shadow: 0 0 0 3px rgba(27, 42, 107, .15); }
+    .eco-field input:user-invalid { border-color: #D64545; }
+    .eco-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+    /* summary */
+    .eco-summary { background: #fff; border: 1px solid var(--c-border); border-radius: 14px; padding: 22px 22px 20px; }
+    .eco-summary__title { margin: 0 0 16px; display: flex; align-items: baseline; justify-content: space-between; font-size: 1.05rem; font-weight: 800; color: var(--c-primary); }
+    .eco-summary__count { font-size: .78rem; font-weight: 600; color: var(--c-muted); }
+    .eco-summary__empty { margin: 0 0 16px; font-size: .9rem; color: var(--c-muted); }
+    .eco-summary__empty a { color: var(--c-primary); font-weight: 700; text-decoration: underline; }
+
+    .eco-summary__items { list-style: none; margin: 0 0 4px; padding: 0 4px 0 0; display: flex; flex-direction: column; gap: 14px; max-height: 300px; overflow-y: auto; }
+    .eco-line { display: flex; align-items: center; gap: 12px; }
+    .eco-line__thumb { position: relative; width: 56px; height: 56px; flex-shrink: 0; border-radius: 10px; background: var(--c-bg); border: 1px solid var(--c-border); }
+    .eco-line__thumb img { width: 100%; height: 100%; object-fit: cover; border-radius: 9px; display: block; }
+    .eco-line__qty { position: absolute; top: -7px; right: -7px; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; background: var(--c-accent); color: var(--c-primary-dark); font-size: .68rem; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+    .eco-line__info { display: flex; flex-direction: column; min-width: 0; line-height: 1.3; }
+    .eco-line__name { font-size: .88rem; font-weight: 700; color: var(--c-text); }
+    .eco-line__meta { font-size: .78rem; color: var(--c-muted); }
+
+    .eco-totals { margin: 18px 0 18px; padding: 16px 0 0; border-top: 1px solid var(--c-border); display: flex; flex-direction: column; gap: 10px; }
+    .eco-totals__row { display: flex; justify-content: space-between; font-size: .9rem; }
+    .eco-totals__row dt { color: var(--c-muted); font-weight: 600; }
+    .eco-totals__row dd { margin: 0; font-weight: 700; }
+    .eco-totals__row--grand { margin-top: 4px; padding-top: 12px; border-top: 1px dashed var(--c-border); font-size: 1.1rem; }
+    .eco-totals__row--grand dt { color: var(--c-text); font-weight: 800; }
+    .eco-totals__row--grand dd { color: var(--c-primary); font-weight: 800; }
+
+    /* buttons */
+    .eco-btn { display: flex; align-items: center; justify-content: center; width: 100%; font: inherit; font-size: .92rem; font-weight: 800; border-radius: 10px; padding: 13px 18px; cursor: pointer; border: none; transition: filter .15s ease, background-color .15s ease; }
+    .eco-btn--accent { background: var(--c-accent); color: var(--c-primary-dark); }
+    .eco-btn--accent:hover { filter: brightness(1.06); }
+    .eco-btn--accent:disabled { background: var(--c-border); color: var(--c-muted); cursor: not-allowed; filter: none; }
+    .eco-btn--ghost { margin-top: 10px; background: transparent; color: var(--c-primary); border: 1.5px solid var(--c-border); }
+    .eco-btn--ghost:hover { background: var(--c-bg); }
+    .eco-btn:focus-visible { outline: 3px solid rgba(27, 42, 107, .35); outline-offset: 2px; }
+
+    .eco-assure { list-style: none; margin: 18px 0 0; padding: 14px 0 0; border-top: 1px solid var(--c-border); display: flex; flex-direction: column; gap: 8px; }
+    .eco-assure li { display: flex; align-items: center; gap: 8px; font-size: .78rem; font-weight: 600; color: var(--c-muted); }
+    .eco-assure svg { width: 16px; height: 16px; color: var(--c-primary); flex-shrink: 0; }
+
+    /* responsive */
+    @media (max-width: 992px) {
+        .eco-checkout__grid { grid-template-columns: 1fr; }
+        .eco-checkout__side { position: static; }
+    }
+    @media (max-width: 640px) {
+        .eco-checkout { padding: 20px 0 40px; }
+        .eco-checkout__inner { padding: 0 16px; }
+        .eco-checkout__title { font-size: 1.5rem; }
+        .eco-steps { gap: 10px; font-size: .78rem; }
+        .eco-steps__item + .eco-steps__item::before { width: 12px; margin-right: 4px; }
+        .eco-panel { padding: 18px 16px 20px; }
+        .eco-field, .eco-field--third { grid-column: 1 / -1; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .eco-field input, .eco-field textarea, .eco-btn { transition: none; }
+    }
+</style>
+
+{% endblock %}
