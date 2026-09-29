@@ -1,0 +1,306 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Customers | EcoMart Admin</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}" />
+  </head>
+
+  <body>
+    <div class="admin-layout">
+      <!-- SIDEBAR -->
+
+      {% include "includes/admin_sidebar.html" %}
+
+      <!-- MAIN -->
+
+      <main class="admin-main">
+        <header class="admin-topbar">
+          <div class="topbar-left">
+            <button class="mobile-menu-button">
+              <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <div class="topbar-search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+
+              <input type="text" placeholder="Search customers..." />
+            </div>
+          </div>
+
+          <div class="topbar-right">
+            <button class="topbar-icon-button">
+              <i class="fa-regular fa-bell"></i>
+
+              <span class="notification-indicator"></span>
+            </button>
+
+            <div class="topbar-divider"></div>
+
+            <button class="admin-user">
+              <div class="admin-user-avatar">R</div>
+
+              <div class="admin-user-details">
+                <strong> Rupesh Rana </strong>
+
+                <span> Administrator </span>
+              </div>
+
+              <i class="fa-solid fa-chevron-down"></i>
+            </button>
+          </div>
+        </header>
+
+        <div class="admin-content">
+          <div class="page-header">
+            <div>
+              <h1>Customers</h1>
+
+              <p>View and manage customer accounts.</p>
+            </div>
+
+            <button class="secondary-button">
+              <i class="fa-solid fa-download"></i>
+
+              Export Customers
+            </button>
+          </div>
+
+          <!-- CUSTOMER STATS -->
+
+          <div class="mini-stats-grid">
+            <div class="mini-stat-card">
+              <span>Total Customers</span>
+              <strong>840</strong>
+            </div>
+
+            <div class="mini-stat-card">
+              <span>Active Customers</span>
+              <strong>782</strong>
+            </div>
+
+            <div class="mini-stat-card">
+              <span>New This Month</span>
+              <strong>64</strong>
+            </div>
+
+            <div class="mini-stat-card">
+              <span>Inactive</span>
+              <strong>58</strong>
+            </div>
+          </div>
+
+          <!-- FILTER -->
+
+          <div class="filter-card">
+            <div class="filter-search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+
+              <input type="text" placeholder="Search by name or email..." />
+            </div>
+
+            <select class="filter-select">
+              <option>All Customers</option>
+              <option>Active</option>
+              <option>Inactive</option>
+            </select>
+          </div>
+
+          <!-- CUSTOMER TABLE -->
+
+          <div class="dashboard-card">
+            <div class="card-header">
+              <div>
+                <h2>Customer List</h2>
+
+                <p>840 registered customers</p>
+              </div>
+            </div>
+
+            <div class="table-wrapper">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Customer</th>
+
+                    <th>Phone</th>
+
+                    <th>Orders</th>
+
+                    <th>Total Spent</th>
+
+                    <th>Status</th>
+
+                    <th>Joined</th>
+
+                    <th></th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="customer-cell">
+                        <div class="customer-avatar">A</div>
+
+                        <div>
+                          <strong> Arjun Kumar </strong>
+
+                          <span> arjun@gmail.com </span>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td>+91 98765 43210</td>
+
+                    <td>12</td>
+
+                    <td>
+                      <strong> ₹28,490 </strong>
+                    </td>
+
+                    <td>
+                      <span class="status-badge completed-status">
+                        Active
+                      </span>
+                    </td>
+
+                    <td>10 Aug 2026</td>
+
+                    <td>
+                      <button class="table-action">
+                        <i class="fa-solid fa-ellipsis"></i>
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <div class="customer-cell">
+                        <div class="customer-avatar second">S</div>
+
+                        <div>
+                          <strong> Shreya Singh </strong>
+
+                          <span> shreya@gmail.com </span>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td>+91 91234 56789</td>
+
+                    <td>7</td>
+
+                    <td>
+                      <strong> ₹15,260 </strong>
+                    </td>
+
+                    <td>
+                      <span class="status-badge completed-status">
+                        Active
+                      </span>
+                    </td>
+
+                    <td>18 Jul 2026</td>
+
+                    <td>
+                      <button class="table-action">
+                        <i class="fa-solid fa-ellipsis"></i>
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <div class="customer-cell">
+                        <div class="customer-avatar third">R</div>
+
+                        <div>
+                          <strong> Rahul Verma </strong>
+
+                          <span> rahul@gmail.com </span>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td>+91 99887 66554</td>
+
+                    <td>19</td>
+
+                    <td>
+                      <strong> ₹46,720 </strong>
+                    </td>
+
+                    <td>
+                      <span class="status-badge completed-status">
+                        Active
+                      </span>
+                    </td>
+
+                    <td>02 Jun 2026</td>
+
+                    <td>
+                      <button class="table-action">
+                        <i class="fa-solid fa-ellipsis"></i>
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <div class="customer-cell">
+                        <div class="customer-avatar fourth">P</div>
+
+                        <div>
+                          <strong> Priya Sharma </strong>
+
+                          <span> priya@gmail.com </span>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td>+91 90000 12345</td>
+
+                    <td>3</td>
+
+                    <td>
+                      <strong> ₹5,840 </strong>
+                    </td>
+
+                    <td>
+                      <span class="status-badge cancelled-status">
+                        Inactive
+                      </span>
+                    </td>
+
+                    <td>11 May 2026</td>
+
+                    <td>
+                      <button class="table-action">
+                        <i class="fa-solid fa-ellipsis"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

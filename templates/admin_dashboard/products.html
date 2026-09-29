@@ -1,0 +1,405 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Products | EcoMart Admin</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    {% include "includes/admin_sidebar.html" %}
+
+    <!-- MAIN -->
+    <main class="admin-main">
+
+        <header class="admin-topbar">
+
+            <div class="topbar-left">
+
+                <button class="mobile-menu-button">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <div class="topbar-search">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input
+                        type="text"
+                        placeholder="Search products..."
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <button class="topbar-icon-button">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="notification-indicator"></span>
+                </button>
+
+                <div class="topbar-divider"></div>
+
+                <button class="admin-user">
+
+                    <div class="admin-user-avatar">R</div>
+
+                    <div class="admin-user-details">
+                        <strong>Rupesh Rana</strong>
+                        <span>Administrator</span>
+                    </div>
+
+                    <i class="fa-solid fa-chevron-down"></i>
+
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <div class="admin-content">
+
+            <!-- PAGE HEADER -->
+
+            <div class="page-header">
+
+                <div>
+                    <h1>Products</h1>
+                    <p>Manage your products and inventory.</p>
+                </div>
+
+                <div class="page-header-actions">
+
+                    <button class="secondary-button">
+                        <i class="fa-solid fa-download"></i>
+                        Export
+                    </button>
+
+                    <button class="primary-button">
+                        <i class="fa-solid fa-plus"></i>
+                        Add Product
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- FILTER BAR -->
+
+            <div class="filter-card">
+
+                <div class="filter-search">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input
+                        type="text"
+                        placeholder="Search by product name..."
+                    >
+
+                </div>
+
+
+                <select class="filter-select">
+
+                    <option>All Categories</option>
+                    <option>Electronics</option>
+                    <option>Clothing</option>
+                    <option>Sports</option>
+                    <option>Accessories</option>
+
+                </select>
+
+
+                <select class="filter-select">
+
+                    <option>All Stock</option>
+                    <option>In Stock</option>
+                    <option>Low Stock</option>
+                    <option>Out of Stock</option>
+
+                </select>
+
+
+                <button class="secondary-button">
+                    <i class="fa-solid fa-filter"></i>
+                    Filter
+                </button>
+
+            </div>
+
+
+            <!-- PRODUCT TABLE -->
+
+            <div class="dashboard-card">
+
+                <div class="card-header">
+
+                    <div>
+                        <h2>All Products</h2>
+                        <p>256 products found</p>
+                    </div>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table class="admin-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>Product</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Status</th>
+                                <th>Created</th>
+                                <th>Action</th>
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            <tr>
+
+                                <td>
+
+                                    <div class="product-table-cell">
+
+                                        <div class="product-table-image">
+                                            <img
+                                                src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=120"
+                                                alt="Running Shoes"
+                                            >
+                                        </div>
+
+                                        <div>
+                                            <strong>Running Shoes</strong>
+                                            <span>SKU-1001</span>
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+                                <td>Sports</td>
+
+                                <td>
+                                    <strong>₹2,499</strong>
+                                </td>
+
+                                <td>18</td>
+
+                                <td>
+                                    <span class="status-badge completed-status">
+                                        Active
+                                    </span>
+                                </td>
+
+                                <td>28 Sep 2026</td>
+
+                                <td>
+                                    <button class="table-action">
+                                        <i class="fa-solid fa-ellipsis"></i>
+                                    </button>
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+
+                                    <div class="product-table-cell">
+
+                                        <div class="product-table-image">
+                                            <img
+                                                src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=120"
+                                                alt="Smart Watch"
+                                            >
+                                        </div>
+
+                                        <div>
+                                            <strong>Smart Watch</strong>
+                                            <span>SKU-1002</span>
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+                                <td>Electronics</td>
+
+                                <td>
+                                    <strong>₹4,299</strong>
+                                </td>
+
+                                <td>
+                                    <span class="stock-low">5</span>
+                                </td>
+
+                                <td>
+                                    <span class="status-badge completed-status">
+                                        Active
+                                    </span>
+                                </td>
+
+                                <td>27 Sep 2026</td>
+
+                                <td>
+                                    <button class="table-action">
+                                        <i class="fa-solid fa-ellipsis"></i>
+                                    </button>
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+
+                                    <div class="product-table-cell">
+
+                                        <div class="product-table-image">
+                                            <img
+                                                src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=120"
+                                                alt="Cotton Hoodie"
+                                            >
+                                        </div>
+
+                                        <div>
+                                            <strong>Cotton Hoodie</strong>
+                                            <span>SKU-1003</span>
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+                                <td>Clothing</td>
+
+                                <td>
+                                    <strong>₹1,799</strong>
+                                </td>
+
+                                <td>32</td>
+
+                                <td>
+                                    <span class="status-badge completed-status">
+                                        Active
+                                    </span>
+                                </td>
+
+                                <td>26 Sep 2026</td>
+
+                                <td>
+                                    <button class="table-action">
+                                        <i class="fa-solid fa-ellipsis"></i>
+                                    </button>
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+
+                                    <div class="product-table-cell">
+
+                                        <div class="product-table-image">
+                                            <img
+                                                src="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=120"
+                                                alt="Casual Sneakers"
+                                            >
+                                        </div>
+
+                                        <div>
+                                            <strong>Casual Sneakers</strong>
+                                            <span>SKU-1004</span>
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+                                <td>Footwear</td>
+
+                                <td>
+                                    <strong>₹3,199</strong>
+                                </td>
+
+                                <td>
+                                    <span class="stock-out">0</span>
+                                </td>
+
+                                <td>
+                                    <span class="status-badge cancelled-status">
+                                        Out of stock
+                                    </span>
+                                </td>
+
+                                <td>25 Sep 2026</td>
+
+                                <td>
+                                    <button class="table-action">
+                                        <i class="fa-solid fa-ellipsis"></i>
+                                    </button>
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>
+
+
+</body>
+
+</html>

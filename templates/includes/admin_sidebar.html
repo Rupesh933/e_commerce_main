@@ -1,0 +1,103 @@
+<aside class="admin-sidebar">
+  <div class="sidebar-brand">
+    <a href="#" class="brand">
+      <div class="brand-logo">👗</div>
+
+      <div class="brand-content">
+        <span class="brand-name"> Shopping Mart </span>
+
+        <span class="brand-subtitle"> ADMIN PANEL </span>
+      </div>
+    </a>
+  </div>
+
+  <nav class="sidebar-navigation">
+    <div class="navigation-section">
+      <span class="navigation-title"> MAIN MENU </span>
+
+      <a href="{% url 'admin_dashboard' %}" class="navigation-link active">
+        <span class="navigation-icon">
+          <i class="fa-solid fa-grid-2"></i>
+        </span>
+
+        <span class="navigation-text"> Dashboard </span>
+      </a>
+
+      <a href="{% url 'admin_products' %}" class="navigation-link">
+        <span class="navigation-icon">
+          <i class="fa-solid fa-box"></i>
+        </span>
+
+        <span class="navigation-text"> Products </span>
+      </a>
+
+      <a href="{% url 'admin_categories' %}" class="navigation-link">
+        <span class="navigation-icon">
+          <i class="fa-solid fa-layer-group"></i>
+        </span>
+
+        <span class="navigation-text"> Categories </span>
+      </a>
+
+      <a href="{% url 'admin_orders' %}" class="navigation-link">
+        <span class="navigation-icon">
+          <i class="fa-solid fa-cart-shopping"></i>
+        </span>
+
+        <span class="navigation-text"> Orders </span>
+
+        <span class="navigation-badge"> 12 </span>
+      </a>
+
+      <a href="{% url 'admin_customers' %}" class="navigation-link">
+        <span class="navigation-icon">
+          <i class="fa-solid fa-users"></i>
+        </span>
+
+        <span class="navigation-text"> Customers </span>
+      </a>
+
+      <a href="#" class="navigation-link">
+        <span class="navigation-icon">
+          <i class="fa-solid fa-credit-card"></i>
+        </span>
+
+        <span class="navigation-text"> Payments </span>
+      </a>
+    </div>
+
+    <div class="navigation-section">
+      <span class="navigation-title"> STORE </span>
+
+      <a href="{% url 'admin_banner' %}" class="navigation-link">
+        <span class="navigation-icon">
+          <i class="fa-solid fa-image"></i>
+        </span>
+
+        <span class="navigation-text"> Banners </span>
+      </a>
+
+      <a href="#" class="navigation-link">
+        <span class="navigation-icon">
+          <i class="fa-solid fa-sliders"></i>
+        </span>
+
+        <span class="navigation-text"> Variations </span>
+      </a>
+    </div>
+  </nav>
+
+  <div class="sidebar-bottom">
+    <a href="{% url 'home' %}" class="sidebar-bottom-link">
+      <i class="fa-solid fa-store"></i>
+
+      <span> View Store </span>
+    </a>
+
+    <a href="#" class="sidebar-bottom-link logout">
+      <i class="fa-solid fa-right-from-bracket"></i>
+
+      <span> Logout </span>
+    </a>
+  </div>
+</aside>

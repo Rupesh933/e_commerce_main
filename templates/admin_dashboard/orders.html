@@ -1,0 +1,339 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Orders | EcoMart Admin</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}" />
+  </head>
+
+  <body>
+    <div class="admin-layout">
+      <!-- SIDEBAR -->
+
+      {% include "includes/admin_sidebar.html" %}
+
+      <!-- MAIN -->
+
+      <main class="admin-main">
+        <header class="admin-topbar">
+          <div class="topbar-left">
+            <button class="mobile-menu-button">
+              <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <div class="topbar-search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+
+              <input type="text" placeholder="Search orders..." />
+            </div>
+          </div>
+
+          <div class="topbar-right">
+            <button class="topbar-icon-button">
+              <i class="fa-regular fa-bell"></i>
+
+              <span class="notification-indicator"></span>
+            </button>
+
+            <div class="topbar-divider"></div>
+
+            <button class="admin-user">
+              <div class="admin-user-avatar">R</div>
+
+              <div class="admin-user-details">
+                <strong> Rupesh Rana </strong>
+
+                <span> Administrator </span>
+              </div>
+
+              <i class="fa-solid fa-chevron-down"></i>
+            </button>
+          </div>
+        </header>
+
+        <div class="admin-content">
+          <div class="page-header">
+            <div>
+              <h1>Orders</h1>
+
+              <p>Manage and track customer orders.</p>
+            </div>
+
+            <button class="secondary-button">
+              <i class="fa-solid fa-download"></i>
+
+              Export Orders
+            </button>
+          </div>
+
+          <!-- ORDER STATUS SUMMARY -->
+
+          <div class="mini-stats-grid">
+            <div class="mini-stat-card">
+              <span>All Orders</span>
+              <strong>124</strong>
+            </div>
+
+            <div class="mini-stat-card">
+              <span>New</span>
+              <strong>18</strong>
+            </div>
+
+            <div class="mini-stat-card">
+              <span>Accepted</span>
+              <strong>26</strong>
+            </div>
+
+            <div class="mini-stat-card">
+              <span>Completed</span>
+              <strong>72</strong>
+            </div>
+
+            <div class="mini-stat-card">
+              <span>Cancelled</span>
+              <strong>8</strong>
+            </div>
+          </div>
+
+          <!-- FILTER -->
+
+          <div class="filter-card">
+            <div class="filter-search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+
+              <input
+                type="text"
+                placeholder="Search order number or customer..."
+              />
+            </div>
+
+            <select class="filter-select">
+              <option>All Status</option>
+              <option>New</option>
+              <option>Accepted</option>
+              <option>Completed</option>
+              <option>Cancelled</option>
+            </select>
+
+            <select class="filter-select">
+              <option>All Dates</option>
+              <option>Today</option>
+              <option>This Week</option>
+              <option>This Month</option>
+            </select>
+          </div>
+
+          <!-- ORDER TABLE -->
+
+          <div class="dashboard-card">
+            <div class="card-header">
+              <div>
+                <h2>Order List</h2>
+
+                <p>Showing latest orders</p>
+              </div>
+            </div>
+
+            <div class="table-wrapper">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Order</th>
+
+                    <th>Customer</th>
+
+                    <th>Items</th>
+
+                    <th>Total</th>
+
+                    <th>Payment</th>
+
+                    <th>Status</th>
+
+                    <th>Date</th>
+
+                    <th></th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr>
+                    <td>
+                      <strong class="order-number"> #EC1024 </strong>
+                    </td>
+
+                    <td>
+                      <div class="customer-cell">
+                        <div class="customer-avatar">A</div>
+
+                        <div>
+                          <strong> Arjun Kumar </strong>
+
+                          <span> arjun@gmail.com </span>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td>3 items</td>
+
+                    <td>
+                      <strong>₹3,499</strong>
+                    </td>
+
+                    <td>COD</td>
+
+                    <td>
+                      <span class="status-badge new-status"> New </span>
+                    </td>
+
+                    <td>28 Sep 2026</td>
+
+                    <td>
+                      <button class="table-action">
+                        <i class="fa-solid fa-ellipsis"></i>
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <strong class="order-number"> #EC1023 </strong>
+                    </td>
+
+                    <td>
+                      <div class="customer-cell">
+                        <div class="customer-avatar second">S</div>
+
+                        <div>
+                          <strong> Shreya Singh </strong>
+
+                          <span> shreya@gmail.com </span>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td>2 items</td>
+
+                    <td>
+                      <strong>₹1,799</strong>
+                    </td>
+
+                    <td>COD</td>
+
+                    <td>
+                      <span class="status-badge accepted-status">
+                        Accepted
+                      </span>
+                    </td>
+
+                    <td>27 Sep 2026</td>
+
+                    <td>
+                      <button class="table-action">
+                        <i class="fa-solid fa-ellipsis"></i>
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <strong class="order-number"> #EC1022 </strong>
+                    </td>
+
+                    <td>
+                      <div class="customer-cell">
+                        <div class="customer-avatar third">R</div>
+
+                        <div>
+                          <strong> Rahul Verma </strong>
+
+                          <span> rahul@gmail.com </span>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td>1 item</td>
+
+                    <td>
+                      <strong>₹4,299</strong>
+                    </td>
+
+                    <td>COD</td>
+
+                    <td>
+                      <span class="status-badge completed-status">
+                        Completed
+                      </span>
+                    </td>
+
+                    <td>27 Sep 2026</td>
+
+                    <td>
+                      <button class="table-action">
+                        <i class="fa-solid fa-ellipsis"></i>
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <strong class="order-number"> #EC1021 </strong>
+                    </td>
+
+                    <td>
+                      <div class="customer-cell">
+                        <div class="customer-avatar fourth">P</div>
+
+                        <div>
+                          <strong> Priya Sharma </strong>
+
+                          <span> priya@gmail.com </span>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td>4 items</td>
+
+                    <td>
+                      <strong>₹5,199</strong>
+                    </td>
+
+                    <td>COD</td>
+
+                    <td>
+                      <span class="status-badge cancelled-status">
+                        Cancelled
+                      </span>
+                    </td>
+
+                    <td>26 Sep 2026</td>
+
+                    <td>
+                      <button class="table-action">
+                        <i class="fa-solid fa-ellipsis"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

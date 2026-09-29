@@ -1,0 +1,270 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Payments | EcoMart Admin</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}" />
+  </head>
+
+  <body>
+    <div class="admin-layout">
+      <!-- SIDEBAR -->
+
+      {% include "includes/admin_sidebar.html" %}
+
+      <!-- MAIN -->
+
+      <main class="admin-main">
+        <header class="admin-topbar">
+          <div class="topbar-left">
+            <button class="mobile-menu-button">
+              <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <div class="topbar-search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+
+              <input type="text" placeholder="Search payments..." />
+            </div>
+          </div>
+
+          <div class="topbar-right">
+            <button class="topbar-icon-button">
+              <i class="fa-regular fa-bell"></i>
+
+              <span class="notification-indicator"></span>
+            </button>
+
+            <div class="topbar-divider"></div>
+
+            <button class="admin-user">
+              <div class="admin-user-avatar">R</div>
+
+              <div class="admin-user-details">
+                <strong> Rupesh Rana </strong>
+
+                <span> Administrator </span>
+              </div>
+
+              <i class="fa-solid fa-chevron-down"></i>
+            </button>
+          </div>
+        </header>
+
+        <div class="admin-content">
+          <div class="page-header">
+            <div>
+              <h1>Payments</h1>
+
+              <p>Track customer payments and transactions.</p>
+            </div>
+
+            <button class="secondary-button">
+              <i class="fa-solid fa-download"></i>
+
+              Export Payments
+            </button>
+          </div>
+
+          <!-- PAYMENT STATS -->
+
+          <div class="mini-stats-grid">
+            <div class="mini-stat-card">
+              <span> Total Payments </span>
+
+              <strong> 124 </strong>
+            </div>
+
+            <div class="mini-stat-card">
+              <span> Total Revenue </span>
+
+              <strong> ₹85,420 </strong>
+            </div>
+
+            <div class="mini-stat-card">
+              <span> COD Payments </span>
+
+              <strong> 124 </strong>
+            </div>
+
+            <div class="mini-stat-card">
+              <span> Pending </span>
+
+              <strong> 0 </strong>
+            </div>
+          </div>
+
+          <!-- FILTER -->
+
+          <div class="filter-card">
+            <div class="filter-search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+
+              <input type="text" placeholder="Search payment ID or order..." />
+            </div>
+
+            <select class="filter-select">
+              <option>All Payment Methods</option>
+
+              <option>Cash on Delivery</option>
+
+              <option>Online Payment</option>
+            </select>
+
+            <select class="filter-select">
+              <option>All Dates</option>
+
+              <option>Today</option>
+
+              <option>This Week</option>
+
+              <option>This Month</option>
+            </select>
+          </div>
+
+          <!-- PAYMENT TABLE -->
+
+          <div class="dashboard-card">
+            <div class="card-header">
+              <div>
+                <h2>Transaction History</h2>
+
+                <p>Recent payment transactions</p>
+              </div>
+            </div>
+
+            <div class="table-wrapper">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Payment ID</th>
+
+                    <th>Order</th>
+
+                    <th>Customer</th>
+
+                    <th>Method</th>
+
+                    <th>Amount</th>
+
+                    <th>Status</th>
+
+                    <th>Date</th>
+
+                    <th></th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr>
+                    <td>
+                      <strong class="order-number"> COD-EC1024 </strong>
+                    </td>
+
+                    <td>#EC1024</td>
+
+                    <td>Arjun Kumar</td>
+
+                    <td>Cash on Delivery</td>
+
+                    <td>
+                      <strong> ₹3,499 </strong>
+                    </td>
+
+                    <td>
+                      <span class="status-badge completed-status">
+                        Completed
+                      </span>
+                    </td>
+
+                    <td>28 Sep 2026</td>
+
+                    <td>
+                      <button class="table-action">
+                        <i class="fa-solid fa-ellipsis"></i>
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <strong class="order-number"> COD-EC1023 </strong>
+                    </td>
+
+                    <td>#EC1023</td>
+
+                    <td>Shreya Singh</td>
+
+                    <td>Cash on Delivery</td>
+
+                    <td>
+                      <strong> ₹1,799 </strong>
+                    </td>
+
+                    <td>
+                      <span class="status-badge completed-status">
+                        Completed
+                      </span>
+                    </td>
+
+                    <td>27 Sep 2026</td>
+
+                    <td>
+                      <button class="table-action">
+                        <i class="fa-solid fa-ellipsis"></i>
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <strong class="order-number"> COD-EC1022 </strong>
+                    </td>
+
+                    <td>#EC1022</td>
+
+                    <td>Rahul Verma</td>
+
+                    <td>Cash on Delivery</td>
+
+                    <td>
+                      <strong> ₹4,299 </strong>
+                    </td>
+
+                    <td>
+                      <span class="status-badge completed-status">
+                        Completed
+                      </span>
+                    </td>
+
+                    <td>27 Sep 2026</td>
+
+                    <td>
+                      <button class="table-action">
+                        <i class="fa-solid fa-ellipsis"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

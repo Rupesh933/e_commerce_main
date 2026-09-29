@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'apps.category',
     'apps.carts',
     'apps.orders',
+
+    'apps.admin_dashboard',
 ]
 
 AUTH_USER_MODEL = "account.Account"

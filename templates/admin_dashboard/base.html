@@ -1,0 +1,85 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>EcoMart Admin</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <!-- Admin CSS -->
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}" />
+  </head>
+
+  <body>
+    <div class="admin-layout">
+
+      {% include "includes/admin_sidebar.html" %}
+
+      <main class="admin-main">
+        <!-- Topbar -->
+
+        <header class="admin-topbar">
+          <div class="topbar-left">
+            <button class="mobile-menu-button">
+              <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <div class="topbar-search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+
+              <input type="text" placeholder="Search..." />
+            </div>
+          </div>
+
+          <div class="topbar-right">
+            <!-- Notification -->
+
+            <button class="topbar-icon-button">
+              <i class="fa-regular fa-bell"></i>
+
+              <span class="notification-indicator"></span>
+            </button>
+
+            <div class="topbar-divider"></div>
+
+            <!-- Profile -->
+
+            <button class="admin-user">
+              <div class="admin-user-avatar">R</div>
+
+              <div class="admin-user-details">
+                <strong> Rupesh Rana </strong>
+
+                <span> Administrator </span>
+              </div>
+
+              <i class="fa-solid fa-chevron-down"></i>
+            </button>
+          </div>
+        </header>
+
+        <div class="admin-content">
+          <!-- This section can be replaced by page content -->
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

@@ -6,7 +6,7 @@
 <section class="eco-checkout">
     <div class="eco-checkout__inner">
 
-        <!-- ============ Page heading + progress ============ -->
+        <!-- Page heading + progress -->
         <div class="eco-checkout__head">
             <div>
                 <h1 class="eco-checkout__title">Payment</h1>
@@ -22,7 +22,7 @@
         <form action="{% url 'confirm_payment' order.order_number %}" method="POST" class="eco-checkout__grid">
             {% csrf_token %}
 
-            <!-- ============ LEFT: address + payment method ============ -->
+            <!-- LEFT: address + payment method -->
             <div class="eco-checkout__main">
 
                 <!-- Delivery address (read only) -->

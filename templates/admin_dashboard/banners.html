@@ -1,0 +1,198 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Banners | EcoMart Admin</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}" />
+  </head>
+
+  <body>
+    <div class="admin-layout">
+      <!-- SIDEBAR -->
+
+      {% include "includes/admin_sidebar.html" %}
+
+      <!-- MAIN -->
+
+      <main class="admin-main">
+        <header class="admin-topbar">
+          <div class="topbar-left">
+            <button class="mobile-menu-button">
+              <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <div class="topbar-search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+
+              <input type="text" placeholder="Search banners..." />
+            </div>
+          </div>
+
+          <div class="topbar-right">
+            <button class="topbar-icon-button">
+              <i class="fa-regular fa-bell"></i>
+
+              <span class="notification-indicator"></span>
+            </button>
+
+            <div class="topbar-divider"></div>
+
+            <button class="admin-user">
+              <div class="admin-user-avatar">R</div>
+
+              <div class="admin-user-details">
+                <strong> Rupesh Rana </strong>
+
+                <span> Administrator </span>
+              </div>
+
+              <i class="fa-solid fa-chevron-down"></i>
+            </button>
+          </div>
+        </header>
+
+        <div class="admin-content">
+          <div class="page-header">
+            <div>
+              <h1>Banners</h1>
+
+              <p>Manage homepage promotional banners.</p>
+            </div>
+
+            <button class="primary-button">
+              <i class="fa-solid fa-plus"></i>
+
+              Add Banner
+            </button>
+          </div>
+
+          <!-- BANNER GRID -->
+
+          <div class="banner-grid">
+            <div class="banner-card">
+              <div class="banner-image">
+                <img
+                  src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=900"
+                  alt="Summer Sale"
+                />
+
+                <span class="banner-status active-banner"> Active </span>
+              </div>
+
+              <div class="banner-content">
+                <h3>Summer Sale</h3>
+
+                <p>Up to 50% off on selected products.</p>
+
+                <div class="banner-meta">
+                  <span>
+                    <i class="fa-regular fa-calendar"></i>
+                    Updated 28 Sep 2026
+                  </span>
+                </div>
+
+                <div class="banner-actions">
+                  <button class="secondary-button">
+                    <i class="fa-solid fa-pen"></i>
+                    Edit
+                  </button>
+
+                  <button class="danger-button">
+                    <i class="fa-solid fa-trash"></i>
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="banner-card">
+              <div class="banner-image">
+                <img
+                  src="https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=900"
+                  alt="New Arrivals"
+                />
+
+                <span class="banner-status active-banner"> Active </span>
+              </div>
+
+              <div class="banner-content">
+                <h3>New Arrivals</h3>
+
+                <p>Discover the latest products at EcoMart.</p>
+
+                <div class="banner-meta">
+                  <span>
+                    <i class="fa-regular fa-calendar"></i>
+                    Updated 24 Sep 2026
+                  </span>
+                </div>
+
+                <div class="banner-actions">
+                  <button class="secondary-button">
+                    <i class="fa-solid fa-pen"></i>
+                    Edit
+                  </button>
+
+                  <button class="danger-button">
+                    <i class="fa-solid fa-trash"></i>
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="banner-card">
+              <div class="banner-image">
+                <img
+                  src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=900"
+                  alt="Fashion Collection"
+                />
+
+                <span class="banner-status inactive-banner"> Inactive </span>
+              </div>
+
+              <div class="banner-content">
+                <h3>Fashion Collection</h3>
+
+                <p>Explore our latest fashion collection.</p>
+
+                <div class="banner-meta">
+                  <span>
+                    <i class="fa-regular fa-calendar"></i>
+                    Updated 18 Sep 2026
+                  </span>
+                </div>
+
+                <div class="banner-actions">
+                  <button class="secondary-button">
+                    <i class="fa-solid fa-pen"></i>
+                    Edit
+                  </button>
+
+                  <button class="danger-button">
+                    <i class="fa-solid fa-trash"></i>
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
