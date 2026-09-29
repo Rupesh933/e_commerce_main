@@ -39,7 +39,12 @@ def add_cart(request, product_id):
             cart = cart
         )
         cart_item.save()
-    # return HttpResponse("cart_item", cart_item.quantity)
+
+    # go back to whichever page the request came from
+    previous_page = request.META.get("HTTP_REFERER")
+    if previous_page:
+        return redirect(previous_page)
+    # # return HttpResponse("cart_item", cart_item.quantity)
     return redirect("store")
 
 def cart(request):

@@ -38,7 +38,7 @@
 
     <div class="stat-body">
       <span> Total Revenue </span>
-      <strong> ₹85,420 </strong>
+      <strong> {{ total_revenue|floatformat:2 }} </strong>
       <small> Compared to last month </small>
     </div>
   </div>
@@ -76,9 +76,7 @@
 
     <div class="stat-body">
       <span> Total Customers </span>
-
-      <strong> {{ total_custormers }} </strong>
-
+      <strong> {{ total_customers  }} </strong>
       <small> Compared to last month </small>
     </div>
   </div>
@@ -114,7 +112,7 @@
     <div class="stat-body">
       <span> Pending Orders </span>
 
-      <strong> 12 </strong>
+      <strong> {{ pending_orders }} </strong>
 
       <small> Requires attention </small>
     </div>
@@ -212,7 +210,6 @@
     <div class="card-header">
       <div>
         <h2>Order Status</h2>
-
         <p>Current order distribution</p>
       </div>
     </div>
@@ -221,7 +218,6 @@
       <div class="donut-chart">
         <div class="donut-center">
           <strong> 124 </strong>
-
           <span> Orders </span>
         </div>
       </div>
@@ -298,18 +294,17 @@
       </thead>
 
       <tbody>
+        {% for recent_order in recent_orders %}
         <tr>
           <td>
-            <strong class="order-number"> #EC1024 </strong>
+            <strong class="order-number"> {{ recent_order.order_number }} </strong>
           </td>
-
           <td>
             <div class="customer-cell">
               <div class="customer-avatar">A</div>
-
               <div>
-                <strong> Arjun Kumar </strong>
-                <span> arjun@gmail.com </span>
+                <strong> {{ recent_order.full_name }} </strong>
+                <span> {{ recent_order.email }} </span>
               </div>
             </div>
           </td>
@@ -319,14 +314,22 @@
           </td>
 
           <td>
-            <strong> ₹3,499 </strong>
+            <strong> {{ recent_order.order_total }} </strong>
           </td>
 
           <td>
+            {% if recent_order.status == "New" %}
             <span class="status-badge new-status"> New </span>
+            {% elif recent_order.status == "Accepted" %}
+            <span class="status-badge new-status"> Accepted </span>
+            {% elif recent_order.status == "Completed" %}
+            <span class="status-badge new-status"> Completed </span>
+            {% elif recent_order.status == "Cancelled" %}
+            <span class="status-badge new-status"> Cancelled </span>
+            {% endif %}
           </td>
 
-          <td>28 Sep 2026</td>
+          <td>{{ recent_order.created_at|date:"d M Y" }}</td>
 
           <td>
             <button class="table-action">
@@ -334,126 +337,16 @@
             </button>
           </td>
         </tr>
-
+        {% empty %}
         <tr>
-          <td>
-            <strong class="order-number"> #EC1023 </strong>
-          </td>
-
-          <td>
-            <div class="customer-cell">
-              <div class="customer-avatar second">S</div>
-              <div>
-                <strong> Shreya Singh </strong>
-                <span> shreya@gmail.com </span>
-              </div>
-            </div>
-          </td>
-
-          <td>
-            <strong> Cotton Hoodie </strong>
-            <span class="product-more"> + 1 more </span>
-          </td>
-
-          <td>
-            <strong> ₹1,799 </strong>
-          </td>
-
-          <td>
-            <span class="status-badge accepted-status"> Accepted </span>
-          </td>
-
-          <td>27 Sep 2026</td>
-
-          <td>
-            <button class="table-action">
-              <i class="fa-solid fa-ellipsis"></i>
-            </button>
-          </td>
+            <td colspan="5"><strong>No Order Found</strong></td>
         </tr>
+        {% endfor %}
 
-        <tr>
-          <td>
-            <strong class="order-number"> #EC1022 </strong>
-          </td>
-
-          <td>
-            <div class="customer-cell">
-              <div class="customer-avatar third">R</div>
-
-              <div>
-                <strong> Rahul Verma </strong>
-                <span> rahul@gmail.com </span>
-              </div>
-            </div>
-          </td>
-
-          <td>
-            <strong> Smart Watch </strong>
-          </td>
-
-          <td>
-            <strong> ₹4,299 </strong>
-          </td>
-
-          <td>
-            <span class="status-badge completed-status"> Completed </span>
-          </td>
-
-          <td>27 Sep 2026</td>
-
-          <td>
-            <button class="table-action">
-              <i class="fa-solid fa-ellipsis"></i>
-            </button>
-          </td>
-        </tr>
-
-        <tr>
-          <td>
-            <strong class="order-number"> #EC1021 </strong>
-          </td>
-
-          <td>
-            <div class="customer-cell">
-              <div class="customer-avatar fourth">P</div>
-
-              <div>
-                <strong> Priya Sharma </strong>
-
-                <span> priya@gmail.com </span>
-              </div>
-            </div>
-          </td>
-
-          <td>
-            <strong> Running Shoes </strong>
-
-            <span class="product-more"> + 3 more </span>
-          </td>
-
-          <td>
-            <strong> ₹5,199 </strong>
-          </td>
-
-          <td>
-            <span class="status-badge cancelled-status"> Cancelled </span>
-          </td>
-
-          <td>26 Sep 2026</td>
-
-          <td>
-            <button class="table-action">
-              <i class="fa-solid fa-ellipsis"></i>
-            </button>
-          </td>
-        </tr>
       </tbody>
     </table>
   </div>
 </section>
-
-<!-- BOTTOM SECTION -->
 
 <section class="bottom-grid">
   <!-- Low Stock -->
@@ -462,71 +355,38 @@
     <div class="card-header">
       <div>
         <h2>Low Stock Products</h2>
-
-        <p>Products that need restocking</p>
+        <p>Products with {{ low_stock_threshold }} or fewer items left</p>
       </div>
 
       <a href="#" class="view-all"> View all </a>
     </div>
 
     <div class="stock-list">
+        {% for low_stock in low_stock_products %}
       <div class="stock-item">
         <div class="stock-product">
           <div class="stock-image">
+            {% if low_stock.images %}
             <img
-              src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=120"
-              alt="Running Shoes"
+              src="{{ low_stock.images.url }}"
+              alt="{{ low_stock.product_name }}"
             />
+            {% endif %}
           </div>
 
           <div>
-            <strong> Running Shoes </strong>
-
-            <span> Sports </span>
+            <strong> {{ low_stock.product_name }} </strong>
+            <span> {{ low_stock.category.category_name }} </span>
           </div>
         </div>
 
-        <span class="stock-count critical"> 3 left </span>
+        <span class="stock-count critical"> {{ low_stock.stock }} left </span>
       </div>
-
-      <div class="stock-item">
-        <div class="stock-product">
-          <div class="stock-image">
-            <img
-              src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=120"
-              alt="Smart Watch"
-            />
-          </div>
-
-          <div>
-            <strong> Smart Watch </strong>
-
-            <span> Electronics </span>
+        {% empty %}
+        <p class="stock-empty">No products need restocking right now.</p>
+        {% endfor %}
           </div>
         </div>
-
-        <span class="stock-count warning"> 5 left </span>
-      </div>
-
-      <div class="stock-item">
-        <div class="stock-product">
-          <div class="stock-image">
-            <img
-              src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=120"
-              alt="Cotton Hoodie"
-            />
-          </div>
-
-          <div>
-            <strong> Cotton Hoodie </strong>
-            <span> Clothing </span>
-          </div>
-        </div>
-
-        <span class="stock-count warning"> 7 left </span>
-      </div>
-    </div>
-  </div>
 
   <!-- Quick Actions -->
 
@@ -540,7 +400,7 @@
     </div>
 
     <div class="quick-actions">
-      <a href="#" class="quick-action">
+      <a href="{% url 'add_products' %}" class="quick-action">
         <div class="quick-action-icon">
           <i class="fa-solid fa-plus"></i>
         </div>

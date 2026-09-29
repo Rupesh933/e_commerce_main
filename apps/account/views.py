@@ -7,8 +7,8 @@ from django.contrib.auth import update_session_auth_hash
 from django.utils.http import url_has_allowed_host_and_scheme
 
 
-from .models import Account
-from .forms import RegistrationForm
+from .models import Account, Address
+from .forms import RegistrationForm, AddressForm
 from apps.carts.models import Cart
 
 
@@ -106,3 +106,45 @@ def edit_profile():pass
 @login_required(login_url="login")
 def profile(request): 
     return render(request, "profile/profile.html")
+
+
+
+@login_required(login_url="login")
+def address_list(request):
+    addresses = Address.objects.filter(user=request.user).order_by("-is_default", "-id")
+    return render(request, "profile/address_list.html", {"addresses": addresses})
+
+
+@login_required(login_url="login")
+def add_address(request):
+    if request.method == "POST":
+        form = AddressForm(request.POST)
+        if form.is_valid():
+            address = form.save(commit=False)
+            address.user = request.user
+            address.save()
+            return redirect("address_list")
+    else:
+        form = AddressForm()
+    return render(request, "profile/address_form.html", {"form": form})
+
+
+@login_required(login_url="login")
+def edit_address(request, address_id):
+    address = get_object_or_404(Address, id=address_id, user=request.user)
+    if request.method == "POST":
+        form = AddressForm(request.POST, instance=address)
+        if form.is_valid():
+            form.save()
+            return redirect("address_list")
+    else:
+        form = AddressForm(instance=address)
+    return render(request, "profile/address_form.html", {"form": form})
+
+
+@login_required(login_url="login")
+def delete_address(request, address_id):
+    address = get_object_or_404(Address, id=address_id, user=request.user)
+    if request.method == "POST":
+        address.delete()
+    return redirect("address_list")

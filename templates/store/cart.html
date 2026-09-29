@@ -1,21 +1,28 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+{% endblock extra_css %}
+
 {% block content %}
-<section class="section-content padding-y bg">
+<section class="section-content cart-page">
     <div class="container">
 
         <!-- COMPONENT 1 -->
         {% if not cart_items %}
-        <h2 class="text-center`1 mt-5 mb-5">Your Shopping Cart is Empty</h2>
-        <div class="text-center mb-5">
+        <div class="cart-empty">
+        <h2>Your Shopping Cart is Empty</h2>
+        <div>
             <a href="{% url 'store' %}" class="btn btn-primary">Continue Shopping</a>
+        </div>
         </div>
 
         {% else %}
         <div class="row">
             <aside class="col-lg-9">
-                <div class="card">
+                <div class="cart-panel">
+                    <div class="cart-table-wrap">
                     <table class="table table-borderless table-shopping-cart">
                         <thead class="text-muted">
                             <tr class="small text-uppercase">
@@ -34,11 +41,13 @@
                                             {% if cart_item.product.images %}
                                             <img src="{{ cart_item.product.images.url }}" class="img-sm"
                                                 alt="{{ cart_item.product.product_name }}">
+                                            {% else %}
+                                            <span class="image-empty">No image</span>
                                             {% endif %}
                                         </div>
                                         <figcaption class="info">
-                                            <a href="#" class="title text-dark">{{ cart_item.product.product_name }}</a>
-                                            <p class="text-muted small">
+                                            <a href="{{ cart_item.product.get_url }}" class="title text-dark">{{ cart_item.product.product_name|truncatechars:20 }}</a>
+                                            <p class="text-muted small variation-list">
                                                 {% if cart_item.variations.all %}
                                                 {% for item in cart_item.variations.all %}
                                                 {{ item.variation_category }}: {{ item.variation_value }} <br>
@@ -72,19 +81,20 @@
                                     </div>
                                 </td>
                                 <td class="text-right">
-                                    <a href="{% url 'remove_cart_item' cart_item.product.id %}" class="btn btn-danger">Remove</a>
+                                    <a href="{% url 'remove_cart_item' cart_item.product.id %}" class="btn btn-danger cart-remove">Remove</a>
                                 </td>
                             </tr>
                             {% endfor %}
                         </tbody>
                     </table>
+                    </div>
                 </div>
 
             </aside>
             <aside class="col-lg-3">
 
-                <div class="card">
-                    <div class="card-body">
+                <div class="cart-summary">
+                    <div>
                         <dl class="dlist-align">
                             <dt>Product price:</dt>
                             <dd class="text-right">${{ total }}</dd>
@@ -99,7 +109,7 @@
                         </dl>
                         <hr>
                         <p class="text-center mb-3">
-                            <img src="{% static 'images/misc/payments.png' %}" height="26">
+                            <img src="{% static 'images/misc/payments.png' %}" class="payment-methods" alt="Accepted payment methods">
                         </p>
                         <a href="{% url 'checkout' %}" class="btn btn-primary btn-block"> Checkout </a>
                         <a href="{% url 'store' %}" class="btn btn-light btn-block">Continue Shopping</a> 

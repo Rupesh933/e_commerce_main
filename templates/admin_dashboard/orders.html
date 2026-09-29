@@ -1,272 +1,67 @@
 {% extends "admin_dashboard/base.html" %}
 
 {% block content %}
-        <div class="admin-content">
-          <div class="page-header">
-            <div>
-              <h1>Orders</h1>
+<div class="page-header">
+  <div>
+    <h1>Orders</h1>
+    <p>Manage and track customer orders.</p>
+  </div>
+  <button class="secondary-button" type="button">
+    <i class="fa-solid fa-download"></i>
+    Export Orders
+  </button>
+</div>
 
-              <p>Manage and track customer orders.</p>
-            </div>
+<div class="mini-stats-grid">
+  <div class="mini-stat-card"><span>New</span><strong>{{ new_orders_count }}</strong></div>
+  <div class="mini-stat-card"><span>Accepted</span><strong>{{ accepted_orders_count }}</strong></div>
+  <div class="mini-stat-card"><span>Completed</span><strong>{{ completed_orders_count }}</strong></div>
+  <div class="mini-stat-card"><span>Cancelled</span><strong>{{ canceled_orders_count }}</strong></div>
+</div>
 
-            <button class="secondary-button">
-              <i class="fa-solid fa-download"></i>
+<div class="dashboard-card">
+  <div class="card-header">
+    <div>
+      <h2>All Orders</h2>
+      <p>Recent customer orders</p>
+    </div>
+  </div>
 
-              Export Orders
-            </button>
-          </div>
-
-          <!-- ORDER STATUS SUMMARY -->
-
-          <div class="mini-stats-grid">
-            <div class="mini-stat-card">
-              <span>All Orders</span>
-              <strong>124</strong>
-            </div>
-
-            <div class="mini-stat-card">
-              <span>New</span>
-              <strong>18</strong>
-            </div>
-
-            <div class="mini-stat-card">
-              <span>Accepted</span>
-              <strong>26</strong>
-            </div>
-
-            <div class="mini-stat-card">
-              <span>Completed</span>
-              <strong>72</strong>
-            </div>
-
-            <div class="mini-stat-card">
-              <span>Cancelled</span>
-              <strong>8</strong>
-            </div>
-          </div>
-
-          <!-- FILTER -->
-
-          <div class="filter-card">
-            <div class="filter-search">
-              <i class="fa-solid fa-magnifying-glass"></i>
-
-              <input
-                type="text"
-                placeholder="Search order number or customer..."
-              />
-            </div>
-
-            <select class="filter-select">
-              <option>All Status</option>
-              <option>New</option>
-              <option>Accepted</option>
-              <option>Completed</option>
-              <option>Cancelled</option>
-            </select>
-
-            <select class="filter-select">
-              <option>All Dates</option>
-              <option>Today</option>
-              <option>This Week</option>
-              <option>This Month</option>
-            </select>
-          </div>
-
-          <!-- ORDER TABLE -->
-
-          <div class="dashboard-card">
-            <div class="card-header">
+  <div class="table-wrapper">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Order</th>
+          <th>Customer</th>
+          <th>Total</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+        <tr>
+          <td><strong class="order-number">#{{ order.order_number|default:order.id }}</strong></td>
+          <td>
+            <div class="customer-cell">
+              <div class="customer-avatar">{{ order.first_name|first|upper }}</div>
               <div>
-                <h2>Order List</h2>
-
-                <p>Showing latest orders</p>
+                <strong>{{ order.full_name }}</strong>
+                <span>{{ order.email }}</span>
               </div>
             </div>
-
-            <div class="table-wrapper">
-              <table class="admin-table">
-                <thead>
-                  <tr>
-                    <th>Order</th>
-
-                    <th>Customer</th>
-
-                    <th>Items</th>
-
-                    <th>Total</th>
-
-                    <th>Payment</th>
-
-                    <th>Status</th>
-
-                    <th>Date</th>
-
-                    <th></th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  <tr>
-                    <td>
-                      <strong class="order-number"> #EC1024 </strong>
-                    </td>
-
-                    <td>
-                      <div class="customer-cell">
-                        <div class="customer-avatar">A</div>
-
-                        <div>
-                          <strong> Arjun Kumar </strong>
-
-                          <span> arjun@gmail.com </span>
-                        </div>
-                      </div>
-                    </td>
-
-                    <td>3 items</td>
-
-                    <td>
-                      <strong>₹3,499</strong>
-                    </td>
-
-                    <td>COD</td>
-
-                    <td>
-                      <span class="status-badge new-status"> New </span>
-                    </td>
-
-                    <td>28 Sep 2026</td>
-
-                    <td>
-                      <button class="table-action">
-                        <i class="fa-solid fa-ellipsis"></i>
-                      </button>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      <strong class="order-number"> #EC1023 </strong>
-                    </td>
-
-                    <td>
-                      <div class="customer-cell">
-                        <div class="customer-avatar second">S</div>
-
-                        <div>
-                          <strong> Shreya Singh </strong>
-
-                          <span> shreya@gmail.com </span>
-                        </div>
-                      </div>
-                    </td>
-
-                    <td>2 items</td>
-
-                    <td>
-                      <strong>₹1,799</strong>
-                    </td>
-
-                    <td>COD</td>
-
-                    <td>
-                      <span class="status-badge accepted-status">
-                        Accepted
-                      </span>
-                    </td>
-
-                    <td>27 Sep 2026</td>
-
-                    <td>
-                      <button class="table-action">
-                        <i class="fa-solid fa-ellipsis"></i>
-                      </button>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      <strong class="order-number"> #EC1022 </strong>
-                    </td>
-
-                    <td>
-                      <div class="customer-cell">
-                        <div class="customer-avatar third">R</div>
-
-                        <div>
-                          <strong> Rahul Verma </strong>
-
-                          <span> rahul@gmail.com </span>
-                        </div>
-                      </div>
-                    </td>
-
-                    <td>1 item</td>
-
-                    <td>
-                      <strong>₹4,299</strong>
-                    </td>
-
-                    <td>COD</td>
-
-                    <td>
-                      <span class="status-badge completed-status">
-                        Completed
-                      </span>
-                    </td>
-
-                    <td>27 Sep 2026</td>
-
-                    <td>
-                      <button class="table-action">
-                        <i class="fa-solid fa-ellipsis"></i>
-                      </button>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      <strong class="order-number"> #EC1021 </strong>
-                    </td>
-
-                    <td>
-                      <div class="customer-cell">
-                        <div class="customer-avatar fourth">P</div>
-
-                        <div>
-                          <strong> Priya Sharma </strong>
-
-                          <span> priya@gmail.com </span>
-                        </div>
-                      </div>
-                    </td>
-
-                    <td>4 items</td>
-
-                    <td>
-                      <strong>₹5,199</strong>
-                    </td>
-
-                    <td>COD</td>
-
-                    <td>
-                      <span class="status-badge cancelled-status">
-                        Cancelled
-                      </span>
-                    </td>
-
-                    <td>26 Sep 2026</td>
-
-                    <td>
-                      <button class="table-action">
-                        <i class="fa-solid fa-ellipsis"></i>
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+          </td>
+          <td><strong>&#8377;{{ order.order_total|floatformat:2 }}</strong></td>
+          <td><span class="status-badge new-status">{{ order.status }}</span></td>
+          <td>{{ order.created_at|date:"d M Y" }}</td>
+          <td><a class="table-action" href="{% url 'order_detail' order_id=order.id %}" title="View order"><i class="fa-solid fa-eye"></i></a></td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6"><strong>No orders found.</strong></td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
 {% endblock content %}

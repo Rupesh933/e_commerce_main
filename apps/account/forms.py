@@ -49,4 +49,15 @@ class RegistrationForm(forms.ModelForm):
                 code="password_does_not_match"
             )
 
-        
+
+from django import forms
+from .models import Address
+
+
+class AddressForm(forms.ModelForm):
+    class Meta:
+        model = Address
+        fields = [
+            "full_name", "phone_number", "address_line_1", "address_line_2",
+            "city", "state", "country", "pincode", "is_default",
+        ]

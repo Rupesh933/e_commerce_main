@@ -1,5 +1,7 @@
 from django.db import models
 
+from django.utils.text import slugify
+
 from apps.category.models import Category
 from django.urls import reverse
 
@@ -21,6 +23,21 @@ class Product(models.Model):
 
     def get_url(self):
         return reverse("product_detail", args=[self.category.slug, self.slug])
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(self.product_name)
+            slug = base_slug
+            counter = 1
+
+            # Keep trying until we find a slug that is not already used
+            while Product.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+
+            self.slug = slug
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.product_name

@@ -33,6 +33,9 @@
 
     /* layout */
     .eco-checkout__grid { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 24px; align-items: start; }
+    .eco-checkout__errors { grid-column: 1 / -1; margin: 0; color: #a33a3a; }
+    .eco-checkout__errors p { margin: 0 0 8px; font-weight: 700; }
+    .eco-checkout__errors ul { margin: 0; padding-left: 20px; }
     .eco-checkout__main { display: flex; flex-direction: column; gap: 18px; }
     .eco-checkout__side { position: sticky; top: 16px; }
 

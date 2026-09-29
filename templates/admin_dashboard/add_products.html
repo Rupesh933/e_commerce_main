@@ -1,0 +1,67 @@
+{% extends "admin_dashboard/base.html" %} {% block content %}
+
+<div class="page-header">
+  <div>
+    <h1>Add Product</h1>
+    <p>Add a new product to your store.</p>
+  </div>
+</div>
+
+<div class="dashboard-card product-form-card">
+  <form method="POST" enctype="multipart/form-data" action="{% url 'add_products' %}">
+    {% csrf_token %}
+
+    <div class="form-group">
+      <label> Product Name </label>
+      {{ form.product_name }}
+    </div>
+
+    <div class="form-group">
+      <label> Slug </label>
+      {{ form.slug }}
+    </div>
+
+    <div class="form-group">
+      <label> Description </label>
+      {{ form.description }}
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label> Price </label>
+        {{ form.price }}
+      </div>
+
+      <div class="form-group">
+        <label> Stock </label>
+        {{ form.stock }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label> Category </label>
+      {{ form.category }}
+    </div>
+
+    <div class="form-group">
+      <label> Product Image </label>
+      {{ form.images }}
+    </div>
+
+    <div class="form-checkbox">
+      {{ form.is_availbale }}
+      <label> Product is available </label>
+    </div>
+
+    {% if form.errors %}
+    <div class="form-errors">{{ form.errors }}</div>
+    {% endif %}
+
+    <div class="form-actions">
+      <a href="{% url 'admin_products' %}" class="secondary-button"> Cancel </a>
+      <button type="submit" class="primary-button">Add Product</button>
+    </div>
+  </form>
+</div>
+
+{% endblock content %}

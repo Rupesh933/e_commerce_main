@@ -105,27 +105,30 @@
         <div class="eco-header__main-inner">
 
             <a href="{% url 'home' %}" class="eco-brand" title="EcoMart - Home">
-                <span class="eco-brand__mark">
+                {% comment %} <span class="eco-brand__mark">
                     <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
-                        <path d="M4 8l8-4 8 4-8 4-8-4z" stroke="#FFFFFF" stroke-width="1.4" stroke-linejoin="round"/>
-                        <path d="M4 8v8l8 4 8-4V8" stroke="#FFFFFF" stroke-width="1.4" stroke-linejoin="round"/>
-                        <path d="M12 12v8" stroke="#FFFFFF" stroke-width="1.4"/>
-                    </svg>
+                        <path d="M3 4h2l1.6 10.2a2 2 0 002 1.8h8.4a2 2 0 002-1.7L20 8H6" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="10" cy="20" r="1.4" fill="#FFFFFF"/>
+                        <circle cx="17" cy="20" r="1.4" fill="#FFFFFF"/>
+                    </svg> {% endcomment %}
                 </span>
                 <span class="eco-brand__text">
-                    <span class="eco-brand__name">Kavan Mart</span>
+                    <span class="eco-brand__name">🛍️Shopping Mart</span>
                     <span class="eco-brand__tag">Shop Smart</span>
                 </span>
             </a>
 
-            <!-- Deliver-to: swap user.address for your actual model field -->
-            <a href="{% url 'edit_profile' %}" class="eco-deliver">
+            <a href="{% if user.id %}{% url 'address_list' %}{% else %}{% url 'login' %}{% endif %}" class="eco-deliver">
                 <svg class="eco-deliver__pin" viewBox="0 0 20 20"><path d="M10 18s6-5.2 6-9.5A6 6 0 004 8.5C4 12.8 10 18 10 18z" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="10" cy="8.3" r="2" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
                 <span class="eco-deliver__text">
                     <span class="eco-deliver__label">{% if user.id %}Deliver to{% else %}Sign in for{% endif %}</span>
                     <span class="eco-deliver__value">
                         {% if user.id %}
-                            {{ user.address|default:"Add delivery address" }}
+                            {% if deliver_address %}
+                                {{ deliver_address.city }}, {{ deliver_address.pincode }}
+                            {% else %}
+                                Add delivery address
+                            {% endif %}
                         {% else %}
                             delivery updates
                         {% endif %}

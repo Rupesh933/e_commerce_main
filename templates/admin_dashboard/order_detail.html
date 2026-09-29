@@ -1,0 +1,79 @@
+{% extends "admin_dashboard/base.html" %}
+
+{% block content %}
+<div class="admin-content">
+
+  <div class="page-header">
+    <div>
+      <h1>Order #{{ order.id }}</h1>
+      <p>Placed on {{ order.created_at|date:"d M Y, h:i A" }}</p>
+    </div>
+    <a href="{% url 'admin_orders' %}" class="secondary-button">Back to orders</a>
+  </div>
+
+  <!-- STATUS UPDATE -->
+  <div class="dashboard-card">
+    <div class="card-header">
+      <h2>Order status</h2>
+    </div>
+
+    <form method="POST" class="status-form">
+      {% csrf_token %}
+      <select name="status" class="filter-select">
+        {% for value, label in order.STATUS_CHOICES %}
+        <option value="{{ value }}" {% if order.status == value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+      <button type="submit" class="primary-button">Update status</button>
+    </form>
+  </div>
+
+  <!-- CUSTOMER + DELIVERY -->
+  <div class="dashboard-card">
+    <div class="card-header">
+      <h2>Delivery details</h2>
+    </div>
+    <p>
+      <strong>{{ order.full_name }}</strong><br>
+      {{ order.address_line_1 }}{% if order.address_line_2 %}, {{ order.address_line_2 }}{% endif %}<br>
+      {{ order.city }}, {{ order.state }}, {{ order.country }}<br>
+      {{ order.phone_number }} &middot; {{ order.email }}
+    </p>
+    {% if order.order_note %}
+    <p><strong>Note:</strong> {{ order.order_note }}</p>
+    {% endif %}
+  </div>
+
+  <!-- ITEMS -->
+  <div class="dashboard-card">
+    <div class="card-header">
+      <h2>Items</h2>
+    </div>
+    <div class="table-wrapper">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in order_products %}
+          <tr>
+            <td>{{ item.product.product_name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>&#8377;{{ item.product_price }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <p style="text-align:right; margin-top:12px;">
+      <strong>Total: &#8377;{{ order.order_total|floatformat:2 }}</strong>
+    </p>
+  </div>
+
+</div>
+{% endblock content %}

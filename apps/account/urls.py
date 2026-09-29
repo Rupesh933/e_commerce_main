@@ -11,4 +11,10 @@ urlpatterns = [
     path("change_password/", views.change_password, name="change_password"),
     path("profile/", views.profile, name="profile"),
 
+
+    path("address/", views.address_list, name="address_list"),
+    path("address/add/", views.add_address, name="add_address"),
+    path("address/<int:address_id>/edit/", views.edit_address, name="edit_address"),
+    path("address/<int:address_id>/delete/", views.delete_address, name="delete_address"),
+
 ]
