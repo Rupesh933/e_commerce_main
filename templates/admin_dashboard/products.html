@@ -1,88 +1,6 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
+{% extends "admin_dashboard/base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Products | EcoMart Admin</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet"
-    >
-
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    >
-
-    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
-</head>
-
-<body>
-
-<div class="admin-layout">
-
-    <!-- SIDEBAR -->
-    {% include "includes/admin_sidebar.html" %}
-
-    <!-- MAIN -->
-    <main class="admin-main">
-
-        <header class="admin-topbar">
-
-            <div class="topbar-left">
-
-                <button class="mobile-menu-button">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-
-                <div class="topbar-search">
-
-                    <i class="fa-solid fa-magnifying-glass"></i>
-
-                    <input
-                        type="text"
-                        placeholder="Search products..."
-                    >
-
-                </div>
-
-            </div>
-
-
-            <div class="topbar-right">
-
-                <button class="topbar-icon-button">
-                    <i class="fa-regular fa-bell"></i>
-                    <span class="notification-indicator"></span>
-                </button>
-
-                <div class="topbar-divider"></div>
-
-                <button class="admin-user">
-
-                    <div class="admin-user-avatar">R</div>
-
-                    <div class="admin-user-details">
-                        <strong>Rupesh Rana</strong>
-                        <span>Administrator</span>
-                    </div>
-
-                    <i class="fa-solid fa-chevron-down"></i>
-
-                </button>
-
-            </div>
-
-        </header>
-
-
+{% block content %}
         <div class="admin-content">
 
             <!-- PAGE HEADER -->
@@ -391,15 +309,4 @@
             </div>
 
         </div>
-
-    </main>
-
-</div>
-
-</body>
-</html>
-
-
-</body>
-
-</html>
+    {% endblock content %}

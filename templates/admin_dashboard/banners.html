@@ -1,70 +1,6 @@
-{% load static %}
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+{% extends "admin_dashboard/base.html" %}
 
-    <title>Banners | EcoMart Admin</title>
-
-    <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    />
-
-    <link rel="stylesheet" href="{% static 'css/admin.css' %}" />
-  </head>
-
-  <body>
-    <div class="admin-layout">
-      <!-- SIDEBAR -->
-
-      {% include "includes/admin_sidebar.html" %}
-
-      <!-- MAIN -->
-
-      <main class="admin-main">
-        <header class="admin-topbar">
-          <div class="topbar-left">
-            <button class="mobile-menu-button">
-              <i class="fa-solid fa-bars"></i>
-            </button>
-
-            <div class="topbar-search">
-              <i class="fa-solid fa-magnifying-glass"></i>
-
-              <input type="text" placeholder="Search banners..." />
-            </div>
-          </div>
-
-          <div class="topbar-right">
-            <button class="topbar-icon-button">
-              <i class="fa-regular fa-bell"></i>
-
-              <span class="notification-indicator"></span>
-            </button>
-
-            <div class="topbar-divider"></div>
-
-            <button class="admin-user">
-              <div class="admin-user-avatar">R</div>
-
-              <div class="admin-user-details">
-                <strong> Rupesh Rana </strong>
-
-                <span> Administrator </span>
-              </div>
-
-              <i class="fa-solid fa-chevron-down"></i>
-            </button>
-          </div>
-        </header>
-
+{% block content %}
         <div class="admin-content">
           <div class="page-header">
             <div>
@@ -192,7 +128,4 @@
             </div>
           </div>
         </div>
-      </main>
-    </div>
-  </body>
-</html>
+{% endblock content %}
