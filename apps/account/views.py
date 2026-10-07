@@ -11,6 +11,8 @@ from .models import Account, Address
 from .forms import RegistrationForm, AddressForm
 from apps.carts.models import Cart
 
+from apps.orders.models import Order
+
 
 
 def registration(request):
@@ -104,15 +106,27 @@ def edit_profile():pass
 
 
 @login_required(login_url="login")
-def profile(request): 
-    return render(request, "profile/profile.html")
+def profile(request):
+    addresses_count = Address.objects.filter(user=request.user).count()
+    orders_count = Order.objects.filter(user=request.user).count()
+    recent_orders = (
+        Order.objects.filter(user=request.user)
+        .prefetch_related("items__product")
+        .order_by("-created_at")[:5]
+    )
+    context = {
+        "addresses_count": addresses_count,
+        "orders_count": orders_count,
+        "recent_orders": recent_orders
+    }
+    return render(request, "my_profile/profile.html", context)
 
 
 
 @login_required(login_url="login")
 def address_list(request):
     addresses = Address.objects.filter(user=request.user).order_by("-is_default", "-id")
-    return render(request, "profile/address_list.html", {"addresses": addresses})
+    return render(request, "Saved Addresses/address_list.html", {"addresses": addresses})
 
 
 @login_required(login_url="login")
@@ -126,7 +140,7 @@ def add_address(request):
             return redirect("address_list")
     else:
         form = AddressForm()
-    return render(request, "profile/address_form.html", {"form": form})
+    return render(request, "Saved Addresses/address_form.html", {"form": form})
 
 
 @login_required(login_url="login")
@@ -139,7 +153,7 @@ def edit_address(request, address_id):
             return redirect("address_list")
     else:
         form = AddressForm(instance=address)
-    return render(request, "profile/address_form.html", {"form": form})
+    return render(request, "Saved Addresses/address_form.html", {"form": form})
 
 
 @login_required(login_url="login")

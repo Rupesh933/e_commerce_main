@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link href="{% static 'css/profile.css' %}" rel="stylesheet" type="text/css">
+{% endblock extra_css %}
+
+{% block content %}
+<section class="eco-profile">
+    <div class="eco-profile__inner">
+        <div class="eco-profile__head">
+            <h1 class="eco-profile__title">Saved addresses</h1>
+            <p class="eco-profile__sub">Manage the addresses you deliver to.</p>
+        </div>
+
+<div class="eco-panel">
+    <div class="eco-panel__head">
+        <h2 class="eco-panel__title">Your addresses</h2>
+        <a href="{% url 'add_address' %}" class="eco-btn eco-btn--accent eco-btn--sm">+ Add new address</a>
+    </div>
+
+    {% if addresses %}
+    <div class="eco-addr-grid">
+        {% for address in addresses %}
+        <div class="eco-addr-card {% if address.is_default %}is-default{% endif %}">
+
+            {% if address.is_default %}
+            <span class="eco-badge eco-badge--accepted">Default</span>
+            {% endif %}
+
+            <strong class="eco-addr-card__name">{{ address.full_name }}</strong>
+            <p class="eco-addr-card__body">
+                {{ address.address_line_1 }}{% if address.address_line_2 %}, {{ address.address_line_2 }}{% endif %}<br>
+                {{ address.city }}, {{ address.state }} {{ address.pincode }}<br>
+                {{ address.country }}<br>
+                {{ address.phone_number }}
+            </p>
+
+            <div class="eco-actions">
+                <a href="{% url 'edit_address' address.id %}" class="eco-btn eco-btn--ghost eco-btn--sm">Edit</a>
+
+                <form method="POST" action="{% url 'delete_address' address.id %}" onsubmit="return confirm('Delete this address?');">
+                    {% csrf_token %}
+                    <button type="submit" class="eco-btn eco-btn--danger eco-btn--sm">Delete</button>
+                </form>
+
+            </div>
+
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="eco-empty">
+        <p>You have not saved any address yet.</p>
+        <a href="{% url 'add_address' %}" class="eco-btn eco-btn--accent">Add your first address</a>
+    </div>
+    {% endif %}
+</div>
+    </div>
+</section>
+
+<style>
+    .eco-addr-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+    .eco-addr-card { position: relative; padding: 18px; border: 1.5px solid var(--profile-border); border-radius: 12px; display: flex; flex-direction: column; gap: 6px; }
+    .eco-addr-card.is-default { border-color: var(--profile-primary); background: #F7F9FF; }
+    .eco-addr-card .eco-badge { position: absolute; top: 14px; right: 14px; }
+    .eco-addr-card__name { font-size: .92rem; padding-right: 70px; }
+    .eco-addr-card__body { margin: 0; font-size: .85rem; line-height: 1.6; color: var(--profile-muted); }
+    .eco-addr-card .eco-actions { margin-top: 8px; }
+    .eco-addr-card .eco-actions form { margin: 0; }
+</style>
+
+{% endblock %}

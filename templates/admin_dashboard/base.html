@@ -1,181 +1,217 @@
 {% load static %}
-
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Shopping Mart Admin{% endblock %}</title>
 
-    <title>Shopping Mart Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
- 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
 
-    <!-- Admin CSS -->
+    <link rel="stylesheet" href="{% static 'css/global.css' %}" />
     <link rel="stylesheet" href="{% static 'css/admin.css' %}" />
   </head>
 
   <body>
     <div class="admin-layout">
       <!-- SIDEBAR -->
-      <aside class="admin-sidebar">
+      <aside class="admin-sidebar" id="adminSidebar">
         <div class="sidebar-brand">
-            <a href="{% url 'admin_dashboard' %}" class="brand">
-            <div class="brand-logo">👗</div>
-
-            <div class="brand-content">
-                <span class="brand-name"> Shopping Mart </span>
-
-                <span class="brand-subtitle"> ADMIN PANEL </span>
+          <a href="{% url 'admin_dashboard' %}" class="brand">
+            <div class="brand-logo">
+              <i class="fa-solid fa-bag-shopping"></i>
             </div>
-            </a>
+            <div class="brand-content">
+              <span class="brand-name">Shopping Mart</span>
+              <span class="brand-subtitle">ADMIN PANEL</span>
+            </div>
+          </a>
         </div>
 
         <nav class="sidebar-navigation">
-            <div class="navigation-section">
-            <span class="navigation-title"> MAIN MENU </span>
+          <div class="navigation-section">
+            <span class="navigation-title">MAIN MENU</span>
 
-            <a href="{% url 'admin_dashboard' %}" class="navigation-link active">
-                <span class="navigation-icon">
-                <i class="fa-solid fa-grid-2"></i>
-                </span>
-
-                <span class="navigation-text"> Dashboard </span>
+            <a
+              href="{% url 'admin_dashboard' %}"
+              class="navigation-link {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}"
+            >
+              <span class="navigation-icon"
+                ><i class="fa-solid fa-grid-2"></i
+              ></span>
+              <span class="navigation-text">Dashboard</span>
             </a>
 
-            <a href="{% url 'admin_products' %}" class="navigation-link">
-                <span class="navigation-icon">
-                <i class="fa-solid fa-box"></i>
-                </span>
+            <a
+              href="{% url 'admin_products' %}"
+              class="navigation-link {% if request.resolver_match.url_name == 'admin_products' or request.resolver_match.url_name == 'add_products' or request.resolver_match.url_name == 'edit_product' %}active{% endif %}"
+            >
+              <span class="navigation-icon"
+                ><i class="fa-solid fa-box"></i
+              ></span>
+              <span class="navigation-text">Products</span>
+            </a>
 
-                <span class="navigation-text"> Products </span>
+            <a href="{% url 'categories' %}" class="navigation-link">
+              <span class="navigation-icon"
+                ><i class="fa-solid fa-layer-group"></i
+              ></span>
+              <span class="navigation-text">Categories</span>
+            </a>
+
+            <a
+              href="{% url 'admin_orders' %}"
+              class="navigation-link {% if request.resolver_match.url_name == 'admin_orders' or request.resolver_match.url_name == 'order_detail' %}active{% endif %}"
+            >
+              <span class="navigation-icon"
+                ><i class="fa-solid fa-cart-shopping"></i
+              ></span>
+              <span class="navigation-text">Orders</span>
+              <span class="navigation-badge">12</span>
+            </a>
+
+            <a
+              href="{% url 'admin_customers' %}"
+              class="navigation-link {% if request.resolver_match.url_name == 'admin_customers' %}active{% endif %}"
+            >
+              <span class="navigation-icon"
+                ><i class="fa-solid fa-users"></i
+              ></span>
+              <span class="navigation-text">Customers</span>
+            </a>
+
+            <a
+              href="{% url 'admin_payments' %}"
+              class="navigation-link {% if request.resolver_match.url_name == 'admin_payments' %}active{% endif %}"
+            >
+              <span class="navigation-icon"
+                ><i class="fa-solid fa-credit-card"></i
+              ></span>
+              <span class="navigation-text">Payments</span>
+            </a>
+          </div>
+
+          <div class="navigation-section">
+            <span class="navigation-title">STORE</span>
+
+            <a
+              href="{% url 'admin_banner' %}"
+              class="navigation-link {% if request.resolver_match.url_name == 'admin_banner' %}active{% endif %}"
+            >
+              <span class="navigation-icon"
+                ><i class="fa-solid fa-image"></i
+              ></span>
+              <span class="navigation-text">Banners</span>
             </a>
 
             <a href="#" class="navigation-link">
-                <span class="navigation-icon">
-                <i class="fa-solid fa-layer-group"></i>
-                </span>
-
-                <span class="navigation-text"> Categories </span>
+              <span class="navigation-icon"
+                ><i class="fa-solid fa-sliders"></i
+              ></span>
+              <span class="navigation-text">Variations</span>
             </a>
+          </div>
 
-            <a href="{% url 'admin_orders' %}" class="navigation-link">
-                <span class="navigation-icon">
-                <i class="fa-solid fa-cart-shopping"></i>
-                </span>
+          <div class="navigation-section">
+            <span class="navigation-title">SYSTEM</span>
 
-                <span class="navigation-text"> Orders </span>
-
-                <span class="navigation-badge"> 12 </span>
-            </a>
-
-            <a href="{% url 'admin_customers' %}" class="navigation-link">
-                <span class="navigation-icon">
-                <i class="fa-solid fa-users"></i>
-                </span>
-                <span class="navigation-text"> Customers </span>
-            </a>
-
-            <a href="{% url 'admin_payments' %}" class="navigation-link">
-                <span class="navigation-icon">
-                <i class="fa-solid fa-credit-card"></i>
-                </span>
-
-                <span class="navigation-text"> Payments </span>
-            </a>
-            </div>
-
-            <div class="navigation-section">
-            <span class="navigation-title"> STORE </span>
-
-            <a href="{% url 'admin_banner' %}" class="navigation-link">
-                <span class="navigation-icon">
-                <i class="fa-solid fa-image"></i>
-                </span>
-
-                <span class="navigation-text"> Banners </span>
+            <a href="#" class="navigation-link">
+              <span class="navigation-icon"
+                ><i class="fa-solid fa-gear"></i
+              ></span>
+              <span class="navigation-text">Settings</span>
             </a>
 
             <a href="#" class="navigation-link">
-                <span class="navigation-icon">
-                <i class="fa-solid fa-sliders"></i>
-                </span>
-
-                <span class="navigation-text"> Variations </span>
+              <span class="navigation-icon"
+                ><i class="fa-solid fa-shield-halved"></i
+              ></span>
+              <span class="navigation-text">Activity Log</span>
             </a>
-            </div>
+          </div>
         </nav>
 
         <div class="sidebar-bottom">
-            <a href="{% url 'home' %}" class="sidebar-bottom-link">
+          <a href="{% url 'home' %}" class="sidebar-bottom-link">
             <i class="fa-solid fa-store"></i>
+            <span>View Store</span>
+          </a>
 
-            <span> View Store </span>
-            </a>
-
-            <a href="#" class="sidebar-bottom-link logout">
+          <a href="{% url 'logout' %}" class="sidebar-bottom-link logout">
             <i class="fa-solid fa-right-from-bracket"></i>
-
-            <span> Logout </span>
-            </a>
+            <span>Logout</span>
+          </a>
         </div>
-        </aside>
+      </aside>
 
+      <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-      <!-- MAIN AREA -->
-
+      <!-- MAIN -->
       <main class="admin-main">
-        <!-- Topbar -->
-
         <header class="admin-topbar">
           <div class="topbar-left">
-            <button class="mobile-menu-button">
+            <button
+              class="mobile-menu-button"
+              id="mobileMenuButton"
+              type="button"
+              aria-label="Open menu"
+            >
               <i class="fa-solid fa-bars"></i>
             </button>
 
+            <div class="breadcrumb">
+              <span>Admin</span>
+              <i class="fa-solid fa-chevron-right"></i>
+              <strong>{% block breadcrumb %}Dashboard{% endblock %}</strong>
+            </div>
+
             <div class="topbar-search">
               <i class="fa-solid fa-magnifying-glass"></i>
-
-              <input type="text" placeholder="Search..." />
+              <input
+                type="text"
+                placeholder="Search products, orders, customers..."
+              />
+              <span class="search-shortcut">⌘ K</span>
             </div>
           </div>
 
           <div class="topbar-right">
-            <!-- Notification -->
-
-            <button class="topbar-icon-button">
+            <button
+              class="topbar-icon-button"
+              type="button"
+              aria-label="Notifications"
+            >
               <i class="fa-regular fa-bell"></i>
+              <span class="notification-indicator"></span>
             </button>
 
             <div class="topbar-divider"></div>
 
-            <!-- Admin User -->
-
-            <div class="admin-user">
+            <a href="#" class="admin-user">
               <div class="admin-user-avatar">R</div>
-
               <div class="admin-user-details">
-                <strong> Rupesh Rana </strong>
-
-                <span> Administrator </span>
+                <strong>Rupesh Rana</strong>
+                <span>Administrator</span>
               </div>
-
               <i class="fa-solid fa-chevron-down"></i>
-            </div>
+            </a>
           </div>
         </header>
 
-        <!-- PAGE CONTENT -->
-
-        <div class="admin-content">
-          {% block content %} {% endblock content %}
-        </div>
+        <div class="admin-content">{% block content %}{% endblock %}</div>
       </main>
     </div>
+
+    <script src="{% static 'js/admin.js' %}"></script>
   </body>
 </html>
-

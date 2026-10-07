@@ -1,147 +1,183 @@
-{% extends "admin_dashboard/base.html" %} {% block content %}
-<div class="admin-content">
-  <!-- PAGE HEADER -->
+{% extends "admin_dashboard/base.html" %}
+{% block title %}Products | Shopping Mart{% endblock %}
+{% block breadcrumb %}Products{% endblock %}
 
-  <div class="page-header">
+{% block content %}
+<div class="page-header">
     <div>
-      <h1>Products</h1>
-      <p>Manage your products and inventory.</p>
+        <span class="eyebrow">CATALOG</span>
+        <h1>Products</h1>
+        <p>Manage products, pricing, stock and availability.</p>
     </div>
-
     <div class="page-header-actions">
-      <button class="secondary-button">
-        <i class="fa-solid fa-download"></i>
-        Export
-      </button>
-
-      <a href="{% url 'add_products' %}" class="primary-button">
-        <i class="fa-solid fa-plus"></i>
-        Add Product
-      </a>
+        <button class="secondary-button" type="button"><i class="fa-solid fa-download"></i> Export</button>
+        <a href="{% url 'add_products' %}" class="primary-button"><i class="fa-solid fa-plus"></i> Add Product</a>
     </div>
-  </div>
+</div>
 
-  <!-- FILTER BAR -->
+<div class="mini-stats-grid">
+    <div class="mini-stat-card"><span>Total Products</span><strong>54</strong><small>Catalog items</small></div>
+    <div class="mini-stat-card"><span>Active</span><strong>49</strong><small>Available for sale</small></div>
+    <div class="mini-stat-card"><span>Low Stock</span><strong>8</strong><small>Needs restocking</small></div>
+    <div class="mini-stat-card"><span>Out of Stock</span><strong>3</strong><small>Currently unavailable</small></div>
+</div>
 
-  <div class="filter-card">
+<div class="filter-card">
     <div class="filter-search">
-      <i class="fa-solid fa-magnifying-glass"></i>
-
-      <input type="text" placeholder="Search by product name..." />
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" placeholder="Search by product name...">
     </div>
 
     <select class="filter-select">
-      <option>All Categories</option>
-      <option>Electronics</option>
-      <option>Clothing</option>
-      <option>Sports</option>
-      <option>Accessories</option>
+        <option>All Categories</option>
+        <option>Electronics</option>
+        <option>Fashion</option>
+        <option>Kitchen</option>
+        <option>Home</option>
     </select>
 
     <select class="filter-select">
-      <option>All Stock</option>
-      <option>In Stock</option>
-      <option>Low Stock</option>
-      <option>Out of Stock</option>
+        <option>All Stock</option>
+        <option>In Stock</option>
+        <option>Low Stock</option>
+        <option>Out of Stock</option>
     </select>
 
-    <button class="secondary-button">
-      <i class="fa-solid fa-filter"></i>
-      Filter
-    </button>
-  </div>
+    <select class="filter-select">
+        <option>All Status</option>
+        <option>Active</option>
+        <option>Inactive</option>
+    </select>
 
-  <!-- PRODUCT TABLE -->
+    <button class="secondary-button" type="button"><i class="fa-solid fa-filter"></i> Filter</button>
+</div>
 
-  <div class="dashboard-card">
+<div class="dashboard-card">
     <div class="card-header">
-      <div>
-        <h2>All Products</h2>
-        <p><strong><b>{{ total_products }}</b></strong> products found</p>
-      </div>
+        <div>
+            <h2>All Products</h2>
+            <p>54 products in your catalog</p>
+        </div>
+        <div class="table-tools"><span class="muted-label">Showing 1–10 of 54</span></div>
     </div>
 
     <div class="table-wrapper">
-      <table class="admin-table">
-        <thead>
-          <tr>
-            <th>Product</th>
-            <th>Category</th>
-            <th>Price</th>
-            <th>Stock</th>
-            <th>Status</th>
-            <th>Created</th>
-            <th>Action</th>
-          </tr>
-        </thead>
+        <table class="admin-table">
+            <thead>
+            <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Status</th>
+                <th>Updated</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <div class="product-table-cell">
+                        <div class="product-table-image"><img src="/media/photos/products/laptop1.jpg" alt="Smart Laptop"></div>
+                        <div><strong>Smart Laptop</strong><span>#P-1001</span></div>
+                    </div>
+                </td>
+                <td>Electronics</td>
+                <td><strong>₹46,720</strong></td>
+                <td><span class="stock-text critical-text">3</span></td>
+                <td><span class="status-badge completed-status">Active</span></td>
+                <td>07 Oct 2026</td>
+                <td><div class="product-actions"><a href="{% url 'edit_product' 1 %}" class="action-button edit"><i class="fa-solid fa-pen"></i></a><button class="action-button delete" type="button" data-delete-item="Smart Laptop"><i class="fa-solid fa-trash"></i></button></div></td>
+            </tr>
 
-        <tbody>
-          {% for product in products %}
-          <tr>
-            <td>
-              <div class="product-table-cell">
-                <div class="product-table-image">
-                  {% if product.images %}
-                  <img
-                    src="{{ product.images.url }}"
-                    alt="Running Shoes"
-                    style="height: 50px; width: 50px"
-                  />
-                  {% else %}
-                  <p>No image</p>
-                  {% endif %}
-                </div>
+            <tr>
+                <td>
+                    <div class="product-table-cell">
+                        <div class="product-table-image"><img src="/media/photos/products/fashion1.jpg" alt="Casual T-Shirt"></div>
+                        <div><strong>Casual T-Shirt</strong><span>#P-1002</span></div>
+                    </div>
+                </td>
+                <td>Fashion</td>
+                <td><strong>₹799</strong></td>
+                <td><span class="stock-text critical-text">5</span></td>
+                <td><span class="status-badge completed-status">Active</span></td>
+                <td>06 Oct 2026</td>
+                <td><div class="product-actions"><a href="{% url 'edit_product' 2 %}" class="action-button edit"><i class="fa-solid fa-pen"></i></a><button class="action-button delete" type="button" data-delete-item="Casual T-Shirt"><i class="fa-solid fa-trash"></i></button></div></td>
+            </tr>
 
-                <div>
-                  <strong>{{ product.product_name|truncatechars:20 }}</strong>
-                  <span> #{{ product.id }}</span>
-                </div>
-              </div>
-            </td>
+            <tr>
+                <td>
+                    <div class="product-table-cell">
+                        <div class="product-table-image"><img src="/media/photos/products/kitchen1.jpg" alt="Kitchen Set"></div>
+                        <div><strong>Kitchen Set</strong><span>#P-1003</span></div>
+                    </div>
+                </td>
+                <td>Kitchen</td>
+                <td><strong>₹2,499</strong></td>
+                <td><span class="stock-text warning-text">12</span></td>
+                <td><span class="status-badge completed-status">Active</span></td>
+                <td>05 Oct 2026</td>
+                <td><div class="product-actions"><a href="{% url 'edit_product' 3 %}" class="action-button edit"><i class="fa-solid fa-pen"></i></a><button class="action-button delete" type="button" data-delete-item="Kitchen Set"><i class="fa-solid fa-trash"></i></button></div></td>
+            </tr>
 
-            <td>{{ product.category.category_name }}</td>
+            <tr>
+                <td>
+                    <div class="product-table-cell">
+                        <div class="product-table-image"><img src="/media/photos/products/tap1.jpg" alt="Kitchen Tap"></div>
+                        <div><strong>Kitchen Tap</strong><span>#P-1004</span></div>
+                    </div>
+                </td>
+                <td>Home</td>
+                <td><strong>₹1,299</strong></td>
+                <td><span class="stock-text warning-text">18</span></td>
+                <td><span class="status-badge completed-status">Active</span></td>
+                <td>05 Oct 2026</td>
+                <td><div class="product-actions"><a href="{% url 'edit_product' 4 %}" class="action-button edit"><i class="fa-solid fa-pen"></i></a><button class="action-button delete" type="button" data-delete-item="Kitchen Tap"><i class="fa-solid fa-trash"></i></button></div></td>
+            </tr>
 
-            <td>
-              <strong>₹{{ product.price }}</strong>
-            </td>
+            <tr>
+                <td>
+                    <div class="product-table-cell">
+                        <div class="product-table-image"><img src="/media/photos/products/fashion2.jpg" alt="Running Shoes"></div>
+                        <div><strong>Running Shoes</strong><span>#P-1005</span></div>
+                    </div>
+                </td>
+                <td>Fashion</td>
+                <td><strong>₹3,499</strong></td>
+                <td><span class="stock-text">64</span></td>
+                <td><span class="status-badge completed-status">Active</span></td>
+                <td>04 Oct 2026</td>
+                <td><div class="product-actions"><a href="{% url 'edit_product' 5 %}" class="action-button edit"><i class="fa-solid fa-pen"></i></a><button class="action-button delete" type="button" data-delete-item="Running Shoes"><i class="fa-solid fa-trash"></i></button></div></td>
+            </tr>
 
-            <td>{{ product.stock }}</td>
-
-            <td>
-              {% if product.is_availbale == True %}
-              <span class="status-badge completed-status"> Active </span>
-              {% else %}
-              <span
-                class="status-badge completed-status"
-                style="background-color='red'"
-              >
-                Not Available
-              </span>
-              {% endif %}
-            </td>
-
-            <td>{{ product.created_at|date:"d M Y" }}</td>
-
-            <td>
-              <div class="product-actions">
-                <a href="{% url 'edit_product' product.id %}" class="action-button edit">
-                  <i class="fa-solid fa-pen"></i>
-                </a>
-
-                <form method="POST" action="{% url 'delete_product' product.id %}" >
-                  {% csrf_token %}
-
-                  <button type="submit" class="action-button delete" onclick="return confirm('Are you sure you want to delete this product?',);">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
-                </form>
-              </div>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+            <tr>
+                <td>
+                    <div class="product-table-cell">
+                        <div class="product-table-image"><img src="/media/photos/products/kitchen2.jpg" alt="Storage Box"></div>
+                        <div><strong>Storage Box</strong><span>#P-1006</span></div>
+                    </div>
+                </td>
+                <td>Kitchen</td>
+                <td><strong>₹999</strong></td>
+                <td><span class="stock-text">45</span></td>
+                <td><span class="status-badge muted-status">Inactive</span></td>
+                <td>03 Oct 2026</td>
+                <td><div class="product-actions"><a href="{% url 'edit_product' 6 %}" class="action-button edit"><i class="fa-solid fa-pen"></i></a><button class="action-button delete" type="button" data-delete-item="Storage Box"><i class="fa-solid fa-trash"></i></button></div></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
-  </div>
+
+    <div class="pagination-bar">
+        <span class="muted-label">Page 1 of 6</span>
+        <div class="pagination">
+            <button class="pagination-button" disabled><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="pagination-button active">1</button>
+            <button class="pagination-button">2</button>
+            <button class="pagination-button">3</button>
+            <button class="pagination-button">4</button>
+            <button class="pagination-button"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+    </div>
 </div>
-{% endblock content %}
+{% endblock %}

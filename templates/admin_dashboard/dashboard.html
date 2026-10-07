@@ -1,461 +1,328 @@
-{% extends "admin_dashboard/base.html" %} {% block content %}
+{% extends "admin_dashboard/base.html" %}
+{% block title %}Dashboard | Shopping Mart{% endblock %}
+{% block breadcrumb %}Dashboard{% endblock %}
+
+{% block content %}
 <div class="page-header">
-  <div>
-    <h1>Dashboard</h1>
-
-    <p>Welcome back. Here's what's happening with your store.</p>
-  </div>
-
-  <div class="page-header-actions">
-    <button class="secondary-button">
-      <i class="fa-solid fa-download"></i>
-
-      Export
-    </button>
-
-    <button class="primary-button">
-      <i class="fa-solid fa-plus"></i>
-
-      Add Product
-    </button>
-  </div>
+    <div>
+        <span class="eyebrow">STORE OVERVIEW</span>
+        <h1>Dashboard</h1>
+        <p>Welcome back. Here's what's happening with your store today.</p>
+    </div>
+    <div class="page-header-actions">
+        <button class="secondary-button" type="button">
+            <i class="fa-solid fa-download"></i>
+            Export
+        </button>
+        <a href="{% url 'add_products' %}" class="primary-button">
+            <i class="fa-solid fa-plus"></i>
+            Add Product
+        </a>
+    </div>
 </div>
 
-<!-- STAT CARDS -->
-
 <section class="stats-grid">
-  <div class="stat-card">
-    <div class="stat-top">
-      <div class="stat-icon revenue">
-        <i class="fa-solid fa-indian-rupee-sign"></i>
-      </div>
-
-      <span class="stat-change positive">
-        <i class="fa-solid fa-arrow-up"></i>
-        12.5%
-      </span>
+    <div class="stat-card">
+        <div class="stat-top">
+            <div class="stat-icon revenue"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+            <span class="stat-change positive"><i class="fa-solid fa-arrow-up"></i> 12.5%</span>
+        </div>
+        <div class="stat-body">
+            <span>Total Revenue</span>
+            <strong>₹{{ total_revenue|floatformat:2 }}</strong>
+            <small>Compared to last month</small>
+        </div>
     </div>
 
-    <div class="stat-body">
-      <span> Total Revenue </span>
-      <strong> {{ total_revenue|floatformat:2 }} </strong>
-      <small> Compared to last month </small>
-    </div>
-  </div>
-
-  <div class="stat-card">
-    <div class="stat-top">
-      <div class="stat-icon orders">
-        <i class="fa-solid fa-bag-shopping"></i>
-      </div>
-
-      <span class="stat-change positive">
-        <i class="fa-solid fa-arrow-up"></i>
-        8.2%
-      </span>
+    <div class="stat-card">
+        <div class="stat-top">
+            <div class="stat-icon orders"><i class="fa-solid fa-bag-shopping"></i></div>
+            <span class="stat-change positive"><i class="fa-solid fa-arrow-up"></i> 8.2%</span>
+        </div>
+        <div class="stat-body">
+            <span>Total Orders</span>
+            <strong>{{ total_orders }}</strong>
+            <small>18 new orders this week</small>
+        </div>
     </div>
 
-    <div class="stat-body">
-      <span> Total Orders </span>
-      <strong> {{ total_orders }} </strong>
-      <small> Compared to last month </small>
-    </div>
-  </div>
-
-  <div class="stat-card">
-    <div class="stat-top">
-      <div class="stat-icon customers">
-        <i class="fa-solid fa-users"></i>
-      </div>
-
-      <span class="stat-change positive">
-        <i class="fa-solid fa-arrow-up"></i>
-        5.7%
-      </span>
+    <div class="stat-card">
+        <div class="stat-top">
+            <div class="stat-icon customers"><i class="fa-solid fa-users"></i></div>
+            <span class="stat-change positive"><i class="fa-solid fa-arrow-up"></i> 5.7%</span>
+        </div>
+        <div class="stat-body">
+            <span>Total Customers</span>
+            <strong>{{ total_customers }}</strong>
+            <small>64 joined this month</small>
+        </div>
     </div>
 
-    <div class="stat-body">
-      <span> Total Customers </span>
-      <strong> {{ total_customers  }} </strong>
-      <small> Compared to last month </small>
-    </div>
-  </div>
-
-  <div class="stat-card">
-    <div class="stat-top">
-      <div class="stat-icon products">
-        <i class="fa-solid fa-box-open"></i>
-      </div>
-
-      <span class="stat-change positive">
-        <i class="fa-solid fa-arrow-up"></i>
-        3.4%
-      </span>
+    <div class="stat-card">
+        <div class="stat-top">
+            <div class="stat-icon products"><i class="fa-solid fa-box-open"></i></div>
+            <span class="stat-change neutral">Catalog</span>
+        </div>
+        <div class="stat-body">
+            <span>Total Products</span>
+            <strong>{{ total_products }}</strong>
+            <small>49 active products</small>
+        </div>
     </div>
 
-    <div class="stat-body">
-      <span> Total Products </span>
-      <strong> {{ total_products }} </strong>
-      <small> Currently listed </small>
+    <div class="stat-card">
+        <div class="stat-top">
+            <div class="stat-icon pending"><i class="fa-solid fa-clock"></i></div>
+            <span class="stat-change warning-pill">Attention</span>
+        </div>
+        <div class="stat-body">
+            <span>Pending Orders</span>
+            <strong>{{ pending_orders }}</strong>
+            <small>Requires attention</small>
+        </div>
     </div>
-  </div>
-
-  <div class="stat-card">
-    <div class="stat-top">
-      <div class="stat-icon pending">
-        <i class="fa-solid fa-clock"></i>
-      </div>
-
-      <span class="stat-change neutral"> 4 new </span>
-    </div>
-
-    <div class="stat-body">
-      <span> Pending Orders </span>
-
-      <strong> {{ pending_orders }} </strong>
-
-      <small> Requires attention </small>
-    </div>
-  </div>
 </section>
-
-<!-- SALES + ORDER STATUS -->
 
 <section class="dashboard-grid">
-  <!-- Sales -->
+    <div class="dashboard-card">
+        <div class="card-header">
+            <div>
+                <h2>Sales Overview</h2>
+                <p>Revenue performance over the last 7 months</p>
+            </div>
+            <select class="period-select">
+                <option>Last 7 months</option>
+                <option>Last 30 days</option>
+                <option>Last 12 months</option>
+            </select>
+        </div>
 
-  <div class="dashboard-card">
-    <div class="card-header">
-      <div>
-        <h2>Sales Overview</h2>
+        <div class="sales-chart">
+            <div class="chart-labels">
+                <span>₹40k</span>
+                <span>₹30k</span>
+                <span>₹20k</span>
+                <span>₹10k</span>
+                <span>₹0</span>
+            </div>
 
-        <p>Revenue performance over the last 7 months</p>
-      </div>
+            <div class="chart">
+                <div class="chart-line line-1"></div>
+                <div class="chart-line line-2"></div>
+                <div class="chart-line line-3"></div>
+                <div class="chart-line line-4"></div>
+                <div class="chart-line line-5"></div>
 
-      <select class="period-select">
-        <option>Last 7 months</option>
-
-        <option>Last 30 days</option>
-
-        <option>Last 12 months</option>
-      </select>
+                <div class="chart-bars">
+                    <div class="chart-bar-item"><div class="chart-bar" style="height:42%"></div><span>Apr</span></div>
+                    <div class="chart-bar-item"><div class="chart-bar" style="height:56%"></div><span>May</span></div>
+                    <div class="chart-bar-item"><div class="chart-bar" style="height:50%"></div><span>Jun</span></div>
+                    <div class="chart-bar-item"><div class="chart-bar" style="height:70%"></div><span>Jul</span></div>
+                    <div class="chart-bar-item"><div class="chart-bar" style="height:66%"></div><span>Aug</span></div>
+                    <div class="chart-bar-item"><div class="chart-bar" style="height:84%"></div><span>Sep</span></div>
+                    <div class="chart-bar-item"><div class="chart-bar current" style="height:94%"></div><span>Oct</span></div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="sales-chart">
-      <div class="chart-labels">
-        <span>₹40k</span>
-        <span>₹30k</span>
-        <span>₹20k</span>
-        <span>₹10k</span>
-        <span>₹0</span>
-      </div>
-
-      <div class="chart">
-        <div class="chart-line line-1"></div>
-        <div class="chart-line line-2"></div>
-        <div class="chart-line line-3"></div>
-        <div class="chart-line line-4"></div>
-        <div class="chart-line line-5"></div>
-
-        <div class="chart-bars">
-          <div class="chart-bar-item">
-            <div class="chart-bar" style="height: 42%"></div>
-
-            <span>Apr</span>
-          </div>
-
-          <div class="chart-bar-item">
-            <div class="chart-bar" style="height: 56%"></div>
-
-            <span>May</span>
-          </div>
-
-          <div class="chart-bar-item">
-            <div class="chart-bar" style="height: 50%"></div>
-
-            <span>Jun</span>
-          </div>
-
-          <div class="chart-bar-item">
-            <div class="chart-bar" style="height: 70%"></div>
-
-            <span>Jul</span>
-          </div>
-
-          <div class="chart-bar-item">
-            <div class="chart-bar" style="height: 66%"></div>
-
-            <span>Aug</span>
-          </div>
-
-          <div class="chart-bar-item">
-            <div class="chart-bar" style="height: 84%"></div>
-
-            <span>Sep</span>
-          </div>
-
-          <div class="chart-bar-item">
-            <div class="chart-bar current" style="height: 94%"></div>
-
-            <span>Oct</span>
-          </div>
+    <div class="dashboard-card">
+        <div class="card-header">
+            <div>
+                <h2>Order Status</h2>
+                <p>Current order distribution</p>
+            </div>
         </div>
-      </div>
+
+        <div class="order-status-wrapper">
+            <div class="donut-chart">
+                <div class="donut-center">
+                    <strong>{{ total_orders }}</strong>
+                    <span>Orders</span>
+                </div>
+            </div>
+
+            <div class="status-list">
+                <div class="status-row">
+                    <div><span class="status-dot new"></span>New</div>
+                    <strong>{{ new_orders }}</strong>
+                </div>
+                <div class="status-row">
+                    <div><span class="status-dot accepted"></span>Accepted</div>
+                    <strong>{{ accepted_orders }}</strong>
+                </div>
+                <div class="status-row">
+                    <div><span class="status-dot completed"></span>Completed</div>
+                    <strong>{{ completed_orders }}</strong>
+                </div>
+                <div class="status-row">
+                    <div><span class="status-dot cancelled"></span>Cancelled</div>
+                    <strong>{{ cancelled_orders }}  </strong>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-
-  <!-- Order Status -->
-
-  <div class="dashboard-card">
-    <div class="card-header">
-      <div>
-        <h2>Order Status</h2>
-        <p>Current order distribution</p>
-      </div>
-    </div>
-
-    <div class="order-status-wrapper">
-      <div class="donut-chart">
-        <div class="donut-center">
-          <strong> 124 </strong>
-          <span> Orders </span>
-        </div>
-      </div>
-
-      <div class="status-list">
-        <div class="status-row">
-          <div>
-            <span class="status-dot new"></span>
-            New
-          </div>
-
-          <strong> 18 </strong>
-        </div>
-
-        <div class="status-row">
-          <div>
-            <span class="status-dot accepted"></span>
-            Accepted
-          </div>
-
-          <strong> 26 </strong>
-        </div>
-
-        <div class="status-row">
-          <div>
-            <span class="status-dot completed"></span>
-            Completed
-          </div>
-
-          <strong> 72 </strong>
-        </div>
-
-        <div class="status-row">
-          <div>
-            <span class="status-dot cancelled"></span>
-            Cancelled
-          </div>
-
-          <strong> 8 </strong>
-        </div>
-      </div>
-    </div>
-  </div>
 </section>
 
-<!-- RECENT ORDERS -->
-
 <section class="dashboard-card">
-  <div class="card-header">
-    <div>
-      <h2>Recent Orders</h2>
-
-      <p>Latest orders placed by customers</p>
+    <div class="card-header">
+        <div>
+            <h2>Recent Orders</h2>
+            <p>Latest orders placed by customers</p>
+        </div>
+        <a href="{% url 'admin_orders' %}" class="view-all">View all <i class="fa-solid fa-arrow-right"></i></a>
     </div>
 
-    <a href="#" class="view-all">
-      View all
-      <i class="fa-solid fa-arrow-right"></i>
-    </a>
-  </div>
+    <div class="table-wrapper">
+        <table class="admin-table">
+            <thead>
+            <tr>
+                <th>Order</th>
+                <th>Customer</th>
+                <th>Product</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><strong class="order-number">#EC1025</strong></td>
+                <td>
+                    <div class="customer-cell">
+                        <div class="customer-avatar">R</div>
+                        <div><strong>Rupesh Rana</strong><span>rupesh@example.com</span></div>
+                    </div>
+                </td>
+                <td><strong>Premium Sneakers</strong><span class="product-more">+ 2 more</span></td>
+                <td><strong>₹3,499</strong></td>
+                <td><span class="status-badge accepted-status">Accepted</span></td>
+                <td>07 Oct 2026</td>
+                <td><a href="{% url 'admin_orders' %}" class="table-action"><i class="fa-solid fa-eye"></i></a></td>
+            </tr>
 
-  <div class="table-wrapper">
-    <table class="admin-table">
-      <thead>
-        <tr>
-          <th>Order</th>
-          <th>Customer</th>
-          <th>Product</th>
-          <th>Total</th>
-          <th>Status</th>
-          <th>Date</th>
-          <th></th>
-        </tr>
-      </thead>
+            <tr>
+                <td><strong class="order-number">#EC1024</strong></td>
+                <td>
+                    <div class="customer-cell">
+                        <div class="customer-avatar second">A</div>
+                        <div><strong>Arjun Kumar</strong><span>arjun@example.com</span></div>
+                    </div>
+                </td>
+                <td><strong>Wireless Headphones</strong><span class="product-more">+ 1 more</span></td>
+                <td><strong>₹5,299</strong></td>
+                <td><span class="status-badge completed-status">Completed</span></td>
+                <td>06 Oct 2026</td>
+                <td><a href="{% url 'admin_orders' %}" class="table-action"><i class="fa-solid fa-eye"></i></a></td>
+            </tr>
 
-      <tbody>
-        {% for recent_order in recent_orders %}
-        <tr>
-          <td>
-            <strong class="order-number"> {{ recent_order.order_number }} </strong>
-          </td>
-          <td>
-            <div class="customer-cell">
-              <div class="customer-avatar">A</div>
-              <div>
-                <strong> {{ recent_order.full_name }} </strong>
-                <span> {{ recent_order.email }} </span>
-              </div>
-            </div>
-          </td>
-          <td>
-            <strong> Premium Sneakers </strong>
-            <span class="product-more"> + 2 more </span>
-          </td>
+            <tr>
+                <td><strong class="order-number">#EC1023</strong></td>
+                <td>
+                    <div class="customer-cell">
+                        <div class="customer-avatar third">S</div>
+                        <div><strong>Shreya Singh</strong><span>shreya@example.com</span></div>
+                    </div>
+                </td>
+                <td><strong>Casual T-Shirt</strong></td>
+                <td><strong>₹1,799</strong></td>
+                <td><span class="status-badge new-status">New</span></td>
+                <td>06 Oct 2026</td>
+                <td><a href="{% url 'admin_orders' %}" class="table-action"><i class="fa-solid fa-eye"></i></a></td>
+            </tr>
 
-          <td>
-            <strong> {{ recent_order.order_total }} </strong>
-          </td>
-
-          <td>
-            {% if recent_order.status == "New" %}
-            <span class="status-badge new-status"> New </span>
-            {% elif recent_order.status == "Accepted" %}
-            <span class="status-badge new-status"> Accepted </span>
-            {% elif recent_order.status == "Completed" %}
-            <span class="status-badge new-status"> Completed </span>
-            {% elif recent_order.status == "Cancelled" %}
-            <span class="status-badge new-status"> Cancelled </span>
-            {% endif %}
-          </td>
-
-          <td>{{ recent_order.created_at|date:"d M Y" }}</td>
-
-          <td>
-            <button class="table-action">
-              <i class="fa-solid fa-ellipsis"></i>
-            </button>
-          </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="5"><strong>No Order Found</strong></td>
-        </tr>
-        {% endfor %}
-
-      </tbody>
-    </table>
-  </div>
+            <tr>
+                <td><strong class="order-number">#EC1022</strong></td>
+                <td>
+                    <div class="customer-cell">
+                        <div class="customer-avatar fourth">R</div>
+                        <div><strong>Rahul Verma</strong><span>rahul@example.com</span></div>
+                    </div>
+                </td>
+                <td><strong>Smart Laptop</strong></td>
+                <td><strong>₹46,720</strong></td>
+                <td><span class="status-badge cancelled-status">Cancelled</span></td>
+                <td>05 Oct 2026</td>
+                <td><a href="{% url 'admin_orders' %}" class="table-action"><i class="fa-solid fa-eye"></i></a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </section>
 
 <section class="bottom-grid">
-  <!-- Low Stock -->
+    <div class="dashboard-card">
+        <div class="card-header">
+            <div>
+                <h2>Low Stock Products</h2>
+                <p>Products with 20 or fewer items left</p>
+            </div>
+            <a href="{% url 'admin_products' %}" class="view-all">View all</a>
+        </div>
 
-  <div class="dashboard-card">
-    <div class="card-header">
-      <div>
-        <h2>Low Stock Products</h2>
-        <p>Products with {{ low_stock_threshold }} or fewer items left</p>
-      </div>
-
-      <a href="#" class="view-all"> View all </a>
+        <div class="stock-list">
+            <div class="stock-item">
+                <div class="stock-product">
+                    <div class="stock-image"><img src="/media/photos/products/laptop1.jpg" alt="Smart Laptop"></div>
+                    <div><strong>Smart Laptop</strong><span>Electronics</span></div>
+                </div>
+                <span class="stock-count critical">3 left</span>
+            </div>
+            <div class="stock-item">
+                <div class="stock-product">
+                    <div class="stock-image"><img src="/media/photos/products/fashion1.jpg" alt="Casual T-Shirt"></div>
+                    <div><strong>Casual T-Shirt</strong><span>Fashion</span></div>
+                </div>
+                <span class="stock-count critical">5 left</span>
+            </div>
+            <div class="stock-item">
+                <div class="stock-product">
+                    <div class="stock-image"><img src="/media/photos/products/kitchen1.jpg" alt="Kitchen Set"></div>
+                    <div><strong>Kitchen Set</strong><span>Kitchen</span></div>
+                </div>
+                <span class="stock-count warning">12 left</span>
+            </div>
+            <div class="stock-item">
+                <div class="stock-product">
+                    <div class="stock-image"><img src="/media/photos/products/tap1.jpg" alt="Kitchen Tap"></div>
+                    <div><strong>Kitchen Tap</strong><span>Home</span></div>
+                </div>
+                <span class="stock-count warning">18 left</span>
+            </div>
+        </div>
     </div>
 
-    <div class="stock-list">
-        {% for low_stock in low_stock_products %}
-      <div class="stock-item">
-        <div class="stock-product">
-          <div class="stock-image">
-            {% if low_stock.images %}
-            <img
-              src="{{ low_stock.images.url }}"
-              alt="{{ low_stock.product_name }}"
-            />
-            {% endif %}
-          </div>
-
-          <div>
-            <strong> {{ low_stock.product_name }} </strong>
-            <span> {{ low_stock.category.category_name }} </span>
-          </div>
+    <div class="dashboard-card">
+        <div class="card-header">
+            <div>
+                <h2>Quick Actions</h2>
+                <p>Frequently used actions</p>
+            </div>
         </div>
 
-        <span class="stock-count critical"> {{ low_stock.stock }} left </span>
-      </div>
-        {% empty %}
-        <p class="stock-empty">No products need restocking right now.</p>
-        {% endfor %}
-          </div>
+        <div class="quick-actions">
+            <a href="{% url 'add_products' %}" class="quick-action">
+                <div class="quick-action-icon"><i class="fa-solid fa-plus"></i></div>
+                <div class="quick-action-content"><strong>Add Product</strong><span>Create a new product</span></div>
+                <i class="fa-solid fa-chevron-right"></i>
+            </a>
+            <a href="{% url 'admin_orders' %}" class="quick-action">
+                <div class="quick-action-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                <div class="quick-action-content"><strong>Manage Orders</strong><span>Review pending orders</span></div>
+                <i class="fa-solid fa-chevron-right"></i>
+            </a>
+            <a href="{% url 'admin_customers' %}" class="quick-action">
+                <div class="quick-action-icon"><i class="fa-solid fa-users"></i></div>
+                <div class="quick-action-content"><strong>Customers</strong><span>View customer accounts</span></div>
+                <i class="fa-solid fa-chevron-right"></i>
+            </a>
+            <a href="{% url 'admin_banner' %}" class="quick-action">
+                <div class="quick-action-icon"><i class="fa-solid fa-image"></i></div>
+                <div class="quick-action-content"><strong>Manage Banners</strong><span>Update homepage banners</span></div>
+                <i class="fa-solid fa-chevron-right"></i>
+            </a>
         </div>
-
-  <!-- Quick Actions -->
-
-  <div class="dashboard-card">
-    <div class="card-header">
-      <div>
-        <h2>Quick Actions</h2>
-
-        <p>Frequently used actions</p>
-      </div>
     </div>
-
-    <div class="quick-actions">
-      <a href="{% url 'add_products' %}" class="quick-action">
-        <div class="quick-action-icon">
-          <i class="fa-solid fa-plus"></i>
-        </div>
-
-        <div class="quick-action-content">
-          <strong> Add Product </strong>
-
-          <span> Create a new product </span>
-        </div>
-
-        <i class="fa-solid fa-chevron-right"></i>
-      </a>
-
-      <a href="#" class="quick-action">
-        <div class="quick-action-icon">
-          <i class="fa-solid fa-cart-shopping"></i>
-        </div>
-
-        <div class="quick-action-content">
-          <strong> Manage Orders </strong>
-
-          <span> Review pending orders </span>
-        </div>
-
-        <i class="fa-solid fa-chevron-right"></i>
-      </a>
-
-      <a href="#" class="quick-action">
-        <div class="quick-action-icon">
-          <i class="fa-solid fa-users"></i>
-        </div>
-
-        <div class="quick-action-content">
-          <strong> Customers </strong>
-
-          <span> View customer accounts </span>
-        </div>
-
-        <i class="fa-solid fa-chevron-right"></i>
-      </a>
-
-      <a href="#" class="quick-action">
-        <div class="quick-action-icon">
-          <i class="fa-solid fa-image"></i>
-        </div>
-
-        <div class="quick-action-content">
-          <strong> Manage Banners </strong>
-
-          <span> Update homepage banners </span>
-        </div>
-
-        <i class="fa-solid fa-chevron-right"></i>
-      </a>
-    </div>
-  </div>
 </section>
-{% endblock content %}
+{% endblock %}

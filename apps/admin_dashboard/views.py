@@ -3,6 +3,9 @@ from django.contrib import messages
 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import Sum
+from django.utils import timezone
+from datetime import datetime
+from django.db.models.functions import TruncMonth
 
 from apps.orders.models import Order
 from apps.account.models import Account
@@ -25,16 +28,95 @@ def dashboard(request):
         stock__lte=low_stock_threshold,
         is_availbale=True,
     ).order_by("stock")[:5]
+    
+##===================================================================
+    # Sales Overview - Last 7 Months
+    today = timezone.localdate()
+    months = []
+    year = today.year
+    month = today.month
+    for i in range(7):
+        months.append((year, month))
+        month -=1
+        if month == 0:
+            month = 12
+            year -= 1
+    months.reverse()
+    first_year, first_month = months[0]
+    first_month_date = timezone.make_aware(datetime(first_year, first_month, 1))
+    monthly_sales = (Order.objects.filter(is_ordered=True, created_at__gte=first_month_date)).annotate(month=TruncMonth("created_at")).values("month").annotate(total=Sum("order_total")).order_by("month")
+
+    sales_map = {}
+    for sale in monthly_sales:
+        sale_date = sale["month"].date().replace(day=1)
+        sales_map[sale_date] = sale["total"] or 0
+
+    sales_overview = []
+    for year, month in months:
+        month_date = datetime(year, month, 1).date()
+        revenue = sales_map.get(month_date, 0)
+        sales_overview.append({
+            "month": month_date.strftime("%b"),
+            "revenue": revenue,
+        })
+    # Maximum revenue for bar height
+    max_revenue = max(
+        [item["revenue"] for item in sales_overview],
+        default=0
+    )
+    for item in sales_overview:
+        if max_revenue > 0:
+            item["height"] = int(
+                (float(item["revenue"]) / float(max_revenue)) * 100
+            )
+        else:
+            item["height"] = 0
+    new_orders = Order.objects.filter(
+        is_ordered=True,
+        status="New"
+    ).count()
+
+    accepted_orders = Order.objects.filter(
+        is_ordered=True,
+        status="Accepted"
+    ).count()
+
+    completed_orders = Order.objects.filter(
+        is_ordered=True,
+        status="Completed"
+    ).count()
+
+    cancelled_orders = Order.objects.filter(
+        is_ordered=True,
+        status="Cancelled"
+    ).count()
+
+    order_status_total = (
+        new_orders
+        + accepted_orders
+        + completed_orders
+        + cancelled_orders
+    )
+##========================================================================
 
     context = {
         "total_products": total_products,
-        "total_custormers": total_customers,
+        "total_customers": total_customers,
         "total_orders": total_orders,
         "total_revenue": total_revenue,
         "pending_orders": pending_orders,
         "recent_orders": recent_orders,
         "low_stock_products": low_stock_products,
-        "low_stock_threshold": low_stock_threshold,
+
+        # Sales
+        "sales_overview": sales_overview,
+
+        # Order status
+        "order_status_total": order_status_total,
+        "new_orders": new_orders,
+        "accepted_orders": accepted_orders,
+        "completed_orders": completed_orders,
+        "cancelled_orders": cancelled_orders,
     }
     return render(request, "admin_dashboard/dashboard.html", context)
 
@@ -140,3 +222,6 @@ def order_detail(request, order_id):
 
 def admin_banner(request):
     return render(request, "admin_dashboard/banners.html")
+
+def admin_category(request):
+    return render(request, "admin_dashboard/categories.html")

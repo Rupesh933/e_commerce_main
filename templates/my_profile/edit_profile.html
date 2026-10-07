@@ -9,7 +9,7 @@
     <form method="POST">
         {% csrf_token %}
 
-        {% include "profile/_form_fields.html" %}
+        {% include "profile/form.html" %}
 
         <div class="eco-profile__actions">
             <button type="submit" class="eco-btn eco-btn--accent">Save changes</button>

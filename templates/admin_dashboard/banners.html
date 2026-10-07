@@ -1,131 +1,55 @@
 {% extends "admin_dashboard/base.html" %}
+{% block title %}Banners | Shopping Mart{% endblock %}
+{% block breadcrumb %}Banners{% endblock %}
 
 {% block content %}
-        <div class="admin-content">
-          <div class="page-header">
-            <div>
-              <h1>Banners</h1>
+<div class="page-header">
+    <div>
+        <span class="eyebrow">STORE</span>
+        <h1>Banners</h1>
+        <p>Manage homepage promotional banners and campaigns.</p>
+    </div>
+    <button class="primary-button" type="button" data-modal-open="bannerModal"><i class="fa-solid fa-plus"></i> Add Banner</button>
+</div>
 
-              <p>Manage homepage promotional banners.</p>
-            </div>
+<div class="mini-stats-grid">
+    <div class="mini-stat-card"><span>Total Banners</span><strong>6</strong><small>Store promotions</small></div>
+    <div class="mini-stat-card"><span>Active</span><strong>4</strong><small>Currently visible</small></div>
+    <div class="mini-stat-card"><span>Inactive</span><strong>2</strong><small>Hidden banners</small></div>
+    <div class="mini-stat-card"><span>Updated</span><strong>Today</strong><small>Latest banner edit</small></div>
+</div>
 
-            <button class="primary-button">
-              <i class="fa-solid fa-plus"></i>
+<div class="banner-grid">
+    <article class="banner-card">
+        <div class="banner-image"><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200" alt="Summer Sale"><span class="banner-status active-banner">Active</span></div>
+        <div class="banner-content"><div class="banner-heading"><h3>Summer Sale</h3><span class="banner-id">#B-001</span></div><p>Up to 50% off on selected products.</p><div class="banner-meta"><span><i class="fa-regular fa-calendar"></i> Updated 07 Oct 2026</span><span><i class="fa-solid fa-link"></i> Shop Now</span></div><div class="banner-actions"><button class="secondary-button" data-modal-open="bannerModal"><i class="fa-solid fa-pen"></i> Edit</button><button class="danger-button"><i class="fa-solid fa-trash"></i> Delete</button></div></div>
+    </article>
 
-              Add Banner
-            </button>
-          </div>
+    <article class="banner-card">
+        <div class="banner-image"><img src="https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=1200" alt="New Arrivals"><span class="banner-status active-banner">Active</span></div>
+        <div class="banner-content"><div class="banner-heading"><h3>New Arrivals</h3><span class="banner-id">#B-002</span></div><p>Discover the latest products at Shopping Mart.</p><div class="banner-meta"><span><i class="fa-regular fa-calendar"></i> Updated 05 Oct 2026</span><span><i class="fa-solid fa-link"></i> Explore</span></div><div class="banner-actions"><button class="secondary-button" data-modal-open="bannerModal"><i class="fa-solid fa-pen"></i> Edit</button><button class="danger-button"><i class="fa-solid fa-trash"></i> Delete</button></div></div>
+    </article>
 
-          <!-- BANNER GRID -->
+    <article class="banner-card">
+        <div class="banner-image"><img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=1200" alt="Fashion Collection"><span class="banner-status inactive-banner">Inactive</span></div>
+        <div class="banner-content"><div class="banner-heading"><h3>Fashion Collection</h3><span class="banner-id">#B-003</span></div><p>Explore the latest fashion collection.</p><div class="banner-meta"><span><i class="fa-regular fa-calendar"></i> Updated 02 Oct 2026</span><span><i class="fa-solid fa-link"></i> Explore</span></div><div class="banner-actions"><button class="secondary-button" data-modal-open="bannerModal"><i class="fa-solid fa-pen"></i> Edit</button><button class="danger-button"><i class="fa-solid fa-trash"></i> Delete</button></div></div>
+    </article>
 
-          <div class="banner-grid">
-            <div class="banner-card">
-              <div class="banner-image">
-                <img
-                  src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=900"
-                  alt="Summer Sale"
-                />
+    <article class="banner-card banner-card-dashed">
+        <div class="empty-banner"><div class="empty-banner-icon"><i class="fa-solid fa-plus"></i></div><h3>Create a banner</h3><p>Promote offers, launches or seasonal collections.</p><button class="secondary-button" data-modal-open="bannerModal">Create Banner</button></div>
+    </article>
+</div>
 
-                <span class="banner-status active-banner"> Active </span>
-              </div>
-
-              <div class="banner-content">
-                <h3>Summer Sale</h3>
-
-                <p>Up to 50% off on selected products.</p>
-
-                <div class="banner-meta">
-                  <span>
-                    <i class="fa-regular fa-calendar"></i>
-                    Updated 28 Sep 2026
-                  </span>
-                </div>
-
-                <div class="banner-actions">
-                  <button class="secondary-button">
-                    <i class="fa-solid fa-pen"></i>
-                    Edit
-                  </button>
-
-                  <button class="danger-button">
-                    <i class="fa-solid fa-trash"></i>
-                    Delete
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div class="banner-card">
-              <div class="banner-image">
-                <img
-                  src="https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=900"
-                  alt="New Arrivals"
-                />
-
-                <span class="banner-status active-banner"> Active </span>
-              </div>
-
-              <div class="banner-content">
-                <h3>New Arrivals</h3>
-
-                <p>Discover the latest products at EcoMart.</p>
-
-                <div class="banner-meta">
-                  <span>
-                    <i class="fa-regular fa-calendar"></i>
-                    Updated 24 Sep 2026
-                  </span>
-                </div>
-
-                <div class="banner-actions">
-                  <button class="secondary-button">
-                    <i class="fa-solid fa-pen"></i>
-                    Edit
-                  </button>
-
-                  <button class="danger-button">
-                    <i class="fa-solid fa-trash"></i>
-                    Delete
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div class="banner-card">
-              <div class="banner-image">
-                <img
-                  src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=900"
-                  alt="Fashion Collection"
-                />
-
-                <span class="banner-status inactive-banner"> Inactive </span>
-              </div>
-
-              <div class="banner-content">
-                <h3>Fashion Collection</h3>
-
-                <p>Explore our latest fashion collection.</p>
-
-                <div class="banner-meta">
-                  <span>
-                    <i class="fa-regular fa-calendar"></i>
-                    Updated 18 Sep 2026
-                  </span>
-                </div>
-
-                <div class="banner-actions">
-                  <button class="secondary-button">
-                    <i class="fa-solid fa-pen"></i>
-                    Edit
-                  </button>
-
-                  <button class="danger-button">
-                    <i class="fa-solid fa-trash"></i>
-                    Delete
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-{% endblock content %}
+<div class="modal-backdrop" id="bannerModal">
+    <div class="modal-card modal-large">
+        <div class="modal-header"><div><h3>Add Banner</h3><p>Create a homepage promotional banner.</p></div><button class="modal-close" data-modal-close="bannerModal">&times;</button></div>
+        <form class="admin-form">
+            <div class="form-group"><label>Title <span>*</span></label><input class="form-control" placeholder="e.g. Diwali Sale"></div>
+            <div class="form-group"><label>Subtitle</label><input class="form-control" placeholder="Short promotional message"></div>
+            <div class="form-row"><div class="form-group"><label>Button Type</label><select class="form-control"><option>Shop Now</option><option>Explore</option><option>View Collection</option></select></div><div class="form-group"><label>Image</label><input class="form-control-file" type="file"></div></div>
+            <label class="switch-row"><input type="checkbox" checked><span class="switch"></span><span><strong>Active banner</strong><small>Show this banner on the homepage.</small></span></label>
+            <div class="form-actions"><button type="button" class="secondary-button" data-modal-close="bannerModal">Cancel</button><button type="button" class="primary-button">Save Banner</button></div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,4 +1,4 @@
-{% extends "profile/base_profile.html" %}
+{% extends "my_profile/base_profile.html" %}
 
 {% block page_title %}Hello, {{ user.first_name|default:"there" }}{% endblock %}
 {% block page_sub %}Manage your orders, addresses and account details.{% endblock %}
@@ -66,18 +66,18 @@
     .eco-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
     .eco-stat { display: flex; flex-direction: column; gap: 4px; padding: 20px; background: #fff; border: 1px solid var(--c-border); border-radius: 14px; }
     .eco-stat__num { font-size: 1.5rem; font-weight: 800; color: var(--c-primary); }
-    .eco-stat__label { font-size: .8rem; font-weight: 600; color: var(--c-muted); }
+    .eco-stat__label { font-size: 0.875rem; font-weight: 600; color: var(--c-muted); }
 
     .eco-details { margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .eco-details dt { font-size: .76rem; font-weight: 700; color: var(--c-muted); }
-    .eco-details dd { margin: 2px 0 0; font-size: .92rem; font-weight: 700; word-break: break-word; }
+    .eco-details dt { font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--c-muted); }
+    .eco-details dd { margin: 2px 0 0; font-size: 1rem; font-weight: 700; word-break: break-word; }
 
     .eco-rows { list-style: none; margin: 0; padding: 0; }
     .eco-row { display: flex; align-items: center; gap: 16px; padding: 14px 0; border-top: 1px solid var(--c-border); }
     .eco-row:first-child { border-top: none; padding-top: 0; }
     .eco-row__main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
     .eco-row__title { font-weight: 800; color: var(--c-primary); }
-    .eco-row__meta { font-size: .78rem; color: var(--c-muted); }
+    .eco-row__meta { font-size: 0.875rem; color: var(--c-muted); }
     .eco-row__amount { min-width: 80px; text-align: right; font-weight: 800; }
 
     @media (max-width: 640px) {

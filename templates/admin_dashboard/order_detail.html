@@ -1,79 +1,107 @@
 {% extends "admin_dashboard/base.html" %}
+{% block title %}Order #EC1025 | Shopping Mart{% endblock %}
+{% block breadcrumb %}Orders / #EC1025{% endblock %}
 
 {% block content %}
-<div class="admin-content">
-
-  <div class="page-header">
+<div class="page-header">
     <div>
-      <h1>Order #{{ order.id }}</h1>
-      <p>Placed on {{ order.created_at|date:"d M Y, h:i A" }}</p>
+        <span class="eyebrow">ORDER DETAILS</span>
+        <h1>#EC1025</h1>
+        <p>Placed on 07 Oct 2026, 10:42 AM</p>
     </div>
-    <a href="{% url 'admin_orders' %}" class="secondary-button">Back to orders</a>
-  </div>
-
-  <!-- STATUS UPDATE -->
-  <div class="dashboard-card">
-    <div class="card-header">
-      <h2>Order status</h2>
+    <div class="page-header-actions">
+        <button class="secondary-button"><i class="fa-solid fa-print"></i> Print</button>
+        <a href="{% url 'admin_orders' %}" class="secondary-button"><i class="fa-solid fa-arrow-left"></i> Back</a>
     </div>
-
-    <form method="POST" class="status-form">
-      {% csrf_token %}
-      <select name="status" class="filter-select">
-        {% for value, label in order.STATUS_CHOICES %}
-        <option value="{{ value }}" {% if order.status == value %}selected{% endif %}>{{ label }}</option>
-        {% endfor %}
-      </select>
-      <button type="submit" class="primary-button">Update status</button>
-    </form>
-  </div>
-
-  <!-- CUSTOMER + DELIVERY -->
-  <div class="dashboard-card">
-    <div class="card-header">
-      <h2>Delivery details</h2>
-    </div>
-    <p>
-      <strong>{{ order.full_name }}</strong><br>
-      {{ order.address_line_1 }}{% if order.address_line_2 %}, {{ order.address_line_2 }}{% endif %}<br>
-      {{ order.city }}, {{ order.state }}, {{ order.country }}<br>
-      {{ order.phone_number }} &middot; {{ order.email }}
-    </p>
-    {% if order.order_note %}
-    <p><strong>Note:</strong> {{ order.order_note }}</p>
-    {% endif %}
-  </div>
-
-  <!-- ITEMS -->
-  <div class="dashboard-card">
-    <div class="card-header">
-      <h2>Items</h2>
-    </div>
-    <div class="table-wrapper">
-      <table class="admin-table">
-        <thead>
-          <tr>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Price</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for item in order_products %}
-          <tr>
-            <td>{{ item.product.product_name }}</td>
-            <td>{{ item.quantity }}</td>
-            <td>&#8377;{{ item.product_price }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-
-    <p style="text-align:right; margin-top:12px;">
-      <strong>Total: &#8377;{{ order.order_total|floatformat:2 }}</strong>
-    </p>
-  </div>
-
 </div>
-{% endblock content %}
+
+<div class="order-status-banner">
+    <div class="order-status-left">
+        <div class="order-status-icon accepted"><i class="fa-solid fa-box"></i></div>
+        <div><strong>Order accepted</strong><span>This order is being processed.</span></div>
+    </div>
+    <div class="order-status-actions">
+        <span class="status-badge accepted-status">Accepted</span>
+        <button class="primary-button">Update Status</button>
+    </div>
+</div>
+
+<div class="detail-grid">
+    <div class="detail-main">
+
+        <div class="dashboard-card order-detail-card">
+            <div class="card-header"><div><h2>Order Items</h2><p>Products included in this order.</p></div><span class="muted-label">3 items</span></div>
+            <div class="order-items">
+                <div class="order-item">
+                    <div class="order-item-image"><img src="/media/photos/products/fashion2.jpg" alt=""></div>
+                    <div class="order-item-info"><strong>Premium Sneakers</strong><span>Size: 9 · Color: Black</span><small>SKU: PS-001</small></div>
+                    <div class="order-item-qty">× 2</div>
+                    <strong class="order-item-price">₹3,000</strong>
+                </div>
+                <div class="order-item">
+                    <div class="order-item-image"><img src="/media/photos/products/fashion1.jpg" alt=""></div>
+                    <div class="order-item-info"><strong>Casual T-Shirt</strong><span>Size: L · Color: White</span><small>SKU: TS-019</small></div>
+                    <div class="order-item-qty">× 1</div>
+                    <strong class="order-item-price">₹499</strong>
+                </div>
+                <div class="order-item">
+                    <div class="order-item-image"><img src="/media/photos/products/kitchen1.jpg" alt=""></div>
+                    <div class="order-item-info"><strong>Kitchen Set</strong><span>Standard · Steel</span><small>SKU: KS-008</small></div>
+                    <div class="order-item-qty">× 1</div>
+                    <strong class="order-item-price">₹0</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-card">
+            <div class="card-header"><div><h2>Order Timeline</h2><p>Activity history for this order.</p></div></div>
+            <div class="timeline">
+                <div class="timeline-item"><span class="timeline-dot active"></span><div><strong>Order accepted</strong><span>07 Oct 2026 · 11:12 AM</span><p>Admin accepted the order.</p></div></div>
+                <div class="timeline-item"><span class="timeline-dot"></span><div><strong>Payment confirmed</strong><span>07 Oct 2026 · 10:43 AM</span><p>Cash on delivery selected.</p></div></div>
+                <div class="timeline-item"><span class="timeline-dot"></span><div><strong>Order placed</strong><span>07 Oct 2026 · 10:42 AM</span><p>Customer successfully placed the order.</p></div></div>
+            </div>
+        </div>
+
+    </div>
+
+    <aside class="detail-side">
+
+        <div class="dashboard-card">
+            <div class="card-header"><div><h2>Customer</h2><p>Buyer information</p></div></div>
+            <div class="profile-mini">
+                <div class="profile-mini-avatar">R</div>
+                <div><strong>Rupesh Rana</strong><span>rupesh@example.com</span></div>
+            </div>
+            <div class="info-list">
+                <div><span>Phone</span><strong>+91 98765 43210</strong></div>
+                <div><span>Customer since</span><strong>18 Jul 2026</strong></div>
+            </div>
+        </div>
+
+        <div class="dashboard-card">
+            <div class="card-header"><div><h2>Delivery</h2><p>Shipping information</p></div></div>
+            <div class="address-box compact"><strong>Rupesh Rana</strong><p>123 Sunpura Road<br>Greater Noida, Uttar Pradesh<br>203207, India</p><span><i class="fa-solid fa-phone"></i> +91 98765 43210</span></div>
+        </div>
+
+        <div class="dashboard-card">
+            <div class="card-header"><div><h2>Payment</h2><p>Transaction details</p></div></div>
+            <div class="info-list">
+                <div><span>Method</span><strong>Cash on Delivery</strong></div>
+                <div><span>Payment ID</span><strong>COD-EC1025</strong></div>
+                <div><span>Status</span><span class="status-badge completed-status">Confirmed</span></div>
+            </div>
+        </div>
+
+        <div class="dashboard-card">
+            <div class="card-header"><div><h2>Summary</h2><p>Order total</p></div></div>
+            <div class="order-summary">
+                <div><span>Subtotal</span><strong>₹3,499</strong></div>
+                <div><span>Tax</span><strong>₹0</strong></div>
+                <div><span>Shipping</span><strong>Free</strong></div>
+                <div class="order-summary-total"><span>Total</span><strong>₹3,499</strong></div>
+            </div>
+        </div>
+
+    </aside>
+</div>
+{% endblock %}

@@ -1,0 +1,720 @@
+/* =========================================================
+   GLOBAL DESIGN SYSTEM — EcoMart & Admin Dashboard
+   Unified color palette, typography, and reusable components
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+
+:root {
+    /* --- Brand Colors --- */
+    --eco-primary: #1B2A6B;
+    --eco-primary-dark: #10193F;
+    --eco-primary-light: #2D439B;
+    --eco-primary-soft: #EEF2FF;
+    --eco-accent: #FF9F1C;
+    --eco-accent-dark: #E68A0D;
+    --eco-accent-soft: #FFF7ED;
+
+    /* --- Neutral Colors --- */
+    --eco-charcoal: #1B222E;
+    --eco-text: #2D3748;
+    --eco-text-muted: #64748B;
+    --eco-text-light: #94A3B8;
+    --eco-bg: #F8FAFC;
+    --eco-card-bg: #FFFFFF;
+    --eco-border: #E2E8F0;
+    --eco-border-light: #F1F5F9;
+
+    /* --- Status Colors --- */
+    --eco-success: #10B981;
+    --eco-success-bg: #ECFDF5;
+    --eco-success-border: #A7F3D0;
+    --eco-warning: #F59E0B;
+    --eco-warning-bg: #FFFBEB;
+    --eco-warning-border: #FDE68A;
+    --eco-danger: #EF4444;
+    --eco-danger-bg: #FEF2F2;
+    --eco-danger-border: #FECACA;
+    --eco-info: #3B82F6;
+    --eco-info-bg: #EFF6FF;
+    --eco-info-border: #BFDBFE;
+
+    /* --- Shadows --- */
+    --eco-shadow-xs: 0 1px 2px rgba(16, 25, 63, 0.05);
+    --eco-shadow-sm: 0 2px 6px rgba(16, 25, 63, 0.06);
+    --eco-shadow-md: 0 6px 18px rgba(16, 25, 63, 0.08);
+    --eco-shadow-lg: 0 12px 32px rgba(16, 25, 63, 0.12);
+
+    /* --- Radii --- */
+    --eco-radius-sm: 6px;
+    --eco-radius-md: 10px;
+    --eco-radius-lg: 14px;
+    --eco-radius-xl: 20px;
+    --eco-radius-full: 9999px;
+
+    /* --- Typography Defaults --- */
+    --eco-font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --eco-font-size-base: 16px;
+    --eco-line-height-base: 1.6;
+}
+
+/* =========================================================
+   BASE & RESET OVERRIDES
+   ========================================================= */
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--eco-font-family) !important;
+    font-size: 1rem !important; /* 16px base font size */
+    line-height: var(--eco-line-height-base) !important;
+    color: var(--eco-text);
+    background-color: var(--eco-bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Clear Headings Hierarchy */
+h1, .h1 {
+    font-family: var(--eco-font-family);
+    font-size: 2rem !important; /* 32px */
+    font-weight: 800;
+    line-height: 1.25;
+    color: var(--eco-charcoal);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
+}
+
+h2, .h2 {
+    font-family: var(--eco-font-family);
+    font-size: 1.5rem !important; /* 24px */
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--eco-charcoal);
+    letter-spacing: -0.015em;
+    margin-bottom: 0.65rem;
+}
+
+h3, .h3 {
+    font-family: var(--eco-font-family);
+    font-size: 1.25rem !important; /* 20px */
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--eco-charcoal);
+    margin-bottom: 0.5rem;
+}
+
+h4, .h4 {
+    font-family: var(--eco-font-family);
+    font-size: 1.125rem !important; /* 18px */
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--eco-charcoal);
+    margin-bottom: 0.5rem;
+}
+
+h5, .h5 {
+    font-family: var(--eco-font-family);
+    font-size: 1rem !important; /* 16px */
+    font-weight: 600;
+    line-height: 1.45;
+    color: var(--eco-charcoal);
+    margin-bottom: 0.4rem;
+}
+
+h6, .h6 {
+    font-family: var(--eco-font-family);
+    font-size: 0.875rem !important; /* 14px */
+    font-weight: 700;
+    line-height: 1.45;
+    color: var(--eco-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.4rem;
+}
+
+p {
+    font-size: 1rem; /* 16px */
+    line-height: 1.65;
+    color: var(--eco-text);
+    margin-bottom: 1rem;
+}
+
+small, .small, .text-muted {
+    font-size: 0.875rem; /* 14px - comfortable readable secondary text */
+    line-height: 1.5;
+    color: var(--eco-text-muted);
+}
+
+a {
+    color: var(--eco-primary);
+    transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+a:hover {
+    color: var(--eco-primary-dark);
+    text-decoration: none;
+}
+
+/* =========================================================
+   REUSABLE BUTTONS
+   ========================================================= */
+
+.btn {
+    font-family: var(--eco-font-family);
+    font-size: 0.95rem; /* 15.2px */
+    font-weight: 600;
+    line-height: 1.5;
+    padding: 0.6rem 1.35rem;
+    border-radius: var(--eco-radius-md);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1.5px solid transparent;
+}
+
+.btn:focus, .btn:active {
+    box-shadow: 0 0 0 3px rgba(27, 42, 107, 0.18) !important;
+    outline: none !important;
+}
+
+.btn-primary {
+    background-color: var(--eco-primary) !important;
+    border-color: var(--eco-primary) !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 8px rgba(27, 42, 107, 0.2);
+}
+
+.btn-primary:hover {
+    background-color: var(--eco-primary-dark) !important;
+    border-color: var(--eco-primary-dark) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(27, 42, 107, 0.3);
+}
+
+.btn-accent, .btn-warning {
+    background-color: var(--eco-accent) !important;
+    border-color: var(--eco-accent) !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 8px rgba(255, 159, 28, 0.25);
+}
+
+.btn-accent:hover, .btn-warning:hover {
+    background-color: var(--eco-accent-dark) !important;
+    border-color: var(--eco-accent-dark) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(255, 159, 28, 0.35);
+}
+
+.btn-outline-primary {
+    background-color: transparent !important;
+    border-color: var(--eco-primary) !important;
+    color: var(--eco-primary) !important;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--eco-primary) !important;
+    color: #ffffff !important;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background-color: #E2E8F0 !important;
+    border-color: #E2E8F0 !important;
+    color: var(--eco-charcoal) !important;
+}
+
+.btn-secondary:hover {
+    background-color: #CBD5E1 !important;
+    border-color: #CBD5E1 !important;
+    color: var(--eco-charcoal) !important;
+}
+
+.btn-danger {
+    background-color: var(--eco-danger) !important;
+    border-color: var(--eco-danger) !important;
+    color: #ffffff !important;
+}
+
+.btn-danger:hover {
+    background-color: #DC2626 !important;
+    border-color: #DC2626 !important;
+}
+
+.btn-sm {
+    font-size: 0.875rem;
+    padding: 0.45rem 1rem;
+    border-radius: var(--eco-radius-sm);
+}
+
+.btn-lg {
+    font-size: 1.05rem;
+    padding: 0.75rem 1.75rem;
+    border-radius: var(--eco-radius-md);
+}
+
+.btn-block {
+    display: flex;
+    width: 100%;
+}
+
+/* =========================================================
+   FORM CONTROLS & INPUTS
+   ========================================================= */
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group label, label {
+    font-family: var(--eco-font-family);
+    font-size: 0.9375rem; /* 15px */
+    font-weight: 600;
+    color: var(--eco-charcoal);
+    margin-bottom: 0.45rem;
+    display: inline-block;
+}
+
+.form-control {
+    font-family: var(--eco-font-family);
+    font-size: 0.95rem !important; /* 15.2px */
+    line-height: 1.5;
+    color: var(--eco-charcoal) !important;
+    background-color: #FFFFFF !important;
+    border: 1.5px solid var(--eco-border) !important;
+    border-radius: var(--eco-radius-md) !important;
+    padding: 0.65rem 1rem !important;
+    height: auto !important;
+    min-height: 46px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-control:focus {
+    border-color: var(--eco-primary) !important;
+    box-shadow: 0 0 0 3.5px rgba(27, 42, 107, 0.12) !important;
+    outline: none !important;
+}
+
+.form-control::placeholder {
+    color: #94A3B8 !important;
+    font-size: 0.925rem;
+}
+
+.form-text {
+    font-size: 0.85rem;
+    color: var(--eco-text-muted);
+    margin-top: 0.35rem;
+}
+
+/* Friendly Django Form Errors */
+.errorlist {
+    list-style: none;
+    padding: 0;
+    margin: 0.4rem 0 0;
+    color: var(--eco-danger);
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.errorlist li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+.errorlist li::before {
+    content: "\f06a";
+    font-family: "Font Awesome 5 Free", "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 0.85rem;
+}
+
+.invalid-feedback {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--eco-danger);
+    margin-top: 0.35rem;
+}
+
+/* =========================================================
+   CARDS & PANELS
+   ========================================================= */
+
+.card {
+    background-color: var(--eco-card-bg);
+    border: 1px solid var(--eco-border);
+    border-radius: var(--eco-radius-lg);
+    box-shadow: var(--eco-shadow-sm);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
+}
+
+.card:hover {
+    box-shadow: var(--eco-shadow-md);
+}
+
+.card-header {
+    background-color: #FFFFFF;
+    border-bottom: 1px solid var(--eco-border);
+    padding: 1.15rem 1.5rem;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--eco-charcoal);
+}
+
+.card-body {
+    padding: 1.6rem;
+}
+
+.card-footer {
+    background-color: #F8FAFC;
+    border-top: 1px solid var(--eco-border);
+    padding: 1.1rem 1.5rem;
+}
+
+/* =========================================================
+   TABLES
+   ========================================================= */
+
+.table {
+    width: 100%;
+    margin-bottom: 0;
+    color: var(--eco-charcoal);
+}
+
+.table th {
+    font-family: var(--eco-font-family);
+    font-size: 0.8125rem; /* 13px */
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--eco-text-muted);
+    background-color: #F8FAFC;
+    border-bottom: 2px solid var(--eco-border);
+    border-top: none;
+    padding: 1rem 1.25rem;
+    vertical-align: middle;
+}
+
+.table td {
+    font-family: var(--eco-font-family);
+    font-size: 0.95rem; /* 15.2px */
+    line-height: 1.5;
+    color: var(--eco-charcoal);
+    border-top: 1px solid var(--eco-border);
+    padding: 1.1rem 1.25rem;
+    vertical-align: middle;
+}
+
+.table tbody tr {
+    transition: background-color 0.15s ease;
+}
+
+.table tbody tr:hover {
+    background-color: #F8FAFC;
+}
+
+/* =========================================================
+   BADGES
+   ========================================================= */
+
+.badge, .eco-badge {
+    font-family: var(--eco-font-family);
+    font-size: 0.8125rem; /* 13px */
+    font-weight: 700;
+    padding: 0.4rem 0.8rem;
+    border-radius: var(--eco-radius-full);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    line-height: 1.2;
+}
+
+.badge-success, .eco-badge--completed, .eco-badge--delivered, .eco-badge--paid {
+    background-color: var(--eco-success-bg) !important;
+    color: #065F46 !important;
+    border: 1px solid var(--eco-success-border);
+}
+
+.badge-warning, .eco-badge--pending, .eco-badge--processing {
+    background-color: var(--eco-warning-bg) !important;
+    color: #92400E !important;
+    border: 1px solid var(--eco-warning-border);
+}
+
+.badge-danger, .eco-badge--cancelled, .eco-badge--failed {
+    background-color: var(--eco-danger-bg) !important;
+    color: #991B1B !important;
+    border: 1px solid var(--eco-danger-border);
+}
+
+.badge-info, .eco-badge--new, .eco-badge--shipped {
+    background-color: var(--eco-info-bg) !important;
+    color: #1E40AF !important;
+    border: 1px solid var(--eco-info-border);
+}
+
+/* =========================================================
+   ALERTS / NOTIFICATIONS
+   ========================================================= */
+
+.alert {
+    font-family: var(--eco-font-family);
+    font-size: 0.95rem; /* 15.2px */
+    line-height: 1.5;
+    padding: 1.1rem 1.35rem;
+    border-radius: var(--eco-radius-md);
+    border: 1px solid transparent;
+    border-left-width: 4px;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: var(--eco-shadow-sm);
+}
+
+.alert-success {
+    background-color: var(--eco-success-bg);
+    border-color: var(--eco-success-border);
+    border-left-color: var(--eco-success);
+    color: #065F46;
+}
+
+.alert-danger {
+    background-color: var(--eco-danger-bg);
+    border-color: var(--eco-danger-border);
+    border-left-color: var(--eco-danger);
+    color: #991B1B;
+}
+
+.alert-warning {
+    background-color: var(--eco-warning-bg);
+    border-color: var(--eco-warning-border);
+    border-left-color: var(--eco-warning);
+    color: #92400E;
+}
+
+.alert-info {
+    background-color: var(--eco-info-bg);
+    border-color: var(--eco-info-border);
+    border-left-color: var(--eco-info);
+    color: #1E40AF;
+}
+
+.alert .close {
+    margin-left: auto;
+    font-size: 1.35rem;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+    line-height: 1;
+    padding: 0;
+    color: inherit;
+    background: none;
+    border: none;
+}
+
+.alert .close:hover {
+    opacity: 1;
+}
+
+/* =========================================================
+   AUTH PAGES (LOGIN & REGISTER)
+   ========================================================= */
+
+.auth-wrapper {
+    min-height: calc(100vh - 160px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 16px;
+    background: linear-gradient(180deg, #F8FAFC 0%, #EEF2F6 100%);
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 460px;
+    background: #FFFFFF;
+    border-radius: var(--eco-radius-xl);
+    border: 1px solid var(--eco-border);
+    box-shadow: 0 10px 30px rgba(16, 25, 63, 0.08);
+    overflow: hidden;
+    padding: 38px 34px;
+}
+
+.auth-card--wide {
+    max-width: 600px;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.auth-header__icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 16px;
+    background: var(--eco-primary-soft);
+    color: var(--eco-primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 14px;
+    box-shadow: 0 4px 12px rgba(27, 42, 107, 0.08);
+}
+
+.auth-header__title {
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: var(--eco-charcoal);
+    margin-bottom: 6px;
+}
+
+.auth-header__subtitle {
+    font-size: 0.95rem;
+    color: var(--eco-text-muted);
+}
+
+.auth-divider {
+    display: flex;
+    align-items: center;
+    margin: 24px 0;
+    color: var(--eco-text-light);
+    font-size: 0.875rem;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--eco-border);
+}
+
+.auth-divider span {
+    padding: 0 12px;
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 26px;
+    font-size: 0.95rem;
+    color: var(--eco-text-muted);
+}
+
+.auth-footer a {
+    color: var(--eco-primary);
+    font-weight: 700;
+}
+
+/* =========================================================
+   FOOTER STYLING
+   ========================================================= */
+
+.eco-footer {
+    background: #111827;
+    color: #E2E8F0;
+    font-family: var(--eco-font-family);
+    margin-top: auto;
+}
+
+.eco-footer a {
+    color: #94A3B8;
+    text-decoration: none;
+    transition: color 0.2s ease, transform 0.2s ease;
+    display: inline-block;
+}
+
+.eco-footer a:hover {
+    color: #FFFFFF;
+    transform: translateX(2px);
+}
+
+.eco-footer__brand-title {
+    color: #FFFFFF;
+    font-size: 1.4rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.eco-footer__brand-desc {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: #94A3B8;
+    margin-bottom: 20px;
+}
+
+.eco-footer__social-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: #1F2937;
+    color: #94A3B8;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    transition: all 0.2s ease;
+    margin-right: 8px;
+}
+
+.eco-footer__social-btn:hover {
+    background: var(--eco-primary);
+    color: #FFFFFF;
+    transform: translateY(-2px);
+}
+
+.eco-footer__heading {
+    color: #FFFFFF;
+    font-size: 0.9375rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 20px;
+}
+
+.eco-footer__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.9375rem;
+}
+
+.eco-footer__list li {
+    margin-bottom: 12px;
+}
+
+.eco-footer__contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 0.9375rem;
+    color: #94A3B8;
+    margin-bottom: 14px;
+}
+
+.eco-footer__contact-item i {
+    color: #60A5FA;
+    margin-top: 4px;
+    flex-shrink: 0;
+}
+
+.eco-footer__divider {
+    border-top: 1px solid #1F2937;
+}
+
+.eco-footer__bottom {
+    padding: 22px 0;
+    font-size: 0.875rem;
+    color: #64748B;
+}

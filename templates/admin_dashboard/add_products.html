@@ -1,67 +1,111 @@
-{% extends "admin_dashboard/base.html" %} {% block content %}
+{% extends "admin_dashboard/base.html" %}
+{% block title %}Add Product | Shopping Mart{% endblock %}
+{% block breadcrumb %}Products / Add Product{% endblock %}
 
+{% block content %}
 <div class="page-header">
-  <div>
-    <h1>Add Product</h1>
-    <p>Add a new product to your store.</p>
-  </div>
+    <div>
+        <span class="eyebrow">CATALOG</span>
+        <h1>Add Product</h1>
+        <p>Create a new product and publish it to your store.</p>
+    </div>
 </div>
 
-<div class="dashboard-card product-form-card">
-  <form method="POST" enctype="multipart/form-data" action="{% url 'add_products' %}">
-    {% csrf_token %}
+<div class="form-layout">
+    <div class="dashboard-card">
+        <div class="card-header">
+            <div>
+                <h2>Product Information</h2>
+                <p>Enter the basic details customers will see.</p>
+            </div>
+        </div>
 
-    <div class="form-group">
-      <label> Product Name </label>
-      {{ form.product_name }}
+        <form method="POST" enctype="multipart/form-data" action="{% url 'add_products' %}" class="admin-form">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label>Product Name <span>*</span></label>
+                {{ form.product_name }}
+                <small>Use a clear, searchable product name.</small>
+            </div>
+
+            <div class="form-group">
+                <label>Description</label>
+                {{ form.description }}
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Price <span>*</span></label>
+                    {{ form.price }}
+                </div>
+                <div class="form-group">
+                    <label>Stock <span>*</span></label>
+                    {{ form.stock }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Category <span>*</span></label>
+                {{ form.category }}
+            </div>
+
+            <div class="form-group">
+                <label>Product Image <span>*</span></label>
+                <div class="file-upload">
+                    {{ form.images }}
+                    <div class="file-upload-copy">
+                        <i class="fa-regular fa-image"></i>
+                        <strong>Choose product image</strong>
+                        <span>PNG, JPG or WEBP · Recommended 800×800px</span>
+                    </div>
+                </div>
+            </div>
+
+            <label class="switch-row">
+                {{ form.is_availbale }}
+                <span class="switch"></span>
+                <span>
+                    <strong>Product is available</strong>
+                    <small>Customers can purchase this product.</small>
+                </span>
+            </label>
+
+            {% if form.errors %}
+            <div class="form-alert">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <div>{{ form.errors }}</div>
+            </div>
+            {% endif %}
+
+            <div class="form-actions">
+                <a href="{% url 'admin_products' %}" class="secondary-button">Cancel</a>
+                <button type="submit" class="primary-button"><i class="fa-solid fa-check"></i> Create Product</button>
+            </div>
+        </form>
     </div>
 
-    <div class="form-group">
-      <label> Slug </label>
-      {{ form.slug }}
-    </div>
+    <aside class="form-side-column">
+        <div class="dashboard-card tips-card">
+            <div class="card-header">
+                <div>
+                    <h2>Publishing Tips</h2>
+                    <p>Simple guidelines for better products.</p>
+                </div>
+            </div>
+            <div class="tip-list">
+                <div class="tip-item"><span>01</span><div><strong>Use a clear title</strong><p>Make the name easy to understand and search.</p></div></div>
+                <div class="tip-item"><span>02</span><div><strong>Use a good image</strong><p>Prefer a square, well-lit product photo.</p></div></div>
+                <div class="tip-item"><span>03</span><div><strong>Keep stock accurate</strong><p>Update quantities regularly to avoid overselling.</p></div></div>
+            </div>
+        </div>
 
-    <div class="form-group">
-      <label> Description </label>
-      {{ form.description }}
-    </div>
-
-    <div class="form-row">
-      <div class="form-group">
-        <label> Price </label>
-        {{ form.price }}
-      </div>
-
-      <div class="form-group">
-        <label> Stock </label>
-        {{ form.stock }}
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label> Category </label>
-      {{ form.category }}
-    </div>
-
-    <div class="form-group">
-      <label> Product Image </label>
-      {{ form.images }}
-    </div>
-
-    <div class="form-checkbox">
-      {{ form.is_availbale }}
-      <label> Product is available </label>
-    </div>
-
-    {% if form.errors %}
-    <div class="form-errors">{{ form.errors }}</div>
-    {% endif %}
-
-    <div class="form-actions">
-      <a href="{% url 'admin_products' %}" class="secondary-button"> Cancel </a>
-      <button type="submit" class="primary-button">Add Product</button>
-    </div>
-  </form>
+        <div class="dashboard-card">
+            <div class="status-summary">
+                <div class="summary-icon"><i class="fa-solid fa-circle-info"></i></div>
+                <div><strong>Slug is automatic</strong><p>Your product slug is generated from the product name by the model.</p></div>
+            </div>
+        </div>
+    </aside>
 </div>
-
-{% endblock content %}
+{% endblock %}

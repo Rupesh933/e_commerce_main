@@ -237,4 +237,3 @@ def confirm_payment(request, order_number):
     return redirect("store")
 
 def my_orders(request): pass
-def address_list(request): pass

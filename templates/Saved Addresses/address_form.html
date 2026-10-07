@@ -1,0 +1,23 @@
+{% extends "my_profile/base_profile.html" %}
+
+{% block page_title %}{% if form.instance.pk %}Edit address{% else %}Add new address{% endif %}{% endblock %}
+{% block page_sub %}{% if form.instance.pk %}Update the details of this address.{% else %}Add a new delivery address to your account.{% endif %}{% endblock %}
+
+{% block profile_content %}
+
+<div class="eco-panel">
+    <form method="POST">
+        {% csrf_token %}
+
+        {% include "my_profile/form.html" %}
+
+        <div class="eco-actions">
+            <button type="submit" class="eco-btn eco-btn--accent">
+                {% if form.instance.pk %}Save changes{% else %}Add address{% endif %}
+            </button>
+            <a href="{% url 'address_list' %}" class="eco-btn eco-btn--ghost">Cancel</a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends "admin_dashboard/base.html" %}
+{% block title %}Categories | Shopping Mart{% endblock %}
+{% block breadcrumb %}Categories{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <span class="eyebrow">CATALOG</span>
+        <h1>Categories</h1>
+        <p>Organize products into clear storefront categories.</p>
+    </div>
+    <button class="primary-button" type="button" data-modal-open="categoryModal">
+        <i class="fa-solid fa-plus"></i> Add Category
+    </button>
+</div>
+
+<div class="mini-stats-grid">
+    <div class="mini-stat-card"><span>Total Categories</span><strong>8</strong><small>Store categories</small></div>
+    <div class="mini-stat-card"><span>Active</span><strong>7</strong><small>Visible on store</small></div>
+    <div class="mini-stat-card"><span>Products</span><strong>54</strong><small>Across all categories</small></div>
+    <div class="mini-stat-card"><span>Empty</span><strong>1</strong><small>Needs products</small></div>
+</div>
+
+<div class="filter-card">
+    <div class="filter-search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" placeholder="Search categories...">
+    </div>
+    <select class="filter-select"><option>All Categories</option><option>Active</option><option>Inactive</option></select>
+    <button class="secondary-button"><i class="fa-solid fa-filter"></i> Filter</button>
+</div>
+
+<div class="dashboard-card">
+    <div class="card-header">
+        <div><h2>Category List</h2><p>Manage your product grouping and category images.</p></div>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="admin-table">
+            <thead><tr><th>Category</th><th>Description</th><th>Products</th><th>Status</th><th>Created</th><th>Actions</th></tr></thead>
+            <tbody>
+            <tr>
+                <td><div class="category-cell"><div class="category-image"><img src="/media/photos/categories/electronics.jpg" alt=""></div><div><strong>Electronics</strong><span>electronics</span></div></div></td>
+                <td>Phones, laptops, accessories and smart devices.</td><td><strong>14</strong></td><td><span class="status-badge completed-status">Active</span></td><td>02 Sep 2026</td>
+                <td><div class="product-actions"><button class="action-button edit" type="button" data-modal-open="categoryModal"><i class="fa-solid fa-pen"></i></button><button class="action-button delete"><i class="fa-solid fa-trash"></i></button></div></td>
+            </tr>
+            <tr>
+                <td><div class="category-cell"><div class="category-image"><img src="/media/photos/categories/fashion.jpg" alt=""></div><div><strong>Fashion</strong><span>fashion</span></div></div></td>
+                <td>Everyday clothing, footwear and accessories.</td><td><strong>11</strong></td><td><span class="status-badge completed-status">Active</span></td><td>28 Aug 2026</td>
+                <td><div class="product-actions"><button class="action-button edit" type="button" data-modal-open="categoryModal"><i class="fa-solid fa-pen"></i></button><button class="action-button delete"><i class="fa-solid fa-trash"></i></button></div></td>
+            </tr>
+            <tr>
+                <td><div class="category-cell"><div class="category-image"><img src="/media/photos/categories/kitchen.jpg" alt=""></div><div><strong>Kitchen</strong><span>kitchen</span></div></div></td>
+                <td>Kitchen tools, cookware and storage products.</td><td><strong>9</strong></td><td><span class="status-badge completed-status">Active</span></td><td>21 Aug 2026</td>
+                <td><div class="product-actions"><button class="action-button edit" type="button" data-modal-open="categoryModal"><i class="fa-solid fa-pen"></i></button><button class="action-button delete"><i class="fa-solid fa-trash"></i></button></div></td>
+            </tr>
+            <tr>
+                <td><div class="category-cell"><div class="category-image"><span class="image-placeholder"><i class="fa-regular fa-image"></i></span></div><div><strong>Home Decor</strong><span>home-decor</span></div></div></td>
+                <td>Home improvement and decorative products.</td><td><strong>0</strong></td><td><span class="status-badge muted-status">Inactive</span></td><td>14 Aug 2026</td>
+                <td><div class="product-actions"><button class="action-button edit" type="button" data-modal-open="categoryModal"><i class="fa-solid fa-pen"></i></button><button class="action-button delete"><i class="fa-solid fa-trash"></i></button></div></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal-backdrop" id="categoryModal">
+    <div class="modal-card">
+        <div class="modal-header"><div><h3>Add Category</h3><p>Create a category for products.</p></div><button class="modal-close" data-modal-close="categoryModal">&times;</button></div>
+        <form class="admin-form">
+            <div class="form-group"><label>Category Name <span>*</span></label><input class="form-control" type="text" placeholder="e.g. Electronics"></div>
+            <div class="form-group"><label>Description</label><textarea class="form-control" rows="4" placeholder="Describe this category..."></textarea></div>
+            <div class="form-group"><label>Category Image</label><input class="form-control-file" type="file"></div>
+            <label class="switch-row"><input type="checkbox" checked><span class="switch"></span><span><strong>Active category</strong><small>Show this category on the storefront.</small></span></label>
+            <div class="form-actions"><button type="button" class="secondary-button" data-modal-close="categoryModal">Cancel</button><button class="primary-button" type="button">Save Category</button></div>
+        </form>
+    </div>
+</div>
+{% endblock %}

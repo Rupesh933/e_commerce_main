@@ -1,0 +1,54 @@
+{% extends "admin_dashboard/base.html" %}
+{% block title %}Variations | Shopping Mart{% endblock %}
+{% block breadcrumb %}Variations{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <span class="eyebrow">CATALOG</span>
+        <h1>Variations</h1>
+        <p>Manage product variation types such as size and color.</p>
+    </div>
+    <button class="primary-button" type="button" data-modal-open="variationModal"><i class="fa-solid fa-plus"></i> Add Variation</button>
+</div>
+
+<div class="mini-stats-grid">
+    <div class="mini-stat-card"><span>Total Variations</span><strong>24</strong><small>Variation records</small></div>
+    <div class="mini-stat-card"><span>Color</span><strong>11</strong><small>Color variations</small></div>
+    <div class="mini-stat-card"><span>Size</span><strong>13</strong><small>Size variations</small></div>
+    <div class="mini-stat-card"><span>Active</span><strong>23</strong><small>Currently enabled</small></div>
+</div>
+
+<div class="filter-card">
+    <div class="filter-search"><i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Search product..."></div>
+    <select class="filter-select"><option>All Types</option><option>Color</option><option>Size</option></select>
+    <select class="filter-select"><option>All Status</option><option>Active</option><option>Inactive</option></select>
+    <button class="secondary-button"><i class="fa-solid fa-filter"></i> Filter</button>
+</div>
+
+<div class="dashboard-card">
+    <div class="card-header"><div><h2>Variation List</h2><p>Products with configurable size or color attributes.</p></div></div>
+    <div class="table-wrapper">
+        <table class="admin-table">
+            <thead><tr><th>Product</th><th>Variation Type</th><th>Status</th><th>Created</th><th>Actions</th></tr></thead>
+            <tbody>
+                <tr><td><strong>Premium Sneakers</strong><span class="product-more">#P-1005</span></td><td><span class="variation-chip size"><i class="fa-solid fa-ruler-horizontal"></i> Size</span></td><td><span class="status-badge completed-status">Active</span></td><td>07 Oct 2026</td><td><div class="product-actions"><button class="action-button edit" data-modal-open="variationModal"><i class="fa-solid fa-pen"></i></button><button class="action-button delete"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+                <tr><td><strong>Premium Sneakers</strong><span class="product-more">#P-1005</span></td><td><span class="variation-chip color"><i class="fa-solid fa-palette"></i> Color</span></td><td><span class="status-badge completed-status">Active</span></td><td>07 Oct 2026</td><td><div class="product-actions"><button class="action-button edit" data-modal-open="variationModal"><i class="fa-solid fa-pen"></i></button><button class="action-button delete"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+                <tr><td><strong>Casual T-Shirt</strong><span class="product-more">#P-1002</span></td><td><span class="variation-chip size"><i class="fa-solid fa-ruler-horizontal"></i> Size</span></td><td><span class="status-badge completed-status">Active</span></td><td>06 Oct 2026</td><td><div class="product-actions"><button class="action-button edit" data-modal-open="variationModal"><i class="fa-solid fa-pen"></i></button><button class="action-button delete"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal-backdrop" id="variationModal">
+    <div class="modal-card">
+        <div class="modal-header"><div><h3>Add Variation</h3><p>Attach a variation type to a product.</p></div><button class="modal-close" data-modal-close="variationModal">&times;</button></div>
+        <form class="admin-form">
+            <div class="form-group"><label>Product <span>*</span></label><select class="form-control"><option>Premium Sneakers</option><option>Casual T-Shirt</option><option>Smart Laptop</option></select></div>
+            <div class="form-group"><label>Variation Type <span>*</span></label><select class="form-control"><option>Size</option><option>Color</option></select></div>
+            <label class="switch-row"><input type="checkbox" checked><span class="switch"></span><span><strong>Active variation</strong><small>Enable this variation for the product.</small></span></label>
+            <div class="form-actions"><button type="button" class="secondary-button" data-modal-close="variationModal">Cancel</button><button type="button" class="primary-button">Save Variation</button></div>
+        </form>
+    </div>
+</div>
+{% endblock %}

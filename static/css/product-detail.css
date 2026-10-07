@@ -66,8 +66,9 @@
 }
 
 .product-detail-page .product-description {
-    color: #6c7690;
-    line-height: 1.7;
+    color: #4a5568;
+    font-size: 1rem;
+    line-height: 1.75;
 }
 
 .product-detail-page .item-option-select {
@@ -78,8 +79,10 @@
 .product-detail-page .item-option-select h6 {
     margin-bottom: 7px;
     color: #1b222e;
-    font-size: .82rem;
-    font-weight: 800;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
 }
 
 .product-detail-page .product-actions {

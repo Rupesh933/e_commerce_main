@@ -1,0 +1,61 @@
+{% extends "admin_dashboard/base.html" %}
+{% block title %}Customer Profile | Shopping Mart{% endblock %}
+{% block breadcrumb %}Customers / Arjun Kumar{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <span class="eyebrow">CUSTOMER PROFILE</span>
+        <h1>Arjun Kumar</h1>
+        <p>Customer account and purchase history.</p>
+    </div>
+    <button class="secondary-button"><i class="fa-solid fa-download"></i> Export Profile</button>
+</div>
+
+<div class="profile-hero dashboard-card">
+    <div class="profile-hero-left">
+        <div class="profile-hero-avatar">A</div>
+        <div><h2>Arjun Kumar</h2><span>arjun@gmail.com</span><p>Customer since 10 Aug 2026</p></div>
+    </div>
+    <div class="profile-hero-right">
+        <span class="status-badge completed-status">Active Account</span>
+        <button class="secondary-button">Edit Customer</button>
+    </div>
+</div>
+
+<div class="stats-grid profile-stats">
+    <div class="stat-card"><div class="stat-body"><span>Total Orders</span><strong>12</strong><small>All placed orders</small></div></div>
+    <div class="stat-card"><div class="stat-body"><span>Completed</span><strong>10</strong><small>Delivered orders</small></div></div>
+    <div class="stat-card"><div class="stat-body"><span>Cancelled</span><strong>1</strong><small>Cancelled orders</small></div></div>
+    <div class="stat-card"><div class="stat-body"><span>Total Spent</span><strong>₹28,490</strong><small>Order value</small></div></div>
+</div>
+
+<div class="detail-grid">
+    <div class="detail-main">
+        <div class="dashboard-card">
+            <div class="card-header"><div><h2>Order History</h2><p>Recent orders by this customer.</p></div></div>
+            <div class="table-wrapper">
+                <table class="admin-table">
+                    <thead><tr><th>Order</th><th>Items</th><th>Total</th><th>Status</th><th>Date</th></tr></thead>
+                    <tbody>
+                    <tr><td><strong class="order-number">#EC1025</strong></td><td>3 items</td><td><strong>₹3,499</strong></td><td><span class="status-badge accepted-status">Accepted</span></td><td>07 Oct 2026</td></tr>
+                    <tr><td><strong class="order-number">#EC1017</strong></td><td>2 items</td><td><strong>₹5,840</strong></td><td><span class="status-badge completed-status">Completed</span></td><td>29 Sep 2026</td></tr>
+                    <tr><td><strong class="order-number">#EC1008</strong></td><td>1 item</td><td><strong>₹1,799</strong></td><td><span class="status-badge completed-status">Completed</span></td><td>18 Sep 2026</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <aside class="detail-side">
+        <div class="dashboard-card">
+            <div class="card-header"><div><h2>Contact</h2><p>Account information</p></div></div>
+            <div class="info-list"><div><span>Email</span><strong>arjun@gmail.com</strong></div><div><span>Phone</span><strong>+91 98765 43210</strong></div><div><span>Username</span><strong>arjunk</strong></div></div>
+        </div>
+        <div class="dashboard-card">
+            <div class="card-header"><div><h2>Default Address</h2><p>Saved delivery address</p></div></div>
+            <div class="address-box compact"><strong>Arjun Kumar</strong><p>12 Sector 18<br>Noida, Uttar Pradesh<br>201301, India</p><span><i class="fa-solid fa-phone"></i> +91 98765 43210</span></div>
+        </div>
+    </aside>
+</div>
+{% endblock %}

@@ -65,7 +65,8 @@
     padding: 16px 20px;
     border-bottom: 1px solid #e2e6f0;
     color: #6c7690;
-    font-size: .72rem;
+    font-size: 0.85rem;
+    text-transform: uppercase;
     font-weight: 800;
     letter-spacing: .06em;
 }
@@ -105,7 +106,7 @@
 
 .cart-page .itemside .image-empty {
     color: #97a0ba;
-    font-size: .7rem;
+    font-size: 0.825rem;
     text-align: center;
 }
 

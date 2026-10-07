@@ -1,203 +1,43 @@
 {% extends "admin_dashboard/base.html" %}
+{% block title %}Payments | Shopping Mart{% endblock %}
+{% block breadcrumb %}Payments{% endblock %}
 
 {% block content %}
-        <div class="admin-content">
-          <div class="page-header">
-            <div>
-              <h1>Payments</h1>
+<div class="page-header">
+    <div>
+        <span class="eyebrow">SALES</span>
+        <h1>Payments</h1>
+        <p>Track payment transactions and order collections.</p>
+    </div>
+    <button class="secondary-button"><i class="fa-solid fa-download"></i> Export Payments</button>
+</div>
 
-              <p>Track customer payments and transactions.</p>
-            </div>
+<div class="mini-stats-grid">
+    <div class="mini-stat-card"><span>Total Payments</span><strong>124</strong><small>Transactions</small></div>
+    <div class="mini-stat-card"><span>Total Collected</span><strong>₹85,420</strong><small>All transactions</small></div>
+    <div class="mini-stat-card"><span>COD</span><strong>97</strong><small>Cash payments</small></div>
+    <div class="mini-stat-card"><span>Online</span><strong>27</strong><small>Online payments</small></div>
+</div>
 
-            <button class="secondary-button">
-              <i class="fa-solid fa-download"></i>
+<div class="filter-card">
+    <div class="filter-search"><i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Search payment ID or order..."></div>
+    <select class="filter-select"><option>All Methods</option><option>Cash on Delivery</option><option>Online Payment</option></select>
+    <select class="filter-select"><option>All Status</option><option>Confirmed</option><option>Pending</option><option>Failed</option></select>
+    <button class="secondary-button"><i class="fa-solid fa-filter"></i> Filter</button>
+</div>
 
-              Export Payments
-            </button>
-          </div>
-
-          <!-- PAYMENT STATS -->
-
-          <div class="mini-stats-grid">
-            <div class="mini-stat-card">
-              <span> Total Payments </span>
-
-              <strong> 124 </strong>
-            </div>
-
-            <div class="mini-stat-card">
-              <span> Total Revenue </span>
-
-              <strong> ₹85,420 </strong>
-            </div>
-
-            <div class="mini-stat-card">
-              <span> COD Payments </span>
-
-              <strong> 124 </strong>
-            </div>
-
-            <div class="mini-stat-card">
-              <span> Pending </span>
-
-              <strong> 0 </strong>
-            </div>
-          </div>
-
-          <!-- FILTER -->
-
-          <div class="filter-card">
-            <div class="filter-search">
-              <i class="fa-solid fa-magnifying-glass"></i>
-
-              <input type="text" placeholder="Search payment ID or order..." />
-            </div>
-
-            <select class="filter-select">
-              <option>All Payment Methods</option>
-
-              <option>Cash on Delivery</option>
-
-              <option>Online Payment</option>
-            </select>
-
-            <select class="filter-select">
-              <option>All Dates</option>
-
-              <option>Today</option>
-
-              <option>This Week</option>
-
-              <option>This Month</option>
-            </select>
-          </div>
-
-          <!-- PAYMENT TABLE -->
-
-          <div class="dashboard-card">
-            <div class="card-header">
-              <div>
-                <h2>Transaction History</h2>
-
-                <p>Recent payment transactions</p>
-              </div>
-            </div>
-
-            <div class="table-wrapper">
-              <table class="admin-table">
-                <thead>
-                  <tr>
-                    <th>Payment ID</th>
-
-                    <th>Order</th>
-
-                    <th>Customer</th>
-
-                    <th>Method</th>
-
-                    <th>Amount</th>
-
-                    <th>Status</th>
-
-                    <th>Date</th>
-
-                    <th></th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  <tr>
-                    <td>
-                      <strong class="order-number"> COD-EC1024 </strong>
-                    </td>
-
-                    <td>#EC1024</td>
-
-                    <td>Arjun Kumar</td>
-
-                    <td>Cash on Delivery</td>
-
-                    <td>
-                      <strong> ₹3,499 </strong>
-                    </td>
-
-                    <td>
-                      <span class="status-badge completed-status">
-                        Completed
-                      </span>
-                    </td>
-
-                    <td>28 Sep 2026</td>
-
-                    <td>
-                      <button class="table-action">
-                        <i class="fa-solid fa-ellipsis"></i>
-                      </button>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      <strong class="order-number"> COD-EC1023 </strong>
-                    </td>
-
-                    <td>#EC1023</td>
-
-                    <td>Shreya Singh</td>
-
-                    <td>Cash on Delivery</td>
-
-                    <td>
-                      <strong> ₹1,799 </strong>
-                    </td>
-
-                    <td>
-                      <span class="status-badge completed-status">
-                        Completed
-                      </span>
-                    </td>
-
-                    <td>27 Sep 2026</td>
-
-                    <td>
-                      <button class="table-action">
-                        <i class="fa-solid fa-ellipsis"></i>
-                      </button>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      <strong class="order-number"> COD-EC1022 </strong>
-                    </td>
-
-                    <td>#EC1022</td>
-
-                    <td>Rahul Verma</td>
-
-                    <td>Cash on Delivery</td>
-
-                    <td>
-                      <strong> ₹4,299 </strong>
-                    </td>
-
-                    <td>
-                      <span class="status-badge completed-status">
-                        Completed
-                      </span>
-                    </td>
-
-                    <td>27 Sep 2026</td>
-
-                    <td>
-                      <button class="table-action">
-                        <i class="fa-solid fa-ellipsis"></i>
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-{% endblock content %}
+<div class="dashboard-card">
+    <div class="card-header"><div><h2>Transaction History</h2><p>Recent payment transactions</p></div></div>
+    <div class="table-wrapper">
+        <table class="admin-table">
+            <thead><tr><th>Payment ID</th><th>Order</th><th>Customer</th><th>Method</th><th>Amount</th><th>Status</th><th>Date</th><th>Action</th></tr></thead>
+            <tbody>
+                <tr><td><strong class="order-number">COD-EC1025</strong></td><td>#EC1025</td><td>Rupesh Rana</td><td>Cash on Delivery</td><td><strong>₹3,499</strong></td><td><span class="status-badge completed-status">Confirmed</span></td><td>07 Oct 2026</td><td><button class="table-action"><i class="fa-solid fa-eye"></i></button></td></tr>
+                <tr><td><strong class="order-number">COD-EC1024</strong></td><td>#EC1024</td><td>Arjun Kumar</td><td>Cash on Delivery</td><td><strong>₹5,299</strong></td><td><span class="status-badge completed-status">Confirmed</span></td><td>06 Oct 2026</td><td><button class="table-action"><i class="fa-solid fa-eye"></i></button></td></tr>
+                <tr><td><strong class="order-number">PAY-EC1023</strong></td><td>#EC1023</td><td>Shreya Singh</td><td>Online Payment</td><td><strong>₹1,799</strong></td><td><span class="status-badge accepted-status">Pending</span></td><td>06 Oct 2026</td><td><button class="table-action"><i class="fa-solid fa-eye"></i></button></td></tr>
+                <tr><td><strong class="order-number">COD-EC1022</strong></td><td>#EC1022</td><td>Rahul Verma</td><td>Cash on Delivery</td><td><strong>₹46,720</strong></td><td><span class="status-badge cancelled-status">Refunded</span></td><td>05 Oct 2026</td><td><button class="table-action"><i class="fa-solid fa-eye"></i></button></td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

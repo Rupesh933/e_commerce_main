@@ -1,4 +1,4 @@
-{% extends "profile/base_profile.html" %}
+{% extends "my_profile/base_profile.html" %}
 
 {% block page_title %}Order #{{ order.order_number }}{% endblock %}
 {% block page_sub %}Placed on {{ order.created_at|date:"d M Y, h:i A" }}{% endblock %}

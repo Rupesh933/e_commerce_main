@@ -55,7 +55,7 @@ class Address(models.Model):
     country = models.CharField(max_length=50)
     pincode = models.CharField(max_length=10)
 
-    is_default = models.BooleanField(default=False)
+    is_default = models.BooleanField(default=False)    # is_default field to indicate if this is the default address for the user
     created_at = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):

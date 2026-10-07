@@ -1,99 +1,87 @@
 {% load static %}
-<!-- FOOTER -->
-<footer style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); color: #cdd5e0; margin-top: 40px;">
-
-    <!-- Top Footer: Main Sections -->
-    <div class="container" style="padding-top: 50px; padding-bottom: 30px;">
+<footer class="eco-footer">
+    <div class="container py-5">
         <div class="row">
 
             <!-- Brand & About -->
-            <div class="col-lg-3 col-md-6 mb-4">
-                <h5 style="color:#fff; font-weight:700; font-size:1.4rem; margin-bottom:12px;">
-                    🛍️ Shopping Mart
-                </h5>
-                <p style="font-size:0.88rem; line-height:1.7; color:#a0aec0;">
-                    Your trusted destination for quality products at the best prices.
-                    Shop smart, live better — every day.
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <div class="eco-footer__brand-title">
+                    <i class="fas fa-shopping-bag" style="color: var(--eco-accent, #FF9F1C);"></i>
+                    <span>EcoMart</span>
+                </div>
+                <p class="eco-footer__brand-desc">
+                    Your trusted destination for premium fashion, cutting-edge electronics, and lifestyle essentials.
                 </p>
-                <!-- Social Icons -->
-                <div class="mt-3">
-                    <a href="#" style="color:#a0aec0; font-size:1.2rem; margin-right:14px; transition:color .2s;" onmouseover="this.style.color='#63b3ed'" onmouseout="this.style.color='#a0aec0'"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" style="color:#a0aec0; font-size:1.2rem; margin-right:14px; transition:color .2s;" onmouseover="this.style.color='#63b3ed'" onmouseout="this.style.color='#a0aec0'"><i class="fab fa-twitter"></i></a>
-                    <a href="#" style="color:#a0aec0; font-size:1.2rem; margin-right:14px; transition:color .2s;" onmouseover="this.style.color='#f687b3'" onmouseout="this.style.color='#a0aec0'"><i class="fab fa-instagram"></i></a>
-                    <a href="#" style="color:#a0aec0; font-size:1.2rem; margin-right:14px; transition:color .2s;" onmouseover="this.style.color='#63b3ed'" onmouseout="this.style.color='#a0aec0'"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#" style="color:#a0aec0; font-size:1.2rem; transition:color .2s;" onmouseover="this.style.color='#fc8181'" onmouseout="this.style.color='#a0aec0'"><i class="fab fa-youtube"></i></a>
+                <div class="d-flex align-items-center">
+                    <a href="#" class="eco-footer__social-btn" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="eco-footer__social-btn" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="eco-footer__social-btn" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="eco-footer__social-btn" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="eco-footer__social-btn" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
 
             <!-- Quick Links -->
-            <div class="col-lg-2 col-md-6 mb-4">
-                <h6 style="color:#fff; font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-bottom:16px; font-size:0.82rem;">
-                    Quick Links
-                </h6>
-                <ul class="list-unstyled" style="font-size:0.88rem;">
-                    <li class="mb-2"><a href="{% url 'home' %}"   style="color:#a0aec0; text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#a0aec0'"><i class="fa fa-angle-right mr-1"></i> Home</a></li>
-                    <li class="mb-2"><a href="{% url 'store' %}"  style="color:#a0aec0; text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#a0aec0'"><i class="fa fa-angle-right mr-1"></i> Store</a></li>
-                    <li class="mb-2"><a href="{% url 'cart' %}"   style="color:#a0aec0; text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#a0aec0'"><i class="fa fa-angle-right mr-1"></i> My Cart</a></li>
-                    <li class="mb-2"><a href="{% url 'login' %}"  style="color:#a0aec0; text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#a0aec0'"><i class="fa fa-angle-right mr-1"></i> Sign In</a></li>
-                    <li class="mb-2"><a href="{% url 'register' %}" style="color:#a0aec0; text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#a0aec0'"><i class="fa fa-angle-right mr-1"></i> Register</a></li>
+            <div class="col-lg-2 col-md-6 mb-4 mb-lg-0">
+                <h6 class="eco-footer__heading">Quick Links</h6>
+                <ul class="eco-footer__list">
+                    <li><a href="{% url 'home' %}"><i class="fa fa-angle-right mr-1"></i> Home</a></li>
+                    <li><a href="{% url 'store' %}"><i class="fa fa-angle-right mr-1"></i> Store</a></li>
+                    <li><a href="{% url 'cart' %}"><i class="fa fa-angle-right mr-1"></i> My Cart</a></li>
+                    <li><a href="{% url 'login' %}"><i class="fa fa-angle-right mr-1"></i> Sign In</a></li>
+                    <li><a href="{% url 'register' %}"><i class="fa fa-angle-right mr-1"></i> Register</a></li>
                 </ul>
             </div>
 
             <!-- Customer Service -->
-            <div class="col-lg-2 col-md-6 mb-4">
-                <h6 style="color:#fff; font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-bottom:16px; font-size:0.82rem;">
-                    Customer Care
-                </h6>
-                <ul class="list-unstyled" style="font-size:0.88rem;">
-                    <li class="mb-2"><a href="#" style="color:#a0aec0; text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#a0aec0'"><i class="fa fa-angle-right mr-1"></i> Help Center</a></li>
-                    <li class="mb-2"><a href="#" style="color:#a0aec0; text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#a0aec0'"><i class="fa fa-angle-right mr-1"></i> Track Order</a></li>
-                    <li class="mb-2"><a href="#" style="color:#a0aec0; text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#a0aec0'"><i class="fa fa-angle-right mr-1"></i> Returns & Refunds</a></li>
-                    <li class="mb-2"><a href="#" style="color:#a0aec0; text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#a0aec0'"><i class="fa fa-angle-right mr-1"></i> Shipping Policy</a></li>
-                    <li class="mb-2"><a href="#" style="color:#a0aec0; text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#a0aec0'"><i class="fa fa-angle-right mr-1"></i> FAQs</a></li>
+            <div class="col-lg-2 col-md-6 mb-4 mb-lg-0">
+                <h6 class="eco-footer__heading">Customer Care</h6>
+                <ul class="eco-footer__list">
+                    <li><a href="#"><i class="fa fa-angle-right mr-1"></i> Help Center</a></li>
+                    <li><a href="#"><i class="fa fa-angle-right mr-1"></i> Track Order</a></li>
+                    <li><a href="#"><i class="fa fa-angle-right mr-1"></i> Returns & Refunds</a></li>
+                    <li><a href="#"><i class="fa fa-angle-right mr-1"></i> Shipping Policy</a></li>
+                    <li><a href="#"><i class="fa fa-angle-right mr-1"></i> FAQs</a></li>
                 </ul>
             </div>
 
             <!-- Contact Info -->
-            <div class="col-lg-2 col-md-6 mb-4">
-                <h6 style="color:#fff; font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-bottom:16px; font-size:0.82rem;">
-                    Contact Us
-                </h6>
-                <ul class="list-unstyled" style="font-size:0.88rem; color:#a0aec0;">
-                    <li class="mb-3">
-                        <i class="fa fa-map-marker-alt mr-2" style="color:#63b3ed;"></i>
-                        123 Market Street,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mumbai, India 400001
+            <div class="col-lg-2 col-md-6 mb-4 mb-lg-0">
+                <h6 class="eco-footer__heading">Contact Us</h6>
+                <ul class="eco-footer__list">
+                    <li class="eco-footer__contact-item">
+                        <i class="fa fa-map-marker-alt"></i>
+                        <span>123 Market Street,<br>Mumbai, India 400001</span>
                     </li>
-                    <li class="mb-3">
-                        <i class="fa fa-phone mr-2" style="color:#63b3ed;"></i>
-                        +91 98765 43210
+                    <li class="eco-footer__contact-item">
+                        <i class="fa fa-phone"></i>
+                        <span>+91 98765 43210</span>
                     </li>
-                    <li class="mb-3">
-                        <i class="fa fa-envelope mr-2" style="color:#63b3ed;"></i>
-                        support@ecomart.in
+                    <li class="eco-footer__contact-item">
+                        <i class="fa fa-envelope"></i>
+                        <span>support@ecomart.in</span>
                     </li>
-                    <li>
-                        <i class="fa fa-clock mr-2" style="color:#63b3ed;"></i>
-                        Mon–Sat: 9am – 6pm
+                    <li class="eco-footer__contact-item">
+                        <i class="fa fa-clock"></i>
+                        <span>Mon–Sat: 9am – 6pm</span>
                     </li>
                 </ul>
             </div>
 
             <!-- Newsletter -->
-            <div class="col-lg-3 col-md-6 mb-4">
-                <h6 style="color:#fff; font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-bottom:16px; font-size:0.82rem;">
-                    Newsletter
-                </h6>
-                <p style="font-size:0.88rem; color:#a0aec0; margin-bottom:14px;">
-                    Subscribe for exclusive deals, new arrivals & updates.
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <h6 class="eco-footer__heading">Newsletter</h6>
+                <p class="eco-footer__brand-desc">
+                    Subscribe for exclusive deals, new arrivals & seasonal discounts.
                 </p>
                 <form onsubmit="return false;">
-                    <div class="input-group mb-2">
-                        <input type="email" class="form-control form-control-sm"
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control"
                                placeholder="Your email address"
-                               style="background:#2d3748; border:1px solid #4a5568; color:#e2e8f0; border-radius:6px 0 0 6px;">
+                               style="background:#1F2937; border:1px solid #374151; color:#F3F4F6; border-radius:8px 0 0 8px; min-height:44px;">
                         <div class="input-group-append">
-                            <button class="btn btn-sm btn-primary" type="submit"
-                                    style="border-radius:0 6px 6px 0; padding: 0 14px;">
+                            <button class="btn btn-primary" type="submit"
+                                    style="border-radius:0 8px 8px 0; padding: 0 16px;">
                                 <i class="fa fa-paper-plane"></i>
                             </button>
                         </div>
@@ -101,9 +89,9 @@
                 </form>
 
                 <!-- Trust Badges -->
-                <div class="mt-3" style="font-size:0.82rem; color:#a0aec0;">
-                    <span class="mr-3"><i class="fa fa-shield-alt mr-1" style="color:#68d391;"></i> Secure Payment</span>
-                    <span><i class="fa fa-undo mr-1" style="color:#68d391;"></i> Easy Returns</span>
+                <div class="d-flex align-items-center mt-3 text-muted" style="font-size:0.875rem;">
+                    <span class="mr-3"><i class="fa fa-shield-alt mr-1" style="color:var(--eco-success, #10B981);"></i> Secure Payment</span>
+                    <span><i class="fa fa-undo mr-1" style="color:var(--eco-success, #10B981);"></i> Easy Returns</span>
                 </div>
             </div>
 
@@ -111,33 +99,33 @@
     </div>
 
     <!-- Divider -->
-    <div style="border-top: 1px solid #2d3748;"></div>
+    <div class="eco-footer__divider"></div>
 
     <!-- Bottom Bar -->
-    <div class="container" style="padding-top:18px; padding-bottom:18px;">
+    <div class="container eco-footer__bottom">
         <div class="row align-items-center">
 
             <!-- Copyright -->
             <div class="col-md-5 mb-2 mb-md-0">
-                <small style="color:#718096;">
-                    &copy; {% now "Y" %} <strong style="color:#a0aec0;">EcoMart</strong>. All rights reserved.
-                    &nbsp;|&nbsp; <a href="#" style="color:#718096; text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#718096'">Privacy Policy</a>
-                    &nbsp;|&nbsp; <a href="#" style="color:#718096; text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#718096'">Terms of Service</a>
-                </small>
+                <span>
+                    &copy; {% now "Y" %} <strong style="color:#CBD5E1;">EcoMart</strong>. All rights reserved.
+                    &nbsp;|&nbsp; <a href="#">Privacy Policy</a>
+                    &nbsp;|&nbsp; <a href="#">Terms of Service</a>
+                </span>
             </div>
 
             <!-- Made with love -->
             <div class="col-md-4 text-md-center mb-2 mb-md-0">
-                <small style="color:#718096;">Made with <span style="color:#fc8181;">&#9829;</span> in India</small>
+                <span>Made with <span style="color:#EF4444;">&#9829;</span> in India</span>
             </div>
 
             <!-- Payment Icons -->
             <div class="col-md-3 text-md-right">
-                <i class="fab fa-cc-visa fa-lg mx-1"       style="color:#a0aec0;"></i>
-                <i class="fab fa-cc-mastercard fa-lg mx-1" style="color:#a0aec0;"></i>
-                <i class="fab fa-cc-paypal fa-lg mx-1"     style="color:#a0aec0;"></i>
-                <i class="fab fa-cc-amex fa-lg mx-1"       style="color:#a0aec0;"></i>
-                <i class="fab fa-google-pay fa-lg mx-1"    style="color:#a0aec0;"></i>
+                <i class="fab fa-cc-visa fa-lg mx-1" style="color:#94A3B8;"></i>
+                <i class="fab fa-cc-mastercard fa-lg mx-1" style="color:#94A3B8;"></i>
+                <i class="fab fa-cc-paypal fa-lg mx-1" style="color:#94A3B8;"></i>
+                <i class="fab fa-cc-amex fa-lg mx-1" style="color:#94A3B8;"></i>
+                <i class="fab fa-google-pay fa-lg mx-1" style="color:#94A3B8;"></i>
             </div>
 
         </div>
