@@ -60,27 +60,105 @@
 
                 <!-- Address -->
                 <div class="eco-panel">
-                    <h2 class="eco-panel__title">Delivery address</h2>
-                    <div class="eco-fields">
-                        <div class="eco-field eco-field--full">
-                            <label for="address_line_1">Address line 1 <span class="eco-req">*</span></label>
-                            <input type="text" id="address_line_1" name="address_line_1" placeholder="House number, street" autocomplete="address-line1" required>
-                        </div>
-                        <div class="eco-field eco-field--full">
-                            <label for="address_line_2">Address line 2 <span class="eco-opt">(optional)</span></label>
-                            <input type="text" id="address_line_2" name="address_line_2" placeholder="Apartment, landmark" autocomplete="address-line2">
-                        </div>
-                        <div class="eco-field eco-field--third">
-                            <label for="city">City <span class="eco-req">*</span></label>
-                            <input type="text" id="city" name="city" autocomplete="address-level2" required>
-                        </div>
-                        <div class="eco-field eco-field--third">
-                            <label for="state">State <span class="eco-req">*</span></label>
-                            <input type="text" id="state" name="state" autocomplete="address-level1" required>
-                        </div>
-                        <div class="eco-field eco-field--third">
-                            <label for="country">Country <span class="eco-req">*</span></label>
-                            <input type="text" id="country" name="country" autocomplete="country-name" required>
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h2 class="eco-panel__title mb-0">Delivery address</h2>
+                        {% if saved_addresses %}
+                        <a href="{% url 'address_list' %}" class="eco-link" target="_blank" style="font-size: 0.82rem;">Manage addresses</a>
+                        {% endif %}
+                    </div>
+
+                    {% if saved_addresses %}
+                    <p class="eco-opt mb-3" style="font-size: 0.85rem;">Select from your saved addresses or add a new delivery address.</p>
+                    <div class="eco-saved-addresses" id="saved-address-list">
+                        {% for addr in saved_addresses %}
+                        <label class="eco-addr-card {% if addr.id == default_address.id %}is-selected{% endif %}" for="addr_{{ addr.id }}">
+                            <div class="eco-addr-card__radio">
+                                <input type="radio" 
+                                       id="addr_{{ addr.id }}" 
+                                       name="selected_address" 
+                                       value="{{ addr.id }}" 
+                                       {% if addr.id == default_address.id %}checked{% endif %}
+                                       data-line1="{{ addr.address_line_1 }}"
+                                       data-line2="{{ addr.address_line_2 }}"
+                                       data-city="{{ addr.city }}"
+                                       data-state="{{ addr.state }}"
+                                       data-country="{{ addr.country }}"
+                                       data-phone="{{ addr.phone_number }}"
+                                       data-name="{{ addr.full_name }}"
+                                       data-pincode="{{ addr.pincode }}"
+                                       onchange="handleAddressSelection(this)">
+                            </div>
+                            <div class="eco-addr-card__content">
+                                <div class="eco-addr-card__top">
+                                    <strong class="eco-addr-card__name">{{ addr.full_name }}</strong>
+                                    {% if addr.is_default %}
+                                    <span class="eco-badge eco-badge--default">Default</span>
+                                    {% endif %}
+                                </div>
+                                <p class="eco-addr-card__text">
+                                    {{ addr.address_line_1 }}{% if addr.address_line_2 %}, {{ addr.address_line_2 }}{% endif %}<br>
+                                    {{ addr.city }}, {{ addr.state }}, {{ addr.country }}{% if addr.pincode %} - {{ addr.pincode }}{% endif %}
+                                </p>
+                                <div class="eco-addr-card__phone">
+                                    <i class="fa fa-phone-alt mr-1"></i> {{ addr.phone_number }}
+                                </div>
+                            </div>
+                        </label>
+                        {% endfor %}
+
+                        <!-- Option to add a new address -->
+                        <label class="eco-addr-card eco-addr-card--new" for="addr_new">
+                            <div class="eco-addr-card__radio">
+                                <input type="radio" 
+                                       id="addr_new" 
+                                       name="selected_address" 
+                                       value="new"
+                                       onchange="handleAddressSelection(this)">
+                            </div>
+                            <div class="eco-addr-card__content">
+                                <div class="eco-addr-card__top">
+                                    <strong class="eco-addr-card__name"><i class="fa fa-plus-circle mr-1 text-primary"></i> Deliver to a new address</strong>
+                                </div>
+                                <p class="eco-addr-card__text text-muted mb-0">Enter a different delivery address for this order</p>
+                            </div>
+                        </label>
+                    </div>
+                    {% endif %}
+
+                    <!-- Address Input Form (Visible if 'new' address is chosen or if user has no saved addresses) -->
+                    <div id="new-address-section" {% if saved_addresses %}style="display: none; margin-top: 20px; padding-top: 20px; border-top: 1px dashed var(--c-border);"{% endif %}>
+                        {% if saved_addresses %}
+                        <h3 style="font-size: 0.95rem; font-weight: 800; color: var(--c-primary); margin-bottom: 14px;">Enter New Delivery Address</h3>
+                        {% endif %}
+                        <div class="eco-fields">
+                            <div class="eco-field eco-field--full">
+                                <label for="address_line_1">Address line 1 <span class="eco-req">*</span></label>
+                                <input type="text" id="address_line_1" name="address_line_1" placeholder="House number, street" autocomplete="address-line1" required>
+                            </div>
+                            <div class="eco-field eco-field--full">
+                                <label for="address_line_2">Address line 2 <span class="eco-opt">(optional)</span></label>
+                                <input type="text" id="address_line_2" name="address_line_2" placeholder="Apartment, landmark" autocomplete="address-line2">
+                            </div>
+                            <div class="eco-field eco-field--third">
+                                <label for="city">City <span class="eco-req">*</span></label>
+                                <input type="text" id="city" name="city" autocomplete="address-level2" required>
+                            </div>
+                            <div class="eco-field eco-field--third">
+                                <label for="state">State <span class="eco-req">*</span></label>
+                                <input type="text" id="state" name="state" autocomplete="address-level1" required>
+                            </div>
+                            <div class="eco-field eco-field--third">
+                                <label for="country">Country <span class="eco-req">*</span></label>
+                                <input type="text" id="country" name="country" autocomplete="country-name" value="India" required>
+                            </div>
+                            <div class="eco-field eco-field--third">
+                                <label for="pincode">Pincode <span class="eco-opt">(optional)</span></label>
+                                <input type="text" id="pincode" name="pincode" placeholder="e.g. 110001">
+                            </div>
+                            <div class="eco-field eco-field--full" style="flex-direction: row; align-items: center; gap: 8px; margin-top: 6px;">
+                                <input type="checkbox" id="save_new_address" name="save_new_address" checked style="width: 18px; height: 18px; cursor: pointer;">
+                                <label for="save_new_address" style="cursor: pointer; margin-bottom: 0; font-size: 0.85rem; font-weight: 600;">Save this address to my account for future orders</label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -164,6 +242,55 @@
     </div>
 </section>
 
-
-
 {% endblock %}
+
+{% block extra_js %}
+<script>
+    function handleAddressSelection(radio) {
+        document.querySelectorAll('.eco-addr-card').forEach(function(card) {
+            card.classList.remove('is-selected');
+        });
+        var parentCard = radio.closest('.eco-addr-card');
+        if (parentCard) {
+            parentCard.classList.add('is-selected');
+        }
+
+        var newSection = document.getElementById('new-address-section');
+        var line1 = document.getElementById('address_line_1');
+        var line2 = document.getElementById('address_line_2');
+        var city = document.getElementById('city');
+        var state = document.getElementById('state');
+        var country = document.getElementById('country');
+        var pincode = document.getElementById('pincode');
+        var phone = document.getElementById('phone_number');
+
+        if (radio.value === 'new') {
+            if (newSection) newSection.style.display = 'block';
+            if (line1) { line1.value = ''; line1.focus(); }
+            if (line2) line2.value = '';
+            if (city) city.value = '';
+            if (state) state.value = '';
+            if (country) country.value = 'India';
+            if (pincode) pincode.value = '';
+        } else {
+            if (newSection) newSection.style.display = 'none';
+            if (line1) line1.value = radio.dataset.line1 || '';
+            if (line2) line2.value = radio.dataset.line2 || '';
+            if (city) city.value = radio.dataset.city || '';
+            if (state) state.value = radio.dataset.state || '';
+            if (country) country.value = radio.dataset.country || 'India';
+            if (pincode) pincode.value = radio.dataset.pincode || '';
+            if (phone && (!phone.value || phone.value === 'None') && radio.dataset.phone) {
+                phone.value = radio.dataset.phone;
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var checkedRadio = document.querySelector('input[name="selected_address"]:checked');
+        if (checkedRadio) {
+            handleAddressSelection(checkedRadio);
+        }
+    });
+</script>
+{% endblock extra_js %}

@@ -16,49 +16,48 @@
 </div>
 
 <div class="mini-stats-grid">
-    <div class="mini-stat-card"><span>Total Products</span><strong>54</strong><small>Catalog items</small></div>
-    <div class="mini-stat-card"><span>Active</span><strong>49</strong><small>Available for sale</small></div>
-    <div class="mini-stat-card"><span>Low Stock</span><strong>8</strong><small>Needs restocking</small></div>
-    <div class="mini-stat-card"><span>Out of Stock</span><strong>3</strong><small>Currently unavailable</small></div>
+    <div class="mini-stat-card"><span>Total Products</span><strong>{{ total_products }}</strong><small>Catalog items</small></div>
+    <div class="mini-stat-card"><span>Active</span><strong>{{ available_products_count }}</strong><small>Available for sale</small></div>
+    <div class="mini-stat-card"><span>Low Stock</span><strong>{{ low_stock }}</strong><small>Needs restocking</small></div>
+    <div class="mini-stat-card"><span>Out of Stock</span><strong>{{ out_of_stock.count }}</strong><small>Currently unavailable</small></div>
 </div>
 
-<div class="filter-card">
+<form action="" method="get" class="filter-card">
     <div class="filter-search">
         <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" placeholder="Search by product name...">
+        <input type="text" placeholder="Search by product name..." name="keyword" value="{{ keyword }}">
     </div>
 
-    <select class="filter-select">
-        <option>All Categories</option>
-        <option>Electronics</option>
-        <option>Fashion</option>
-        <option>Kitchen</option>
-        <option>Home</option>
+    <select class="filter-select" name="category">
+        <option value="">All Categories</option>
+        {% for category in categories %}
+            <option value="{{ category.id }}" {% if selected_category == category.id|stringformat:"s" %}selected{% endif %}>{{ category.category_name }}</option>
+        {% endfor %}
     </select>
 
-    <select class="filter-select">
-        <option>All Stock</option>
-        <option>In Stock</option>
-        <option>Low Stock</option>
-        <option>Out of Stock</option>
+    <select class="filter-select" name="stock">
+        <option value="">All Stock</option>
+        <option value="in_stock" {% if selected_stock == "in_stock" %}selected{% endif %}>In Stock</option>
+        <option value="low_stock" {% if selected_stock == "low_stock" %}selected{% endif %}>Low Stock</option>
+        <option value="out_of_stock" {% if selected_stock == "out_of_stock" %}selected{% endif %}>Out of Stock</option>
     </select>
 
-    <select class="filter-select">
-        <option>All Status</option>
-        <option>Active</option>
-        <option>Inactive</option>
+    <select class="filter-select" value="status">
+        <option value="">All Status</option>
+        <option value="active" {% if selected_status == "active" %}selected{% endif %}>Active</option>
+        <option value="inactive" {% if selected_status == "inactive" %}selected{% endif %}>Inactive</option>
     </select>
 
-    <button class="secondary-button" type="button"><i class="fa-solid fa-filter"></i> Filter</button>
-</div>
+    <button class="secondary-button" type="submit"><i class="fa-solid fa-filter"></i> Filter</button>
+</form>
 
 <div class="dashboard-card">
     <div class="card-header">
         <div>
             <h2>All Products</h2>
-            <p>54 products in your catalog</p>
+            <p>{{ total_products }} products in your catalog</p>
         </div>
-        <div class="table-tools"><span class="muted-label">Showing 1–10 of 54</span></div>
+        <div class="table-tools"><span class="muted-label">Showing 1–10 of {{ total_products }}</span></div>
     </div>
 
     <div class="table-wrapper">
@@ -75,95 +74,24 @@
             </tr>
             </thead>
             <tbody>
+            {% for product in products %}
             <tr>
                 <td>
                     <div class="product-table-cell">
-                        <div class="product-table-image"><img src="/media/photos/products/laptop1.jpg" alt="Smart Laptop"></div>
-                        <div><strong>Smart Laptop</strong><span>#P-1001</span></div>
+                        <div class="product-table-image"><img src="{{ product.images.url }}" alt="{{ product.product_name }}"></div>
+                        <div><strong>{{ product.product_name|truncatechars:15 }}</strong><span>#{{ product.id }}</span></div>
                     </div>
                 </td>
-                <td>Electronics</td>
-                <td><strong>₹46,720</strong></td>
-                <td><span class="stock-text critical-text">3</span></td>
-                <td><span class="status-badge completed-status">Active</span></td>
-                <td>07 Oct 2026</td>
-                <td><div class="product-actions"><a href="{% url 'edit_product' 1 %}" class="action-button edit"><i class="fa-solid fa-pen"></i></a><button class="action-button delete" type="button" data-delete-item="Smart Laptop"><i class="fa-solid fa-trash"></i></button></div></td>
+                <td>{{ product.category.category_name|truncatechars:15 }}</td>
+                <td><strong>₹{{ product.price|floatformat:2 }}</strong></td>
+                <td><span class="stock-text critical-text">{{ product.stock }}</span></td>
+                <td><span class="status-badge {% if product.is_available %}completed-status{% else %}muted-status{% endif %}">{% if product.is_available %}Active{% else %}Inactive{% endif %}</span></td>
+                <td>{{ product.updated_at|date:"d M Y" }}</td>
+                <td><div class="product-actions"><a href="{% url 'edit_product' product.id %}" class="action-button edit"><i class="fa-solid fa-pen"></i></a><button class="action-button delete" type="button" data-delete-item="{{ product.product_name }}"><i class="fa-solid fa-trash"></i></button></div></td>
             </tr>
-
-            <tr>
-                <td>
-                    <div class="product-table-cell">
-                        <div class="product-table-image"><img src="/media/photos/products/fashion1.jpg" alt="Casual T-Shirt"></div>
-                        <div><strong>Casual T-Shirt</strong><span>#P-1002</span></div>
-                    </div>
-                </td>
-                <td>Fashion</td>
-                <td><strong>₹799</strong></td>
-                <td><span class="stock-text critical-text">5</span></td>
-                <td><span class="status-badge completed-status">Active</span></td>
-                <td>06 Oct 2026</td>
-                <td><div class="product-actions"><a href="{% url 'edit_product' 2 %}" class="action-button edit"><i class="fa-solid fa-pen"></i></a><button class="action-button delete" type="button" data-delete-item="Casual T-Shirt"><i class="fa-solid fa-trash"></i></button></div></td>
-            </tr>
-
-            <tr>
-                <td>
-                    <div class="product-table-cell">
-                        <div class="product-table-image"><img src="/media/photos/products/kitchen1.jpg" alt="Kitchen Set"></div>
-                        <div><strong>Kitchen Set</strong><span>#P-1003</span></div>
-                    </div>
-                </td>
-                <td>Kitchen</td>
-                <td><strong>₹2,499</strong></td>
-                <td><span class="stock-text warning-text">12</span></td>
-                <td><span class="status-badge completed-status">Active</span></td>
-                <td>05 Oct 2026</td>
-                <td><div class="product-actions"><a href="{% url 'edit_product' 3 %}" class="action-button edit"><i class="fa-solid fa-pen"></i></a><button class="action-button delete" type="button" data-delete-item="Kitchen Set"><i class="fa-solid fa-trash"></i></button></div></td>
-            </tr>
-
-            <tr>
-                <td>
-                    <div class="product-table-cell">
-                        <div class="product-table-image"><img src="/media/photos/products/tap1.jpg" alt="Kitchen Tap"></div>
-                        <div><strong>Kitchen Tap</strong><span>#P-1004</span></div>
-                    </div>
-                </td>
-                <td>Home</td>
-                <td><strong>₹1,299</strong></td>
-                <td><span class="stock-text warning-text">18</span></td>
-                <td><span class="status-badge completed-status">Active</span></td>
-                <td>05 Oct 2026</td>
-                <td><div class="product-actions"><a href="{% url 'edit_product' 4 %}" class="action-button edit"><i class="fa-solid fa-pen"></i></a><button class="action-button delete" type="button" data-delete-item="Kitchen Tap"><i class="fa-solid fa-trash"></i></button></div></td>
-            </tr>
-
-            <tr>
-                <td>
-                    <div class="product-table-cell">
-                        <div class="product-table-image"><img src="/media/photos/products/fashion2.jpg" alt="Running Shoes"></div>
-                        <div><strong>Running Shoes</strong><span>#P-1005</span></div>
-                    </div>
-                </td>
-                <td>Fashion</td>
-                <td><strong>₹3,499</strong></td>
-                <td><span class="stock-text">64</span></td>
-                <td><span class="status-badge completed-status">Active</span></td>
-                <td>04 Oct 2026</td>
-                <td><div class="product-actions"><a href="{% url 'edit_product' 5 %}" class="action-button edit"><i class="fa-solid fa-pen"></i></a><button class="action-button delete" type="button" data-delete-item="Running Shoes"><i class="fa-solid fa-trash"></i></button></div></td>
-            </tr>
-
-            <tr>
-                <td>
-                    <div class="product-table-cell">
-                        <div class="product-table-image"><img src="/media/photos/products/kitchen2.jpg" alt="Storage Box"></div>
-                        <div><strong>Storage Box</strong><span>#P-1006</span></div>
-                    </div>
-                </td>
-                <td>Kitchen</td>
-                <td><strong>₹999</strong></td>
-                <td><span class="stock-text">45</span></td>
-                <td><span class="status-badge muted-status">Inactive</span></td>
-                <td>03 Oct 2026</td>
-                <td><div class="product-actions"><a href="{% url 'edit_product' 6 %}" class="action-button edit"><i class="fa-solid fa-pen"></i></a><button class="action-button delete" type="button" data-delete-item="Storage Box"><i class="fa-solid fa-trash"></i></button></div></td>
-            </tr>
+            {% empty %}
+            <tr><td colspan="7">No products found.</td></tr>
+            {% endfor %}
             </tbody>
         </table>
     </div>

@@ -26,6 +26,7 @@ urlpatterns = [
     path("", views.home, name="home"),
 
     path("", include("apps.account.urls")),
+    path("", include("apps.user_profile.urls")),
     path("", include("apps.store.urls")),
     path("", include("apps.carts.urls")),
     path("orders/", include("apps.orders.urls")),

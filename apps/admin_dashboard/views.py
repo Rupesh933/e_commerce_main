@@ -6,9 +6,13 @@ from django.db.models import Sum
 from django.utils import timezone
 from datetime import datetime
 from django.db.models.functions import TruncMonth
+from django.db.models import Q
+from django.core.paginator import Paginator
+
 
 from apps.orders.models import Order
 from apps.account.models import Account
+from apps.category.models import Category
 from apps.store.models import Product
 
 from .forms import ProductForm
@@ -23,11 +27,12 @@ def dashboard(request):
     total_orders = Order.objects.filter(is_ordered=True).count()
     total_revenue = Order.objects.filter(is_ordered=True).aggregate(total=Sum("order_total"))["total"] or 0
     pending_orders = Order.objects.filter(is_ordered=True, status="New").count()
-    recent_orders = Order.objects.filter(is_ordered=True).order_by("-created_at")[:5]
-    low_stock_products = Product.objects.filter(
-        stock__lte=low_stock_threshold,
-        is_availbale=True,
-    ).order_by("stock")[:5]
+    recent_orders = (
+        Order.objects.filter(is_ordered=True)
+        .prefetch_related("items__product")
+        .order_by("-created_at")[:5]
+    )
+    low_stock_products = Product.objects.filter(stock__lte=low_stock_threshold, is_available=True,).order_by("stock")[:5]
     
 ##===================================================================
     # Sales Overview - Last 7 Months
@@ -71,32 +76,12 @@ def dashboard(request):
             )
         else:
             item["height"] = 0
-    new_orders = Order.objects.filter(
-        is_ordered=True,
-        status="New"
-    ).count()
 
-    accepted_orders = Order.objects.filter(
-        is_ordered=True,
-        status="Accepted"
-    ).count()
-
-    completed_orders = Order.objects.filter(
-        is_ordered=True,
-        status="Completed"
-    ).count()
-
-    cancelled_orders = Order.objects.filter(
-        is_ordered=True,
-        status="Cancelled"
-    ).count()
-
-    order_status_total = (
-        new_orders
-        + accepted_orders
-        + completed_orders
-        + cancelled_orders
-    )
+    new_orders = Order.objects.filter(is_ordered=True, status="New").count()
+    accepted_orders = Order.objects.filter(is_ordered=True,status="Accepted").count()
+    completed_orders = Order.objects.filter(is_ordered=True,status="Completed").count()
+    cancelled_orders = Order.objects.filter(is_ordered=True,status="Cancelled").count()
+    order_status_total = (new_orders + accepted_orders + completed_orders + cancelled_orders)
 ##========================================================================
 
     context = {
@@ -121,13 +106,56 @@ def dashboard(request):
     return render(request, "admin_dashboard/dashboard.html", context)
 
 def admin_products(request):
-    products = Product.objects.all().order_by("-created_at")
+    keyword = request.GET.get("keyword", "").strip()
+    category = request.GET.get("category", "").strip()
+    selected_category = category if category.isdecimal() else ""
+    stock_status = request.GET.get("stock", "").strip()
+    status = request.GET.get("status", "").strip()
+
+    products = Product.objects.all()
+
+    if keyword:
+        products = products.filter(Q(description__icontains=keyword) | Q(product_name__icontains=keyword) | Q(category__category_name__icontains=keyword))
+
+    if selected_category:
+        products = products.filter(category__id=selected_category)
+    if stock_status == "in_stock":
+        products = products.filter(stock__gte=0)
+    elif stock_status == "low_stock":
+        products = products.filter(stock__gt=0, stock__lt=10)
+    elif stock_status == "out_of_stock":
+        products = products.filter(stock=0)
+    if status == "active":
+        products = products.filter(is_available=True)
+    elif status == "inactive":
+        products = products.filter(is_available=False)
+
+    products = products.order_by("-created_at")
+
+    paginator = Paginator(products, 10)
+    paged_products = paginator.get_page(request.GET.get("page"))
+
     total_products = Product.objects.count()
+    available_products_count = Product.objects.filter(is_available=True).count()
+    low_stock = Product.objects.filter(stock__gt=0, stock__lt=10).count()
+    out_of_stock = Product.objects.filter(stock=0).count()
+    categories = Category.objects.all().order_by("category_name")
+
     context = {
-        "products": products,
-        "total_products": total_products
+        "products": paged_products,
+        "total_products": total_products,
+        "available_products_count": available_products_count,
+        "low_stock": low_stock,
+        "out_of_stock": out_of_stock,
+
+        "categories": categories,
+        "keyword": keyword,
+        "selected_category": selected_category,
+        "selected_stock": stock_status,
+        "selected_status": status
     }
     return render(request, "admin_dashboard/products.html", context)
+
 
 def add_product(request):
     if request.method == "POST":

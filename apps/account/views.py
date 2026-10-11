@@ -1,17 +1,10 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.shortcuts import render, redirect
 from django.contrib import auth, messages
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth import update_session_auth_hash
 from django.utils.http import url_has_allowed_host_and_scheme
 
-
-from .models import Account, Address
-from .forms import RegistrationForm, AddressForm
+from .models import Account
+from .forms import RegistrationForm
 from apps.carts.models import Cart
-
-from apps.orders.models import Order
 
 
 
@@ -92,73 +85,3 @@ def login(request):
     if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}):
         return redirect(next_url)
     return redirect("home")
-
-
-@login_required(login_url="login")
-def signout(request):
-    auth.logout(request)
-    messages.success(request, 'You have been logged out successfully.')
-    return redirect('home')
-
-def change_password(request): pass
-
-def edit_profile():pass
-
-
-@login_required(login_url="login")
-def profile(request):
-    addresses_count = Address.objects.filter(user=request.user).count()
-    orders_count = Order.objects.filter(user=request.user).count()
-    recent_orders = (
-        Order.objects.filter(user=request.user)
-        .prefetch_related("items__product")
-        .order_by("-created_at")[:5]
-    )
-    context = {
-        "addresses_count": addresses_count,
-        "orders_count": orders_count,
-        "recent_orders": recent_orders
-    }
-    return render(request, "my_profile/profile.html", context)
-
-
-
-@login_required(login_url="login")
-def address_list(request):
-    addresses = Address.objects.filter(user=request.user).order_by("-is_default", "-id")
-    return render(request, "Saved Addresses/address_list.html", {"addresses": addresses})
-
-
-@login_required(login_url="login")
-def add_address(request):
-    if request.method == "POST":
-        form = AddressForm(request.POST)
-        if form.is_valid():
-            address = form.save(commit=False)
-            address.user = request.user
-            address.save()
-            return redirect("address_list")
-    else:
-        form = AddressForm()
-    return render(request, "Saved Addresses/address_form.html", {"form": form})
-
-
-@login_required(login_url="login")
-def edit_address(request, address_id):
-    address = get_object_or_404(Address, id=address_id, user=request.user)
-    if request.method == "POST":
-        form = AddressForm(request.POST, instance=address)
-        if form.is_valid():
-            form.save()
-            return redirect("address_list")
-    else:
-        form = AddressForm(instance=address)
-    return render(request, "Saved Addresses/address_form.html", {"form": form})
-
-
-@login_required(login_url="login")
-def delete_address(request, address_id):
-    address = get_object_or_404(Address, id=address_id, user=request.user)
-    if request.method == "POST":
-        address.delete()
-    return redirect("address_list")

@@ -66,7 +66,7 @@ class Command(BaseCommand):
                         "description": description,
                         "price": price,
                         "stock": stock,
-                        "is_availbale": True,
+                        "is_available": True,
                         "category": category,
                     },
                 )

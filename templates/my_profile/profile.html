@@ -60,76 +60,79 @@
     </div>
 
 {% if recent_orders %}
-    <div class="eco-table-wrap">
-        <table class="eco-table">
-            <thead>
-                <tr>
-                    <th>Products</th>
-                    <th>Price</th>
-                    <th>Status</th>
-                    <th></th>
-                </tr>
-            </thead>
+    <div class="eco-orders">
+        {% for order in recent_orders %}
+        <div class="eco-order-card">
+            <!-- Order header row -->
+            <div class="eco-order-card__header">
+                <div class="eco-order-card__meta">
+                    <span class="eco-order-card__number">#{{ order.order_number }}</span>
+                    <span class="eco-order-card__date">
+                        <i class="far fa-calendar-alt"></i>
+                        {{ order.created_at|date:"d M Y" }}
+                    </span>
+                </div>
+                <span class="eco-badge eco-badge--{{ order.status|lower }}">
+                    {% if order.status == 'Completed' %}
+                        <i class="fas fa-check-circle"></i>
+                    {% elif order.status == 'Cancelled' %}
+                        <i class="fas fa-times-circle"></i>
+                    {% elif order.status == 'Accepted' %}
+                        <i class="fas fa-truck"></i>
+                    {% else %}
+                        <i class="fas fa-clock"></i>
+                    {% endif %}
+                    {{ order.status }}
+                </span>
+            </div>
 
-            <tbody>
-                {% for order in recent_orders %}
-                <tr>
-
-                    <!-- Product -->
-                    <td>
-                        <div class="order-products">
-                            {% for item in order.items.all %}
-                            <div class="order-product">
-                                <div class="order-product-image">
-                                    {% if item.product.images %}
-                                    <img src="{{ item.product.images.url }}" alt="{{ item.product.product_name }}">
-                                    {% else %}
-                                    <span>No image</span>
-                                    {% endif %}
-                                </div>
-                                <div class="order-product-info">
-                                    <strong>{{ item.product.product_name|truncatechars:20 }}</strong>
-                                    <small>Qty: {{ item.quantity }}</small>
-                                </div>
-                            </div>
-                            {% empty %}
-                            <span>Product details unavailable</span>
-                            {% endfor %}
-                        </div>
-                    </td>
-
-                    <!-- Price -->
-                    <td>
-                        ₹{{ order.order_total }}
-                    </td>
-
-                    <!-- Status -->
-                    <td>
-                        <span class="eco-badge eco-badge--{{ order.status|lower }}">
-                            {{ order.status }}
-                        </span>
-                    </td>
-
-                    <!-- View -->
-                    <td>
-                        <a href="{% url 'order_detail' order.order_number %}"
-                           class="eco-btn eco-btn--ghost eco-btn--sm">
-                            View
-                        </a>
-                    </td>
-
-                </tr>
+            <!-- Product items -->
+            <div class="eco-order-card__items">
+                {% for item in order.items.all %}
+                <div class="eco-order-card__product">
+                    <div class="eco-order-card__img">
+                        {% if item.product.images %}
+                        <img src="{{ item.product.images.url }}" alt="{{ item.product.product_name }}">
+                        {% else %}
+                        <i class="fas fa-box" style="color: var(--c-muted); font-size: 1.2rem;"></i>
+                        {% endif %}
+                    </div>
+                    <div class="eco-order-card__product-info">
+                        <span class="eco-order-card__product-name">{{ item.product.product_name|truncatechars:30 }}</span>
+                        <span class="eco-order-card__product-qty">Qty: {{ item.quantity }}{% if item.color %} · {{ item.color }}{% endif %}{% if item.size %} · {{ item.size }}{% endif %}</span>
+                    </div>
+                    <span class="eco-order-card__item-price">₹{{ item.product_price }}</span>
+                </div>
+                {% empty %}
+                <span class="eco-order-card__unavailable">Product details unavailable</span>
                 {% endfor %}
-            </tbody>
-        </table>
+            </div>
+
+            <!-- Order footer -->
+            <div class="eco-order-card__footer">
+                <div class="eco-order-card__total">
+                    <span class="eco-order-card__total-label">Total</span>
+                    <span class="eco-order-card__total-value">₹{{ order.order_total }}</span>
+                </div>
+                <a href="{% url 'order_detail' order.order_number %}"
+                   class="eco-btn eco-btn--ghost eco-btn--sm">
+                    View details <i class="fas fa-arrow-right" style="margin-left:6px; font-size:.75rem;"></i>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
     </div>
 
 {% else %}
-        <div class="eco-empty">
-            <p>You have not placed any orders yet.</p>
-            <a href="{% url 'store' %}" class="eco-btn eco-btn--accent">Start shopping</a>
+    <div class="eco-empty">
+        <div class="eco-empty__icon">
+            <i class="fas fa-shopping-bag"></i>
         </div>
-    {% endif %}
+        <p class="eco-empty__title">No orders yet</p>
+        <p class="eco-empty__sub">When you place your first order, it will appear here.</p>
+        <a href="{% url 'store' %}" class="eco-btn eco-btn--accent">Start shopping</a>
+    </div>
+{% endif %}
 </div>
 
 <!-- ========== Quick actions ========== -->
@@ -142,34 +145,5 @@
         <a href="{% url 'change_password' %}" class="eco-btn eco-btn--ghost">Change password</a>
     </div>
 </div>
-
-<style>
-    /* Extra styles for the overview page only. Uses the same tokens as base_profile.html */
-    .eco-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-    .eco-stat { background: var(--c-bg); border: 1px solid var(--c-border); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 4px; }
-    .eco-stat__num { font-size: 1.5rem; font-weight: 800; color: var(--c-primary); }
-    .eco-stat__label { font-size: .8rem; color: var(--c-muted); font-weight: 700; }
-
-    .eco-details { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
-    .eco-details dt { font-size: .76rem; font-weight: 700; color: var(--c-muted); margin-bottom: 2px; }
-    .eco-details dd { margin: 0; font-weight: 700; word-break: break-word; }
-
-    .eco-table-wrap { overflow-x: auto; }
-    .eco-table { width: 100%; border-collapse: collapse; font-size: .88rem; }
-    .eco-table th { text-align: left; font-size: .76rem; color: var(--c-muted); padding: 8px 10px; border-bottom: 1px solid var(--c-border); }
-    .eco-table td { padding: 12px 10px; border-bottom: 1px solid var(--c-border); font-weight: 600; }
-    .eco-table tr:last-child td { border-bottom: none; }
-    .order-products { display: flex; flex-direction: column; gap: 10px; min-width: 220px; }
-    .order-product { display: flex; align-items: center; gap: 10px; }
-    .order-product-image { width: 52px; height: 52px; flex: 0 0 52px; overflow: hidden; border: 1px solid var(--c-border); border-radius: 8px; background: var(--c-bg); display: flex; align-items: center; justify-content: center; color: var(--c-muted); font-size: .65rem; }
-    .order-product-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .order-product-info { display: flex; flex-direction: column; gap: 3px; }
-    .order-product-info strong { color: var(--c-text); }
-    .order-product-info small { color: var(--c-muted); }
-
-    @media (max-width: 640px) {
-        .eco-stats { grid-template-columns: 1fr; }
-    }
-</style>
 
 {% endblock profile_content %}

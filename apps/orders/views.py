@@ -107,8 +107,29 @@ def place_order(request):
     if request.method != "POST":
         return redirect("checkout")
 
-    # Step 5: Validate the submitted form
-    form = OrderForm(request.POST)
+    # Step 5: Validate the submitted form (copy POST to allow populating from saved address)
+    post_data = request.POST.copy()
+    selected_address_id = request.POST.get("selected_address")
+    if selected_address_id and selected_address_id != "new":
+        from apps.account.models import Address
+        try:
+            saved_addr = Address.objects.get(id=selected_address_id, user=current_user)
+            if not post_data.get("address_line_1"):
+                post_data["address_line_1"] = saved_addr.address_line_1
+            if not post_data.get("address_line_2"):
+                post_data["address_line_2"] = saved_addr.address_line_2
+            if not post_data.get("city"):
+                post_data["city"] = saved_addr.city
+            if not post_data.get("state"):
+                post_data["state"] = saved_addr.state
+            if not post_data.get("country"):
+                post_data["country"] = saved_addr.country
+            if not post_data.get("phone_number"):
+                post_data["phone_number"] = saved_addr.phone_number
+        except Address.DoesNotExist:
+            pass
+
+    form = OrderForm(post_data)
 
     if form.is_valid():
         # Step 6: Create the order and fill in the billing details
@@ -135,12 +156,36 @@ def place_order(request):
         data.order_number = current_date + str(data.id)
         data.save()  # Second save, now with the order number
 
-        # Step 8: Move to the next step (for now, back to checkout)
-        # return redirect("checkout")
+        # Save new address to Address book if requested
+        save_new_address = request.POST.get("save_new_address")
+        if save_new_address in ["on", "true", "1"]:
+            from apps.account.models import Address
+            if not Address.objects.filter(
+                user=current_user,
+                address_line_1=data.address_line_1,
+                city=data.city
+            ).exists():
+                Address.objects.create(
+                    user=current_user,
+                    full_name=f"{data.first_name} {data.last_name}".strip(),
+                    phone_number=data.phone_number,
+                    address_line_1=data.address_line_1,
+                    address_line_2=data.address_line_2,
+                    city=data.city,
+                    state=data.state,
+                    country=data.country,
+                    pincode=request.POST.get("pincode", "000000"),
+                    is_default=not Address.objects.filter(user=current_user).exists(),
+                )
+
+        # Step 8: Move to payments
         return redirect("payments", order_number=data.order_number)
 
     else:
-        # Form is invalid, so show the checkout page again with the errors
+        # Form is invalid, so show the checkout page again with the errors and saved addresses
+        from apps.account.models import Address
+        saved_addresses = Address.objects.filter(user=current_user).order_by("-is_default", "-id")
+        default_address = saved_addresses.filter(is_default=True).first() or saved_addresses.first()
         context = {
             "form": form,
             "cart_items": cart_items,
@@ -148,8 +193,10 @@ def place_order(request):
             "total": total,
             "tax": tax,
             "grand_total": grand_total,
+            "saved_addresses": saved_addresses,
+            "default_address": default_address,
         }
-        return render(request, "store/checkout.html", context)  # use your own template path
+        return render(request, "store/checkout.html", context)
 
 
 @login_required(login_url="login")

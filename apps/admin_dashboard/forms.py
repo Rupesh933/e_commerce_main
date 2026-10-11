@@ -5,7 +5,7 @@ from apps.store.models import Product
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ["product_name", "description", "price", "stock", "category", "images", "is_availbale"]
+        fields = ["product_name", "description", "price", "stock", "category", "images", "is_available"]
 
 
         
@@ -32,7 +32,7 @@ class ProductForm(forms.ModelForm):
             "images": forms.ClearableFileInput(attrs={
                 "class": "form-control-file",
             }),
-            "is_availbale": forms.CheckboxInput(attrs={
+            "is_available": forms.CheckboxInput(attrs={
                 "class": "form-checkbox-input",
             }),
         }

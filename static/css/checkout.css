@@ -100,6 +100,30 @@
     .eco-assure li { display: flex; align-items: center; gap: 8px; font-size: .78rem; font-weight: 600; color: var(--c-muted); }
     .eco-assure svg { width: 16px; height: 16px; color: var(--c-primary); flex-shrink: 0; }
 
+    /* saved addresses selection */
+    .eco-saved-addresses { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; margin-bottom: 8px; }
+    .eco-addr-card {
+        display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px;
+        border: 1.5px solid var(--c-border); border-radius: 12px; cursor: pointer;
+        transition: all .18s ease; background: #fff; position: relative; margin-bottom: 0;
+    }
+    .eco-addr-card:hover { border-color: #94A3B8; box-shadow: 0 2px 8px rgba(0,0,0,.04); }
+    .eco-addr-card.is-selected {
+        border-color: var(--c-primary); background: #F8FAFF;
+        box-shadow: 0 0 0 1px var(--c-primary), 0 3px 10px rgba(27, 42, 107, .08);
+    }
+    .eco-addr-card--new { border-style: dashed; background: var(--c-bg); }
+    .eco-addr-card--new:hover { border-color: var(--c-primary); background: #F8FAFF; }
+    .eco-addr-card--new.is-selected { border-style: solid; border-color: var(--c-primary); background: #F8FAFF; }
+    .eco-addr-card__radio { margin-top: 2px; }
+    .eco-addr-card__radio input { width: 18px; height: 18px; cursor: pointer; accent-color: var(--c-primary); margin: 0; }
+    .eco-addr-card__content { flex: 1; min-width: 0; }
+    .eco-addr-card__top { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 5px; }
+    .eco-addr-card__name { font-size: .92rem; font-weight: 800; color: var(--c-text); }
+    .eco-badge--default { background: #E7F7EE; color: #1E7B4B; font-size: .7rem; font-weight: 800; padding: 2px 8px; border-radius: 12px; }
+    .eco-addr-card__text { font-size: .82rem; color: #4B5563; line-height: 1.45; margin-bottom: 6px; }
+    .eco-addr-card__phone { font-size: .78rem; font-weight: 600; color: var(--c-muted); }
+
     /* responsive */
     @media (max-width: 992px) {
         .eco-checkout__grid { grid-template-columns: 1fr; }

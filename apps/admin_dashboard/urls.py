@@ -14,7 +14,7 @@ urlpatterns = [
     path("customers/", views.admin_customers, name="admin_customers"),
 
     path("orders/", views.admin_orders, name="admin_orders"),
-    path("orders/<int:order_id>/", views.order_detail, name="order_detail"),
+    path("orders/<int:order_id>/", views.order_detail, name="admin_order_detail"),
 
     path("payments/", views.admin_payments, name="admin_payments"),
     path("banner/", views.admin_banner, name="admin_banner"),

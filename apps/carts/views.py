@@ -30,13 +30,16 @@ def add_cart(request, product_id):
 
     try:
         cart_item = CartItem.objects.get(product=product, cart=cart)
-        cart_item.quantity +=1
+        cart_item.quantity += 1
+        if request.user.is_authenticated and not cart_item.user:
+            cart_item.user = request.user
         cart_item.save()
     except CartItem.DoesNotExist:
         cart_item = CartItem.objects.create(
             product=product,
-            quantity = 1,
-            cart = cart
+            quantity=1,
+            cart=cart,
+            user=request.user if request.user.is_authenticated else None,
         )
         cart_item.save()
 
@@ -120,12 +123,21 @@ def checkout(request):
     except ObjectDoesNotExist:
         pass
 
+    saved_addresses = []
+    default_address = None
+    if request.user.is_authenticated:
+        from apps.account.models import Address
+        saved_addresses = Address.objects.filter(user=request.user).order_by("-is_default", "-id")
+        default_address = saved_addresses.filter(is_default=True).first() or saved_addresses.first()
+
     context = {
         "total": total,
         "quantity": quantity,
         "cart_items": cart_items,
         "tax": tax,
         "grand_total": grand_total,
+        "saved_addresses": saved_addresses,
+        "default_address": default_address,
     }
 
     return render(request, "store/checkout.html", context)

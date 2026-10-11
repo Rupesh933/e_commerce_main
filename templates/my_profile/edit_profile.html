@@ -1,4 +1,4 @@
-{% include "profile/form.html" %}
+{% extends "my_profile/base_profile.html" %}
 
 {% block page_title %}Edit profile{% endblock %}
 {% block page_sub %}Update your name and contact details.{% endblock %}
@@ -9,7 +9,7 @@
     <form method="POST">
         {% csrf_token %}
 
-        {% include "profile/form.html" %}
+        {% include "my_profile/form.html" %}
 
         <div class="eco-profile__actions">
             <button type="submit" class="eco-btn eco-btn--accent">Save changes</button>

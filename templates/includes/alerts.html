@@ -1,27 +1,69 @@
 {% if messages %}
-<div id="alert-messages" class="container mt-3" style="max-width: 1240px;">
+<div class="toast-container" id="toast-container">
     {% for message in messages %}
-    <div id="message" class="alert alert-{% if message.tags == 'error' %}danger{% elif message.tags %}{{ message.tags }}{% else %}info{% endif %} alert-dismissible fade show shadow-sm" role="alert">
-        <div class="d-flex align-items-center">
-            {% if message.tags == 'error' or message.tags == 'danger' %}
-                <i class="fa fa-exclamation-circle fa-lg mr-2" style="color:var(--eco-danger, #EF4444);"></i>
-                <strong>Error:&nbsp;</strong>
-            {% elif message.tags == 'success' %}
-                <i class="fa fa-check-circle fa-lg mr-2" style="color:var(--eco-success, #10B981);"></i>
-                <strong>Success:&nbsp;</strong>
-            {% elif message.tags == 'warning' %}
-                <i class="fa fa-exclamation-triangle fa-lg mr-2" style="color:var(--eco-warning, #F59E0B);"></i>
-                <strong>Warning:&nbsp;</strong>
-            {% elif message.tags == 'info' %}
-                <i class="fa fa-info-circle fa-lg mr-2" style="color:var(--eco-info, #3B82F6);"></i>
-                <strong>Info:&nbsp;</strong>
-            {% endif %}
-            <span>{{ message }}</span>
+    <div class="toast-notify toast-{% if message.tags == 'error' %}danger{% elif message.tags %}{{ message.tags }}{% else %}info{% endif %}">
+        <div class="toast-body">
+            <div class="toast-icon">
+                {% if message.tags == 'error' or message.tags == 'danger' %}
+                    <i class="fas fa-times-circle"></i>
+                {% elif message.tags == 'success' %}
+                    <i class="fas fa-check-circle"></i>
+                {% elif message.tags == 'warning' %}
+                    <i class="fas fa-exclamation-triangle"></i>
+                {% else %}
+                    <i class="fas fa-info-circle"></i>
+                {% endif %}
+            </div>
+            <div class="toast-content">
+                <p class="toast-title">
+                    {% if message.tags == 'error' or message.tags == 'danger' %}
+                        Error
+                    {% elif message.tags == 'success' %}
+                        Success
+                    {% elif message.tags == 'warning' %}
+                        Warning
+                    {% else %}
+                        Info
+                    {% endif %}
+                </p>
+                <p class="toast-message">{{ message }}</p>
+            </div>
+            <button type="button" class="toast-close" aria-label="Close" onclick="dismissToast(this)">&times;</button>
         </div>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <div class="toast-progress">
+            <div class="toast-progress-bar"></div>
+        </div>
     </div>
     {% endfor %}
 </div>
+
+<script>
+    function dismissToast(btn) {
+        var toast = btn.closest('.toast-notify');
+        toast.classList.add('toast-dismiss');
+        setTimeout(function() {
+            toast.remove();
+            var container = document.getElementById('toast-container');
+            if (container && container.children.length === 0) {
+                container.remove();
+            }
+        }, 350);
+    }
+
+    // Auto-dismiss each toast after 4 seconds
+    document.querySelectorAll('.toast-notify').forEach(function(toast) {
+        setTimeout(function() {
+            if (toast.parentNode) {
+                toast.classList.add('toast-dismiss');
+                setTimeout(function() {
+                    toast.remove();
+                    var container = document.getElementById('toast-container');
+                    if (container && container.children.length === 0) {
+                        container.remove();
+                    }
+                }, 350);
+            }
+        }, 4000);
+    });
+</script>
 {% endif %}
